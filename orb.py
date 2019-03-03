@@ -5,12 +5,13 @@ from matplotlib import pyplot as plt
 img1 = cv2.imread('home1.jpg', 0)  # queryImage
 img2 = cv2.imread('home3.png', 0)  # trainImage
 
-# Initiate kaze detector
-kaze = cv2.KAZE_create()
+# Initiate ORB detector
+orb = cv2.ORB_create()
 
-# find the keypoints and descriptors with kaze
-kp1, des1 = kaze.detectAndCompute(img1, None)
-kp2, des2 = kaze.detectAndCompute(img2, None)
+
+# find the keypoints and descriptors with ORB
+kp1, des1 = orb.detectAndCompute(img1, None)
+kp2, des2 = orb.detectAndCompute(img2, None)
 
 # BFMatcher with default params
 bf = cv2.BFMatcher()

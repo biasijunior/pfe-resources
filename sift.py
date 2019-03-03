@@ -5,12 +5,14 @@ from matplotlib import pyplot as plt
 img1 = cv2.imread('home1.jpg', 0)  # queryImage
 img2 = cv2.imread('home3.png', 0)  # trainImage
 
-# Initiate kaze detector
-kaze = cv2.KAZE_create()
+# Initiate SIFT detector
+sift = cv2.xfeatures2d.SIFT_create()
 
-# find the keypoints and descriptors with kaze
-kp1, des1 = kaze.detectAndCompute(img1, None)
-kp2, des2 = kaze.detectAndCompute(img2, None)
+
+
+# find the keypoints and descriptors with SIFT
+kp1, des1 = sift.detectAndCompute(img1, None)
+kp2, des2 = sift.detectAndCompute(img2, None)
 
 # BFMatcher with default params
 bf = cv2.BFMatcher()
