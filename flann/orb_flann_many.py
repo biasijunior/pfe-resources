@@ -10,16 +10,7 @@ original = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 sift = cv2.ORB_create()
 kp_1, desc_1 = sift.detectAndCompute(original, None)
 
-FLANN_INDEX_LSH = 0
-index_params = dict(algorithm=FLANN_INDEX_LSH,
-                    table_number=6,  # 12
-                    key_size=12,     # 20
-                    multi_probe_level=1)  # 2
-
-# index_params = dict(algorithm=0, trees=5)
-search_params = dict()
-flann = cv2.FlannBasedMatcher(index_params, search_params)
-
+bf = cv2.BFMatcher()
 # Load all the images
 all_images_to_compare = []
 titles = []
@@ -43,9 +34,8 @@ for image_to_compare, title in zip(all_images_to_compare, titles):
     # 2) Check for similarities between the 2 images
     kp_2, desc_2 = sift.detectAndCompute(image_to_compare, None)
 
-    matches = flann.knnMatch(desc_1, desc_2, k=2)
-    
-
+    matches = bf.knnMatch(desc_1, desc_2, k=2)
+     
     good_points = []
     for m, n in matches:
         if m.distance < 0.6*n.distance:
@@ -54,11 +44,11 @@ for image_to_compare, title in zip(all_images_to_compare, titles):
     if len(kp_1) <= len(kp_2):
         number_keypoints = len(kp_1)
     else:
-        number_keypoints = len(kp_1)
+        number_keypoints = len(kp_2)
 
     print("Title: " + title)
     percentage_similarity = float(len(good_points)) / number_keypoints * 100
-    print("Similarity: " + str(int(percentage_similarity)) + "\n")
+    print("Similarity: " + str(int(percentage_similarity)) + " % \n")
         
 
     # img3 = cv2.drawMatches(original, kp_1, image_to_compare, kp_2, good_points, None, flags=2)

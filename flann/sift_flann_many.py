@@ -51,9 +51,9 @@ for image_to_compare, title in zip(all_images_to_compare, titles):
 
     print("Title: " + title)
     percentage_similarity = float(len(good_points)) / number_keypoints * 100
-    print("Similarity: " + str(int(percentage_similarity)) + "\n")
+    print("Similarity: " + str(int(percentage_similarity)) + " %\n")
 
     
-    # img3 = cv2.drawMatches(original, kp_1, image_to_compare, kp_2, good_points, None, flags=2)
+    img3 = cv2.drawMatches(original, kp_1, image_to_compare, kp_2, good_points, None, flags=2)
 
-    # plt.imshow(img3,), plt.show()
+    plt.imshow(img3,), plt.show()
