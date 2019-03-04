@@ -3,22 +3,29 @@ import numpy as np
 import glob
 from matplotlib import pyplot as plt
 
-original = cv2.imread("./images/test/original_book.jpg")
+img = cv2.imread("../images/test/original_book.jpg")
+original = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-# SURF and Flann
-surf = cv2.xfeatures2d.SURF_create()
-kp_1, desc_1 = surf.detectAndCompute(original, None)
+# Sift and Flann
+sift = cv2.ORB_create()
+kp_1, desc_1 = sift.detectAndCompute(original, None)
 
-index_params = dict(algorithm=0, trees=5)
+FLANN_INDEX_LSH = 0
+index_params = dict(algorithm=FLANN_INDEX_LSH,
+                    table_number=6,  # 12
+                    key_size=12,     # 20
+                    multi_probe_level=1)  # 2
+
+# index_params = dict(algorithm=0, trees=5)
 search_params = dict()
 flann = cv2.FlannBasedMatcher(index_params, search_params)
 
 # Load all the images
 all_images_to_compare = []
 titles = []
-for f in glob.iglob("images/books/*"):
-    image = cv2.imread(f)
-    print(f)
+for f in glob.iglob("../images/books/*"):
+    imag = cv2.imread(f)
+    image = cv2.cvtColor(imag, cv2.COLOR_BGR2GRAY)
     titles.append(f)
     all_images_to_compare.append(image)
 
@@ -34,9 +41,10 @@ for image_to_compare, title in zip(all_images_to_compare, titles):
     #         break
 
     # 2) Check for similarities between the 2 images
-    kp_2, desc_2 = surf.detectAndCompute(image_to_compare, None)
+    kp_2, desc_2 = sift.detectAndCompute(image_to_compare, None)
 
     matches = flann.knnMatch(desc_1, desc_2, k=2)
+    
 
     good_points = []
     for m, n in matches:
@@ -46,12 +54,13 @@ for image_to_compare, title in zip(all_images_to_compare, titles):
     if len(kp_1) <= len(kp_2):
         number_keypoints = len(kp_1)
     else:
-        number_keypoints = len(kp_2)
+        number_keypoints = len(kp_1)
 
     print("Title: " + title)
     percentage_similarity = float(len(good_points)) / number_keypoints * 100
     print("Similarity: " + str(int(percentage_similarity)) + "\n")
+        
 
-    img3 = cv2.drawMatches(original, kp_1, image_to_compare, kp_2, good_points, None, flags=2)
+    # img3 = cv2.drawMatches(original, kp_1, image_to_compare, kp_2, good_points, None, flags=2)
 
-    plt.imshow(img3,), plt.show()
+    # plt.imshow(img3,), plt.show()

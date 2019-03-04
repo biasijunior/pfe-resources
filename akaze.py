@@ -2,22 +2,19 @@ import numpy as np
 import cv2
 from matplotlib import pyplot as plt
 
-img1 = cv2.imread('home1.jpg', 0)  # queryImage
-img2 = cv2.imread('home3.png', 0)  # trainImage
+img1 = cv2.imread('./images/home/home1.jpg', 0)  # queryImage
+img2 = cv2.imread('./images/home/home3.png', 0)  # trainImage
 
-# Initiate SIFT detector
-sift = cv2.ORB_create()
-#ORB
-# sift = cv2.xfeatures2d.SIFT_create()
+# Initiate AKAZE detector
+akaz = cv2.AKAZE_create()
 
 
-
-# find the keypoints and descriptors with SIFT
-kp1, des1 = sift.detectAndCompute(img1, None)
-kp2, des2 = sift.detectAndCompute(img2, None)
+# find the keypoints and descriptors with akaz
+kp1, des1 = akaz.detectAndCompute(img1, None)
+kp2, des2 = akaz.detectAndCompute(img2, None)
 
 # BFMatcher with default params
-bf = cv2.BFMatcher()
+bf = cv2.BFMatcher() #creates BFMatcher object
 matches = bf.knnMatch(des1, des2, k=2)
 
 
@@ -31,10 +28,9 @@ for m, n in matches:
         # print(m.distance)
         good.append([m])
 
-per = float(len(good))/float(len(des2))
+percentage_similarity = float(len(good))/float(len(des2)) * 100
 
-per = per * 100
-print(per, 'percent')
+print("Similarity: " + str(int(percentage_similarity)) + "% \n")
 # cv2.drawMatchesKnn expects list of lists as matches.
 img3 = cv2.drawMatchesKnn(img1, kp1, img2, kp2, good[:100], None, flags=2)
 
