@@ -3,6 +3,10 @@ import numpy as np
 import glob
 from matplotlib import pyplot as plt
 
+import time
+
+start_time = time.time()
+
 img = cv2.imread("../images/test/original_book.jpg")
 original = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -44,7 +48,7 @@ for image_to_compare, title in zip(all_images_to_compare, titles):
     if len(kp_1) <= len(kp_2):
         number_keypoints = len(kp_1)
     else:
-        number_keypoints = len(kp_2)
+        number_keypoints = len(kp_1)
 
     print("Title: " + title)
     percentage_similarity = float(len(good_points)) / number_keypoints * 100
@@ -54,3 +58,5 @@ for image_to_compare, title in zip(all_images_to_compare, titles):
     # img3 = cv2.drawMatches(original, kp_1, image_to_compare, kp_2, good_points, None, flags=2)
 
     # plt.imshow(img3,), plt.show()
+
+print("--- %s seconds ---" % (time.time() - start_time))

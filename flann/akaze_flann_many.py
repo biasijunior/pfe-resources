@@ -11,14 +11,14 @@ img = cv2.imread("../images/test/original_book.jpg")
 original = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 # kaze and Flann
-kaze = cv2.KAZE_create()
+kaze = cv2.AKAZE_create()
 kp_1, desc_1 = kaze.detectAndCompute(original, None)
 
 index_params = dict(algorithm=0, trees=5)
 search_params = dict()
 # flann = cv2.FlannBasedMatcher(index_params, search_params)
-flann = bf = cv2.BFMatcher()
 
+flann = bf = cv2.BFMatcher()
 # Load all the images
 all_images_to_compare = []
 titles = []

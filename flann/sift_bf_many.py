@@ -2,7 +2,6 @@ import cv2
 import numpy as np
 import glob
 from matplotlib import pyplot as plt
-
 import time
 
 start_time = time.time()
@@ -10,15 +9,16 @@ start_time = time.time()
 img = cv2.imread("../images/test/original_book.jpg")
 original = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-# kaze and Flann
-kaze = cv2.KAZE_create()
-kp_1, desc_1 = kaze.detectAndCompute(original, None)
+# Sift and Flann
+sift = cv2.xfeatures2d.SIFT_create()
+kp_1, desc_1 = sift.detectAndCompute(original, None)
 
 index_params = dict(algorithm=0, trees=5)
 search_params = dict()
-# flann = cv2.FlannBasedMatcher(index_params, search_params)
-flann = bf = cv2.BFMatcher()
 
+
+# flann = cv2.FlannBasedMatcher(index_params, search_params)
+flann = cv2.BFMatcher()
 # Load all the images
 all_images_to_compare = []
 titles = []
@@ -40,7 +40,7 @@ for image_to_compare, title in zip(all_images_to_compare, titles):
     #         break
 
     # 2) Check for similarities between the 2 images
-    kp_2, desc_2 = kaze.detectAndCompute(image_to_compare, None)
+    kp_2, desc_2 = sift.detectAndCompute(image_to_compare, None)
 
     matches = flann.knnMatch(desc_1, desc_2, k=2)
 
@@ -56,11 +56,12 @@ for image_to_compare, title in zip(all_images_to_compare, titles):
 
     print("Title: " + title)
     percentage_similarity = float(len(good_points)) / number_keypoints * 100
-    print("Similarity: " + str(int(percentage_similarity)) + "\n")
+    print("Similarity: " + str(int(percentage_similarity)) + " %\n")
+
+        
+print("--- %s seconds ---" % (time.time() - start_time))
 
     
     # img3 = cv2.drawMatches(original, kp_1, image_to_compare, kp_2, good_points, None, flags=2)
 
     # plt.imshow(img3,), plt.show()
-
-print("--- %s seconds ---" % (time.time() - start_time))

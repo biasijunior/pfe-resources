@@ -2,6 +2,9 @@ import cv2
 import numpy as np
 import glob
 from matplotlib import pyplot as plt
+import time
+
+start_time = time.time()
 
 img = cv2.imread("../images/test/original_book.jpg")
 original = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -12,8 +15,10 @@ kp_1, desc_1 = sift.detectAndCompute(original, None)
 
 index_params = dict(algorithm=0, trees=5)
 search_params = dict()
-flann = cv2.FlannBasedMatcher(index_params, search_params)
 
+
+flann = cv2.FlannBasedMatcher(index_params, search_params)
+# flann = cv2.BFMatcher()
 # Load all the images
 all_images_to_compare = []
 titles = []
@@ -53,7 +58,10 @@ for image_to_compare, title in zip(all_images_to_compare, titles):
     percentage_similarity = float(len(good_points)) / number_keypoints * 100
     print("Similarity: " + str(int(percentage_similarity)) + " %\n")
 
-    
-    img3 = cv2.drawMatches(original, kp_1, image_to_compare, kp_2, good_points, None, flags=2)
+        
+print("--- %s seconds ---" % (time.time() - start_time))
 
-    plt.imshow(img3,), plt.show()
+    
+    # img3 = cv2.drawMatches(original, kp_1, image_to_compare, kp_2, good_points, None, flags=2)
+
+    # plt.imshow(img3,), plt.show()
