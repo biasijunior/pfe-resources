@@ -1,9 +1,12 @@
 import numpy as np
 import cv2
 from matplotlib import pyplot as plt
+import time
 
-img1 = cv2.imread('home1.jpg', 0)  # queryImage
-img2 = cv2.imread('home3.png', 0)  # trainImage
+start_time = time.time()
+
+img1 = cv2.imread('./images/books/original.jpg', 0)  # queryImage
+img2 = cv2.imread('./images/books/original.jpg', 0)  # trainImage
 
 # Initiate surf detector
 surf = cv2.xfeatures2d.SURF_create()
@@ -31,7 +34,9 @@ per = float(len(good))/float(len(des2))
 
 per = per * 100
 print(per, 'percent')
-# cv2.drawMatchesKnn expects list of lists as matches.
-img3 = cv2.drawMatchesKnn(img1, kp1, img2, kp2, good[:100], None, flags=2)
 
-plt.imshow(img3), plt.show()
+print("--- %s seconds ---" % (time.time() - start_time))
+# cv2.drawMatchesKnn expects list of lists as matches.
+# img3 = cv2.drawMatchesKnn(img1, kp1, img2, kp2, good[:100], None, flags=2)
+
+# plt.imshow(img3), plt.show()
