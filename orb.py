@@ -1,38 +1,25 @@
 import numpy as np
 import cv2
 from matplotlib import pyplot as plt
+import cPickle as pickle
 
-img1 = cv2.imread('home1.jpg', 0)  # queryImage
-img2 = cv2.imread('home3.png', 0)  # trainImage
+img = cv2.imread('./images/home/home1.jpg',0)
 
-# Initiate ORB detector
+# Initiate STAR detector
 orb = cv2.ORB_create()
 
+# find the keypoints with ORB
+kp = orb.detect(img, None)
 
-# find the keypoints and descriptors with ORB
-kp1, des1 = orb.detectAndCompute(img1, None)
-kp2, des2 = orb.detectAndCompute(img2, None)
+# compute the descriptors with ORB
+kp, des = orb.compute(img, kp)
 
-# BFMatcher with default params
-bf = cv2.BFMatcher()
-matches = bf.knnMatch(des1, des2, k=2)
+print(des)
+to_write = np.array(des)
 
+output = open('biasi.pkl', 'wb')
+pickle.dump(to_write, output)
 
-dif = len(des1) - len(des2)
-print(len(matches))
-
-# Apply ratio test
-good = []
-for m, n in matches:
-    if m.distance < 0.9 * n.distance:
-        # print(m.distance)
-        good.append([m])
-
-per = float(len(good))/float(len(des2))
-
-per = per * 100
-print(per, 'percent')
-# cv2.drawMatchesKnn expects list of lists as matches.
-img3 = cv2.drawMatchesKnn(img1, kp1, img2, kp2, good[:100], None, flags=2)
-
-plt.imshow(img3), plt.show()
+# draw only keypoints location,not size and orientation
+# img2 = cv2.drawKeypoints(img, kp, None,color=(0, 255, 0),flags=0)
+# plt.imshow(img2), plt.show()

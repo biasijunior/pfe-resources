@@ -4,7 +4,7 @@ import glob
 from matplotlib import pyplot as plt
 import time
 
-start_time = time.time()
+# start_time = time.time()
 
 img = cv2.imread("../images/test/original_book.jpg")
 original = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -22,13 +22,16 @@ flann = cv2.BFMatcher()
 # Load all the images
 all_images_to_compare = []
 titles = []
-for f in glob.iglob("../images/books/*"):
+for f in glob.iglob("../images/books/test/*"):
     imag = cv2.imread(f)
     image = cv2.cvtColor(imag, cv2.COLOR_BGR2GRAY)
     titles.append(f)
     all_images_to_compare.append(image)
 
+init_start_time = time.time()
+
 for image_to_compare, title in zip(all_images_to_compare, titles):
+    start_time = time.time()
     # 1) Check if 2 images are equals
     # if original.shape == image_to_compare.shape:
     #     print("The images have same size and channels")
@@ -56,10 +59,11 @@ for image_to_compare, title in zip(all_images_to_compare, titles):
 
     print("Title: " + title)
     percentage_similarity = float(len(good_points)) / number_keypoints * 100
+    print("--- %s seconds ---" % (time.time() - start_time))
     print("Similarity: " + str(int(percentage_similarity)) + " %\n")
+    
 
-        
-print("--- %s seconds ---" % (time.time() - start_time))
+print("--- total %s seconds ---" % (time.time() - init_start_time))
 
     
     # img3 = cv2.drawMatches(original, kp_1, image_to_compare, kp_2, good_points, None, flags=2)
