@@ -7,10 +7,10 @@ start_time = time.time()
 
 
 # img = cv2.imread('./images/home/home1.jpg', 0)
-img = cv2.imread('./images/testBooks/madam_sampls/5.jpg', 0)
+img = cv2.imread('./images/testBooks/100_samples/2.jpg', 0)
 # print img
 # Initiate STAR detector
-# orb = cv2.ORB_create()
+orb = cv2.ORB_create()
 orb = cv2.xfeatures2d.SIFT_create()
 
 # find the keypoints with ORB
@@ -30,7 +30,7 @@ for image_descriptor, image_name in zipped_obj:
   
     good_points = []
     for m, n in matches:
-        if m.distance < 0.78*n.distance:
+        if m.distance < 0.6*n.distance:
             good_points.append(m)
     number_keypoints = 0
     if len(image_descriptor) <= len(des):

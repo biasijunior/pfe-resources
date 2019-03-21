@@ -31,7 +31,7 @@ for image_to_compare, title in zip(all_images_to_compare, titles):
 #creating a zipped object of image descriptors with their titles  
 zipped_data = zip(array_des, titles)
 # creating a .pkl database
-print zipped_data
+# print zipped_data
 output = open('./database/book_image_dabase.pkl', 'wb')
 # writing to a database
 pickle.dump(zipped_data, output)
