@@ -1,5 +1,6 @@
 import pprint
-import cPickle as pickle
+#import cPickle as pickle
+import _pickle as pickle
 import cv2
 import time
 
@@ -10,8 +11,8 @@ start_time = time.time()
 img = cv2.imread('./images/testBooks/madam_sampls/5.jpg', 0)
 # print img
 # Initiate STAR detector
-# orb = cv2.ORB_create()
-orb = cv2.xfeatures2d.SIFT_create()
+orb = cv2.ORB_create()
+#orb = cv2.xfeatures2d.SIFT_create()
 
 # find the keypoints with ORB
 # kp = orb.detect(img, None)
