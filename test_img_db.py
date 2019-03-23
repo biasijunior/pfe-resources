@@ -10,7 +10,7 @@ now = datetime.datetime.now()
 
 # img = cv2.imread('./images/home/home1.jpg', 0)
 print('loading test image...')
-img = cv2.imread('./images/images/h.jpg', 0)
+img = cv2.imread('./images/testBooks/sherlock/1.jpg', 0)
 # print img
 # Initiate STAR detector
 # orb = cv2.ORB_create()

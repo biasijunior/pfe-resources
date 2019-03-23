@@ -8,8 +8,8 @@ import sys
 # import _pickle as pickle
 # Sift and Flann
 print("satrt")
-sift = cv2.ORB_create()
-# sift = cv2.xfeatures2d.SIFT_create()
+# sift = cv2.ORB_create()
+sift = cv2.xfeatures2d.SIFT_create()
 bf = cv2.BFMatcher()
 
 # Load all the images
@@ -19,7 +19,7 @@ i = 1
 
 print("loading images \r")
 
-for f in glob.iglob("./images/images/*"):
+for f in glob.iglob("./images/train/*"):
     imag = cv2.imread(f)
     image = cv2.cvtColor(imag, cv2.COLOR_BGR2GRAY)
     titles.append(f.rsplit('/', 1)[1])
