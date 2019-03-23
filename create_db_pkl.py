@@ -3,11 +3,11 @@ import numpy as np
 import glob
 import cv2
 import csv
-import cPickle as pickle
-
+#import cPickle as pickle
+import _pickle as pickle
 # Sift and Flann
 sift = cv2.ORB_create()
-sift = cv2.xfeatures2d.SIFT_create()
+#sift = cv2.xfeatures2d.SIFT_create()
 bf = cv2.BFMatcher()
 
 # Load all the images
