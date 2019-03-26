@@ -17,9 +17,32 @@ kp = orb.detect(img, None)
 # compute the descriptors with ORB
 kp, des = orb.compute(img, kp)
 
-pkl_file = open('biasi.pkl', 'rb')
+pkl_file = open('biasii.pkl', 'rb')
 
-data1 = pickle.load(pkl_file)
+# with open('biasi.pkl', 'rb') as f:
+
+#     data1 = pickle.load(f)
+#     # data = pickle.loads(f)
+#     print data1
+#     name = pickle.load(f)
+#     print name
+#     # print data
+#     obj_1 = pickle.load(f)
+obj_1 = pickle.load(pkl_file)
+i = 0
+for image_to_compare, title in obj_1:
+# obj_2 = pickle.load(pkl_file)
+# obj_3 = pickle.load(pkl_file)
+
+    img = image_to_compare
+    print(type(image_to_compare))
+# print(obj_2)
+# # print(obj_3)
+print img
+# print name
+data1 = img
+
+print(type(data1))
 
 flann = cv2.BFMatcher()
 matches = flann.knnMatch(des, data1, k=2)
