@@ -1,0 +1,4 @@
+first_name	last_name	something
+{'a': [1, 2.0, 3, (4+6j)], 'c': None, 'b': ('string', u'Unicode string')}	Beans	person
+Lovely	Spam	
+Wonderful	Spam	
