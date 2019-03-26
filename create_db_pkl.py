@@ -30,6 +30,7 @@ for f in glob.iglob("./images/train/*"):
 
 array_des = []
 j = 1
+
 print('computing descriptors in percentage(%) ...')
 for image_to_compare, title in zip(all_images_to_compare, titles):
         # get key points and descriptors
