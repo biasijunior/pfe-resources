@@ -8,8 +8,8 @@ import sys
 # import _pickle as pickle
 # Sift and Flann
 print("satrt")
-# sift = cv2.ORB_create()
-sift = cv2.xfeatures2d.SIFT_create()
+sift = cv2.ORB_create()
+# sift = cv2.xfeatures2d.SIFT_create()
 bf = cv2.BFMatcher()
 
 # Load all the images

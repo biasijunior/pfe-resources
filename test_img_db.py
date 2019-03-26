@@ -10,11 +10,11 @@ now = datetime.datetime.now()
 
 # img = cv2.imread('./images/home/home1.jpg', 0)
 print('loading test image...')
-img = cv2.imread('./images/testBooks/sherlock/1.jpg', 0)
+img = cv2.imread('./images/testBooks/butterfly/5.jpg', 0)
 # print img
 # Initiate STAR detector
-# orb = cv2.ORB_create()
-orb = cv2.xfeatures2d.SIFT_create()
+orb = cv2.ORB_create()
+# orb = cv2.xfeatures2d.SIFT_create()
 
 # find the keypoints with ORB
 # kp = orb.detect(img, None)
@@ -50,7 +50,7 @@ for image_descriptor, image_name in zipped_obj:
     print("Title: " + image_name)
     percentage_similarity = float(len(good_points)) / number_keypoints * 100
     print("--- %s seconds ---" % (time.time() - start_time))
-    print("Similarity: " + str(int(percentage_similarity)) + " %\n")
+    print("Similarity: " + str((percentage_similarity)) + " %\n")
     percent.append(str(int(percentage_similarity)))
     image.append(image_name)
 
