@@ -16,8 +16,6 @@ img = cv2.imread('./images/testBooks/butterfly/5.jpg', 0)
 orb = cv2.ORB_create()
 # orb = cv2.xfeatures2d.SIFT_create()
 
-# find the keypoints with ORB
-# kp = orb.detect(img, None)
 
 # compute the descriptors with ORB
 print('extracting descriptors from a test image')
