@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 import csv
 
 import time
-import function
+import functions as fn
 
 start_time = time.time()
 
@@ -32,8 +32,9 @@ print('comparing...')
 percent = []
 image = []
 compute_time_arry = []
+all_images_to_compare = fn.loadimages("../images/train/*")
 
-for image_to_compare, title in function.loadimages("../images/books/test/*"):
+for image_to_compare, title in all_images_to_compare:
     start_time = time.time()
     kp_2, desc_2 = sift.detectAndCompute(image_to_compare, None)
 
@@ -67,7 +68,7 @@ zipped = zip(image,percent,compute_time_arry)
 
 print('writing results to a file...')
 
-function.save_stats_to_file('sift_results.csv',zipped)
+fn.save_stats_to_file('sift_results.csv',zipped)
 
 
     
