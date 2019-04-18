@@ -1,0 +1,46 @@
+image type	percentage similarity	computational time
+../images/books/test\blured.jpg	2	0.19500017166137695
+../images/books/test\original croped.png	82	0.14899992942810059
+../images/books/test\original.jpg	100	0.12200021743774414
+../images/books/test\rotated.jpg	87	0.15799999237060547
+image type	percentage similarity	computational time
+train\arabic.jpg	0	0.7760000228881836
+train\butterfly.jpg	0	0.935999870300293
+train\condame.jpg	0	0.9049999713897705
+train\life.JPEG	0	0.11400008201599121
+train\likeblack.jpg	0	0.9600000381469727
+train\madam.jpg	0	0.7769999504089355
+train\malcomx.jpg	0	0.8819999694824219
+train\memory.jpg	0	0.8220000267028809
+train\prayer.jpg	0	0.8259999752044678
+train\rose.jpg	0	0.8340001106262207
+train\sherlock.jpg	0	0.8789999485015869
+train\the_100.jpg	0	0.8559999465942383
+train\unnamed-1.jpg	0	0.03899979591369629
+train\unnamed.jpg	0	0.06700015068054199
+image type	percentage similarity	computational time
+test\blured.jpg	2	0.04900002479553223
+test\original croped.png	82	0.07500004768371582
+test\original.jpg	100	0.06600022315979004
+test\rotated.jpg	87	0.11399984359741211
+image type	percentage similarity	computational time
+../images/books	2	0.0710000991821289
+../images/books	82	0.06699991226196289
+../images/books	100	0.09299993515014648
+../images/books	87	0.07300019264221191
+image type	percentage similarity	computational time
+test\blured.jpg	2	0.12299990653991699
+test\original croped.png	82	0.08000016212463379
+test\original.jpg	100	0.057000160217285156
+test\rotated.jpg	87	0.05900001525878906
+image type	percentage similarity	computational time
+image type	percentage similarity	computational time
+test\blured.jpg	2	0.05499982833862305
+test\original croped.png	82	0.04900002479553223
+test\original.jpg	100	0.059999942779541016
+test\rotated.jpg	87	0.046000003814697266
+image type	percentage similarity	computational time
+test\blured.jpg	2	0.06999993324279785
+test\original croped.png	82	0.07299995422363281
+test\original.jpg	100	0.07999992370605469
+test\rotated.jpg	87	0.0559999942779541
