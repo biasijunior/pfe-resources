@@ -4,6 +4,7 @@ import glob
 from matplotlib import pyplot as plt
 
 import time
+import functions as fn
 
 # start_time = time.time()
 
@@ -17,28 +18,19 @@ index_params = dict(algorithm=0, trees=5)
 search_params = dict()
 flann = cv2.FlannBasedMatcher(index_params, search_params)
 # flann = cv2.BFMatcher()
-# Load all the images
-all_images_to_compare = []
-titles = []
-for f in glob.iglob("../images/books/test/*"):
-    image = cv2.imread(f)
-    titles.append(f)
-    all_images_to_compare.append(image)
 
 init_start_time = time.time()
 
-for image_to_compare, title in zip(all_images_to_compare, titles):
+
+print('comparing...')
+percent = []
+image = []
+compute_time_arry = []
+all_images_to_compare = fn.loadimages("../images/train/*")
+
+for image_to_compare, title in all_images_to_compare:
     start_time = time.time()
-    # 1) Check if 2 images are equals
-    # if original.shape == image_to_compare.shape:
-    #     print("The images have same size and channels")
-    # difference = cv2.subtract(original, image_to_compare)
-    # b, g, r = cv2.split(difference)
-
-    # if cv2.countNonZero(b) == 0 and cv2.countNonZero(g) == 0 and cv2.countNonZero(r) == 0:
-    #         print("Similarity: 100% (equal size and channels)")
-    #         break
-
+   
     # 2) Check for similarities between the 2 images
     kp_2, desc_2 = surf.detectAndCompute(image_to_compare, None)
 
@@ -56,10 +48,17 @@ for image_to_compare, title in zip(all_images_to_compare, titles):
 
     print("Title: " + title)
     percentage_similarity = float(len(good_points)) / number_keypoints * 100
+    total_time = time.time() - start_time
     print("--- %s seconds ---" % (time.time() - start_time))
     print("Similarity: " + str(int(percentage_similarity)) + "% \n")
+
+    percent.append(str(int(percentage_similarity)))
+    image.append(title)
+    compute_time_arry.append(total_time)
 
     # img3 = cv2.drawMatches(original, kp_1, image_to_compare, kp_2, good_points, None, flags=2)
 
     # plt.imshow(img3,), plt.show()
 print("--- total %s seconds ---" % (time.time() - init_start_time))
+zipped = zip(image, percent, compute_time_arry)
+fn.save_stats_to_file('surf__flann_results_stats.csv', zipped)
