@@ -44,3 +44,18 @@ test\blured.jpg	2	0.06999993324279785
 test\original croped.png	82	0.07299995422363281
 test\original.jpg	100	0.07999992370605469
 test\rotated.jpg	87	0.0559999942779541
+image type	percentage similarity	computational time
+train\arabic.jpg	0	0.377000093460083
+train\butterfly.jpg	0	0.3940000534057617
+train\condame.jpg	0	0.38499999046325684
+train\life.JPEG	0	0.0559999942779541
+train\likeblack.jpg	0	0.3789999485015869
+train\madam.jpg	0	0.3540000915527344
+train\malcomx.jpg	0	0.38699984550476074
+train\memory.jpg	0	0.37200021743774414
+train\prayer.jpg	0	0.37599992752075195
+train\rose.jpg	0	0.35500001907348633
+train\sherlock.jpg	0	0.3710000514984131
+train\the_100.jpg	0	0.39800000190734863
+train\unnamed-1.jpg	0	0.03299999237060547
+train\unnamed.jpg	0	0.0279998779296875
