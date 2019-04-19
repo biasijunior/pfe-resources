@@ -92,9 +92,8 @@ class Matching_Algorithm:
         print('comparing image descriptors for distance ' + str(d))
 
         for image_to_compare, title in all_images_to_compare:
-            start_time = time.time()
             kp_2 , desc_2 = self.algorithm.detectAndCompute(image_to_compare, None)
-
+            start_time = time.time()
             matches = self.matcher_obj.knnMatch(self.desc_1, desc_2, k=2)
 
             good_points = []
@@ -124,16 +123,17 @@ class Matching_Algorithm:
         im_typ = 'image type'
         percent_sim = 'percentage similarity'
         compute_time = 'computational time'
-        file_name = file_name + "_"+self.matcher_name +"_matcher.csv"
-        with open('../database/' + file_name, 'a') as csvfile:
+        file_name = '../database/' + file_name + "_stats_"+self.matcher_name + "_matcher.csv"
+
+        with open(file_name, 'a') as csvfile:
             fieldnames = [im_typ, percent_sim, compute_time]
 
             writer = csv.DictWriter(csvfile, delimiter='\t', fieldnames=fieldnames)
-            writer.writeheader()
+            if csvfile.tell() ==0:
+                writer.writeheader()
             for img_type, per_sim, time_taken in zipped_file:
-                writer.writerow(
-                    {im_typ: img_type, percent_sim: per_sim, compute_time: time_taken})
-        print('finished writing to a file')
+                writer.writerow({im_typ: img_type, percent_sim: per_sim, compute_time: time_taken})
+        print('finished saving  to file')
         print('Done!!!')
 
 
@@ -146,11 +146,9 @@ class Matching_Algorithm:
 algo = ['sift', 'surf', 'orb', 'akaze']
 
 for algo_name in algo:
-
+     sift = Matching_Algorithm(algo_name, "../images/train/arabic.jpg", "bf", "../images/train/arabic.jpg")
      print algo_name
-     for i in range(0, 10):
-        sift = Matching_Algorithm(
-            algo_name, "../images/train/arabic.jpg", "bf", "../images/train/arabic.jpg")
+     for i in range(0, 2):
         sift.save_stats_to_file(algo_name)
 
 # sift.loadimages("../images/test/original_book.jpg")
