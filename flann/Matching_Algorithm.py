@@ -11,6 +11,7 @@ class Matching_Algorithm:
         matcher_obj = bf_or_flann_matcher.upper()
         self.image = cv2.imread(image_url, cv2.COLOR_BGR2GRAY)
         # self.matcher_obj = cv2.BFMatcher()
+        self.matcher_name = bf_or_flann_matcher
         self.train_images_url = get_train_images_url
         self.get_matcher(matcher_obj)
         self.create_algorithm_obj(algorithm)
@@ -32,6 +33,7 @@ class Matching_Algorithm:
             print algorithm + " object successfully created"
         except Exception as error:
             print repr(error) + "\nError on algorith_name, ENTER a valid algorithm name e.g ORB, SIFT etc"
+            exit()
 
 
     def get_matcher(self, matcher_obj):
@@ -47,6 +49,7 @@ class Matching_Algorithm:
             print "You have chosen "+ matcher_obj + "matcher"
         except Exception as error:
             print repr(error) + "\n enter bf or flann"
+            exit()
 
 
 
@@ -81,12 +84,12 @@ class Matching_Algorithm:
             d = 0.6
         else:
             d = provided_distance
-        print('comparing image descriptors for distance ' +str(d))
         percent = []
         image = []
         compute_time_arry = []
         all_images_to_compare = self.loadimages()
         kp_1, desc_1 = self.get_keypoint_and_desc()
+        print('comparing image descriptors for distance ' + str(d))
 
         for image_to_compare, title in all_images_to_compare:
             start_time = time.time()
@@ -121,6 +124,7 @@ class Matching_Algorithm:
         im_typ = 'image type'
         percent_sim = 'percentage similarity'
         compute_time = 'computational time'
+        file_name = file_name + "_"+self.matcher_name +"_matcher.csv"
         with open('../database/' + file_name, 'a') as csvfile:
             fieldnames = [im_typ, percent_sim, compute_time]
 
@@ -133,16 +137,20 @@ class Matching_Algorithm:
         print('Done!!!')
 
 
-m = Matching_Algorithm('orb', "../images/train/arabic.jpg","bf")
-m.compare_images()
+# m = Matching_Algorithm('orb', "../images/train/arabic.jpg","bf", "../images/train/arabic.jpg")
+# @TODO ikram look at the syntax the way to initialise it
+
+# Matching_Algorithm("algorithm_to_use", "image_url", "bf_or_flann_matcher", "get_train_images_url")
+# m.save_stats_to_file("biasi")
 # p = Matching_Algorithm.
-# algo = ['sift', 'surf', 'orb', 'akaze']
+algo = ['sift', 'surf', 'orb', 'akaze']
 
-# for algo_name in algo:
+for algo_name in algo:
 
-#      print algo_name
-#      for i in range(0, 10):
-#         sift = Matching_Algorithm(algo_name, "../images/train/arabic.jpg", "../images/testbooks/arabic")
-#         sift.save_stats_to_file(algo_name)
+     print algo_name
+     for i in range(0, 10):
+        sift = Matching_Algorithm(
+            algo_name, "../images/train/arabic.jpg", "bf", "../images/train/arabic.jpg")
+        sift.save_stats_to_file(algo_name)
 
-# # sift.loadimages("../images/test/original_book.jpg")
+# sift.loadimages("../images/test/original_book.jpg")
