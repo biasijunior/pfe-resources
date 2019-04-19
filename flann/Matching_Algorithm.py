@@ -110,14 +110,15 @@ class Matching_Algorithm:
         print('Done!!!')
 
 
-
-m = Matching_Algorithm("sift", "../images/test/original_book.jpg", "bf_")
-
-# m.loadimages("../images/test/original_book.jpg")
-m.run(0.5)
-# m.save_stats_to_file("biasi.csv")
+algo = ['sift', 'surf', 'orb', 'akaze']
 
 
+for algo_name in algo:
 
-        
+     print algo_name
+     for i in range(0, 10):
+        sift = Matching_Algorithm(
+            algo_name, "../images/train/arabic.jpg", "../images/testbooks/arabic")
+        sift.save_stats_to_file(algo_name)
 
+# # sift.loadimages("../images/test/original_book.jpg")
