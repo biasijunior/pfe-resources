@@ -4,6 +4,7 @@ import sys
 import csv
 
 
+
 def loadimages(path_to_images):
     all_images_to_compare = []
     titles = []
