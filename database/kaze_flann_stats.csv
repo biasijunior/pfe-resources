@@ -1,0 +1,15 @@
+image type	percentage similarity	computational time
+train\arabic.jpg	0	58.87899994850159
+train\butterfly.jpg	0	39.40000009536743
+train\condame.jpg	1	37.639999866485596
+train\life.JPEG	0	5.055999994277954
+train\likeblack.jpg	0	38.70799994468689
+train\madam.jpg	0	34.33200001716614
+train\malcomx.jpg	0	36.7189998626709
+train\memory.jpg	0	45.54900002479553
+train\prayer.jpg	0	42.20300006866455
+train\rose.jpg	0	39.99300003051758
+train\sherlock.jpg	0	40.931999921798706
+train\the_100.jpg	0	37.6710000038147
+train\unnamed-1.jpg	0	1.3429999351501465
+train\unnamed.jpg	0	0.8210000991821289

@@ -17,16 +17,6 @@ sift = cv2.ORB_create()
 kp_1, desc_1 = sift.detectAndCompute(original, None)
 
 bf = cv2.BFMatcher()
-# Load all the images
-# all_images_to_compare = []
-# titles = []
-# for f in glob.iglob("../images/books/test/*"):
-#     imag = cv2.imread(f)
-#     image = cv2.cvtColor(imag, cv2.COLOR_BGR2GRAY)
-#     titles.append(f)
-#     all_images_to_compare.append(image)
-
-init_start_time = time.time()
 
 print('comparing...')
 percent = []

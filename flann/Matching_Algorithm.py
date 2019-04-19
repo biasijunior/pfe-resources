@@ -6,10 +6,13 @@ import time
 
 class Matching_Algorithm:
     
-    def __init__(self, algorithm_to_use,image_url,bf_or_flann_matcher):
+    def __init__(self, algorithm_to_use, image_url, bf_or_flann_matcher, get_train_images_url=""):
         algorithm = algorithm_to_use.upper()
+        matcher_obj = bf_or_flann_matcher.upper()
         self.image = cv2.imread(image_url, cv2.COLOR_BGR2GRAY)
-        self.matcher_obj = cv2.BFMatcher()
+        # self.matcher_obj = cv2.BFMatcher()
+        self.train_images_url = get_train_images_url
+        self.get_matcher(matcher_obj)
         self.create_algorithm_obj(algorithm)
 
         
@@ -30,13 +33,33 @@ class Matching_Algorithm:
         except Exception as error:
             print repr(error) + "\nError on algorith_name, ENTER a valid algorithm name e.g ORB, SIFT etc"
 
-      
+
+    def get_matcher(self, matcher_obj):
+        try:
+            if matcher_obj == "BF":
+                self.matcher_obj = cv2.BFMatcher()
+            elif matcher_obj == "FLANN":
+                index_params = dict(algorithm=0, trees=5)
+                search_params = dict()
+                self.matcher_obj = cv2.FlannBasedMatcher(index_params, search_params)
+            else:
+                raise Exception("Wrong matcher!")
+            print "You have chosen "+ matcher_obj + "matcher"
+        except Exception as error:
+            print repr(error) + "\n enter bf or flann"
+
+
 
     def get_keypoint_and_desc(self):
        self.kp_1 , self.desc_1 = self.algorithm.detectAndCompute(self.image, None)
        return self.kp_1, self.desc_1
 
-    def loadimages(self,path_to_images):
+    def loadimages(self,path_to_images=""):
+        if path_to_images == "":
+            if self.train_images_url != "":
+               path_to_images = self.train_images_url
+            else:
+                path_to_images = raw_input("Please provide the url to your train images:")
         all_images_to_compare = []
         titles = []
         i = 1
@@ -53,7 +76,7 @@ class Matching_Algorithm:
 
         return zip(all_images_to_compare, titles)
 
-    def run(self,provided_distance=""):
+    def compare_images(self,provided_distance=""):
         if provided_distance =="":
             d = 0.6
         else:
@@ -62,7 +85,7 @@ class Matching_Algorithm:
         percent = []
         image = []
         compute_time_arry = []
-        all_images_to_compare = self.loadimages("../images/train/*")
+        all_images_to_compare = self.loadimages()
         kp_1, desc_1 = self.get_keypoint_and_desc()
 
         for image_to_compare, title in all_images_to_compare:
@@ -94,7 +117,7 @@ class Matching_Algorithm:
         return self.zipped
     
     def save_stats_to_file(self,file_name):
-        zipped_file = self.run()
+        zipped_file = self.compare_images()
         im_typ = 'image type'
         percent_sim = 'percentage similarity'
         compute_time = 'computational time'
@@ -110,15 +133,16 @@ class Matching_Algorithm:
         print('Done!!!')
 
 
-algo = ['sift', 'surf', 'orb', 'akaze']
+m = Matching_Algorithm('orb', "../images/train/arabic.jpg","bf")
+m.compare_images()
+# p = Matching_Algorithm.
+# algo = ['sift', 'surf', 'orb', 'akaze']
 
+# for algo_name in algo:
 
-for algo_name in algo:
-
-     print algo_name
-     for i in range(0, 10):
-        sift = Matching_Algorithm(
-            algo_name, "../images/train/arabic.jpg", "../images/testbooks/arabic")
-        sift.save_stats_to_file(algo_name)
+#      print algo_name
+#      for i in range(0, 10):
+#         sift = Matching_Algorithm(algo_name, "../images/train/arabic.jpg", "../images/testbooks/arabic")
+#         sift.save_stats_to_file(algo_name)
 
 # # sift.loadimages("../images/test/original_book.jpg")
