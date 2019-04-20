@@ -92,8 +92,10 @@ class Matching_Algorithm:
         print('comparing image descriptors for distance ' + str(d))
 
         for image_to_compare, title in all_images_to_compare:
-            kp_2 , desc_2 = self.algorithm.detectAndCompute(image_to_compare, None)
+
             start_time = time.time()
+            kp_2 , desc_2 = self.algorithm.detectAndCompute(image_to_compare, None)
+            
             matches = self.matcher_obj.knnMatch(self.desc_1, desc_2, k=2)
 
             good_points = []
@@ -129,7 +131,7 @@ class Matching_Algorithm:
             fieldnames = [im_typ, percent_sim, compute_time]
 
             writer = csv.DictWriter(csvfile, delimiter='\t', fieldnames=fieldnames)
-            if csvfile.tell() ==0:
+            if csvfile.tell() == 0:
                 writer.writeheader()
             for img_type, per_sim, time_taken in zipped_file:
                 writer.writerow({im_typ: img_type, percent_sim: per_sim, compute_time: time_taken})
