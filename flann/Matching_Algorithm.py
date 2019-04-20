@@ -152,26 +152,32 @@ class Matching_Algorithm:
 # Matching_Algorithm("algorithm_to_use", "image_url", "bf_or_flann_matcher", "get_train_images_url")
 # m.save_stats_to_file("biasi")
 # p = Matching_Algorithm.
-algo = ['sift', 'surf', 'orb', 'akaze']
+get_time = time.time()
+algo = ['sift', 'surf', 'akaze', 'orb']
+# algo = ['orb', 'akaze']
+# algo = ['akaze']
 
 for algo_name in algo:
      
-     sift = Matching_Algorithm(algo_name, "../images/train/arabic.jpg", "bf", "../images/testBooks/arabic/*")
-    #  sift = Matching_Algorithm(algo_name, "../images/train/butterfly.jpg", "bf", "../images/testBooks/butterfly/*")
-    #  sift = Matching_Algorithm(algo_name, "../images/train/condame.jpg", "bf", "../images/testBooks/condame/*")
-    #  sift = Matching_Algorithm(algo_name, "../images/train/life.jpeg", "bf", "../images/testBooks/lives/*")
-    #  sift = Matching_Algorithm(algo_name, "../images/train/likeblack.jpg", "bf", "../images/testBooks/likeblack/*")
-    #  sift = Matching_Algorithm(algo_name, "../images/train/madam.jpg", "bf", "../images/testBooks/madam/*")
-    #  sift = Matching_Algorithm(algo_name, "../images/train/malcomx.jpg", "bf", "../images/testBooks/malcomx/*")
-    #  sift = Matching_Algorithm(algo_name, "../images/train/memory.jpg", "bf", "../images/testBooks/memory/*")
-    #  sift = Matching_Algorithm(algo_name, "../images/train/prayer.jpg", "bf", "../images/testBooks/prayer/*")
-    #  sift = Matching_Algorithm(algo_name, "../images/train/rose.jpg", "bf", "../images/testBooks/rose/*")
-    #  sift = Matching_Algorithm(algo_name, "../images/train/sherlock.jpg", "bf", "../images/testBooks/sherlock/*")
-    #  sift = Matching_Algorithm(algo_name, "../images/train/the_100.jpg", "bf", "../images/testBooks/100/*")
-     print algo_name
-     for i in range(0, 10):
+    # sift = Matching_Algorithm(algo_name, "../images/train/arabic.jpg", "bf", "../images/testBooks/arabic/*")
+    # sift = Matching_Algorithm(algo_name, "../images/train/butterfly.jpg", "bf", "../images/testBooks/butterfly/*")
+    # sift = Matching_Algorithm(algo_name , "../images/train/condame.jpg", "bf", "../images/testBooks/condame/*")
+    # sift = Matching_Algorithm(algo_name, "../images/train/life.JPEG", "bf", "../images/testBooks/lives/*")
+    # sift = Matching_Algorithm(algo_name, "../images/train/likeblack.jpg", "bf", "../images/testBooks/likeblack/*")
+    # sift = Matching_Algorithm(algo_name, "../images/train/madam.jpg", "bf", "../images/testBooks/madam/*")
+    # sift = Matching_Algorithm(algo_name, "../images/train/malcomx.jpg", "bf", "../images/testBooks/malcomx/*")
+    # sift = Matching_Algorithm(algo_name, "../images/train/memory.jpg", "bf", "../images/testBooks/memory/*")
+    # sift = Matching_Algorithm(algo_name, "../images/train/prayer.jpg", "bf", "../images/testBooks/prayer/*")
+    # sift = Matching_Algorithm(algo_name, "../images/train/rose.jpg", "bf", "../images/testBooks/rose/*")
+    # sift = Matching_Algorithm(algo_name, "../images/train/sherlock.jpg", "bf", "../images/testBooks/sherlock/*")
+    sift = Matching_Algorithm(algo_name, "../images/train/the_100.jpg", "bf", "../images/testBooks/100/*")
+    print algo_name
+    for i in range(0, 10):
+        print("--- %s iteration ---" % (i + 1))
         sift.save_stats_to_file(algo_name)
 
 os.system('afplay /System/Library/Sounds/Sosumi.aiff')
-
+get_time = time.time() - get_time 
+# print "time taken is " + str(get_time)
+print("time taken is:  %s seconds!" % (get_time))
 # sift.loadimages("../images/test/original_book.jpg")
