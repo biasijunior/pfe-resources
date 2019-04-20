@@ -169,7 +169,7 @@ for algo_name in algo:
     #  sift = Matching_Algorithm(algo_name, "../images/train/sherlock.jpg", "bf", "../images/testBooks/sherlock/*")
     #  sift = Matching_Algorithm(algo_name, "../images/train/the_100.jpg", "bf", "../images/testBooks/100/*")
      print algo_name
-     for i in range(0, 1):
+     for i in range(0, 10):
         sift.save_stats_to_file(algo_name)
 
 os.system('afplay /System/Library/Sounds/Sosumi.aiff')
