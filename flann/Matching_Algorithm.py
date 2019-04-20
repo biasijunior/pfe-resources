@@ -1,8 +1,10 @@
+import os
 import cv2
 import glob
 import sys
 import csv
 import time
+import os
 
 class Matching_Algorithm:
     
@@ -81,18 +83,22 @@ class Matching_Algorithm:
 
     def compare_images(self,provided_distance=""):
         if provided_distance =="":
-            d = 0.6
+            d = 0.65
         else:
             d = provided_distance
         percent = []
         image = []
         compute_time_arry = []
+        get_desc_time = []
         all_images_to_compare = self.loadimages()
         kp_1, desc_1 = self.get_keypoint_and_desc()
         print('comparing image descriptors for distance ' + str(d))
 
         for image_to_compare, title in all_images_to_compare:
+            desc_extract_time = time.time()
             kp_2 , desc_2 = self.algorithm.detectAndCompute(image_to_compare, None)
+            get_desc_time.append(time.time() - desc_extract_time)
+
             start_time = time.time()
             matches = self.matcher_obj.knnMatch(self.desc_1, desc_2, k=2)
 
@@ -111,29 +117,31 @@ class Matching_Algorithm:
             total_time = time.time() - start_time
             print("--- %s seconds ---" % (total_time))
             print("Similarity: " + str((percentage_similarity)) + " %\n")
-            percent.append(str(int(percentage_similarity)))
+            percent.append(str(percentage_similarity))
             image.append(title)
             compute_time_arry.append(total_time)
 
-        self.zipped = zip(image, percent, compute_time_arry)
+        self.zipped = zip(image, compute_time_arry, get_desc_time, percent)
         return self.zipped
     
     def save_stats_to_file(self,file_name):
         zipped_file = self.compare_images()
         im_typ = 'image type'
-        percent_sim = 'percentage similarity'
+        percent_sim = 'percentage similarity(%)'
         compute_time = 'computational time'
+        desc_time = 'Time to fetch descriptors'
         file_name = '../database/' + file_name + "_stats_"+self.matcher_name + "_matcher.csv"
 
         with open(file_name, 'a') as csvfile:
-            fieldnames = [im_typ, percent_sim, compute_time]
+            fieldnames = [im_typ, compute_time, desc_time, percent_sim]
 
             writer = csv.DictWriter(csvfile, delimiter='\t', fieldnames=fieldnames)
             #to check if the header is already returned
             if csvfile.tell() ==0:
                 writer.writeheader()
-            for img_type, per_sim, time_taken in zipped_file:
-                writer.writerow({im_typ: img_type, percent_sim: per_sim, compute_time: time_taken})
+            for img_type, time_taken, descrp_time, per_sim in zipped_file:
+                writer.writerow(
+                    {im_typ: img_type, compute_time: time_taken, desc_time: descrp_time ,percent_sim: per_sim})
         print('finished saving  to file')
         print('Done!!!')
 
@@ -161,7 +169,9 @@ for algo_name in algo:
     #  sift = Matching_Algorithm(algo_name, "../images/train/sherlock.jpg", "bf", "../images/testBooks/sherlock/*")
     #  sift = Matching_Algorithm(algo_name, "../images/train/the_100.jpg", "bf", "../images/testBooks/100/*")
      print algo_name
-     for i in range(0, 10):
+     for i in range(0, 1):
         sift.save_stats_to_file(algo_name)
+
+os.system('afplay /System/Library/Sounds/Sosumi.aiff')
 
 # sift.loadimages("../images/test/original_book.jpg")
