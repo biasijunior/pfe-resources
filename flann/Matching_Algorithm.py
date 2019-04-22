@@ -5,6 +5,8 @@ import sys
 import csv
 import time
 import os
+import cPickle as pickle
+import datetime
 
 class Matching_Algorithm:
     
@@ -93,7 +95,7 @@ class Matching_Algorithm:
         compute_time_arry = []
         get_desc_time = []
         all_images_to_compare = self.loadimages()
-        kp_1, desc_1 = self.get_keypoint_and_desc()
+        kp_1, self.desc_1 = self.get_keypoint_and_desc()
         print('comparing image descriptors for distance ' + str(d))
 
         for image_to_compare, title in all_images_to_compare:
@@ -126,6 +128,92 @@ class Matching_Algorithm:
         self.zipped = zip(image, compute_time_arry, get_desc_time, percent)
         return self.zipped
     
+
+    def save_descriptor_to_DB(self,file_name):
+        print('computing descriptors in percentage(%) ...')
+        array_des=[]
+        j=0
+        for image_to_compare, titles in self.loadimages():
+                # get key points and descriptors
+                kp_2, desc_2 = self.algorithm.detectAndCompute(image_to_compare, None)
+                # creating an array of decriptors
+                array_des.append(desc_2)
+                remaing = j/float(len(titles)) * 100
+                print int(remaing), '|',
+                j = j + 1
+                sys.stdout.flush()
+                print titles + 'have fan'
+        #creating a zipped object of image descriptors with their titles
+        zipped_data = zip(array_des, titles)
+        # creating a .pkl database
+        # print zipped_data
+        print('% \n saving to database...')
+        output = open('../database/book_image_database_desc_'+ file_name +'.pkl', 'wb')
+        # writing to a database
+        pickle.dump(zipped_data, output)
+        # output.close()
+
+
+    def read_desc_from_DB(self,file_name):
+
+        # open a database file
+        pkl_file = open('../database/book_image_database_desc_' + file_name + '.pkl', 'rb')
+        # get zipped object
+        print('reading descriptors from a file')
+        zipped_obj = pickle.load(pkl_file)
+
+        print zipped_obj
+        pkl_file.close()
+
+        percent = []
+
+
+        image = []
+        for image_descriptor, image_name in zipped_obj:
+            start_time = time.time()
+            kp_1, desc_1 = self.get_keypoint_and_desc()
+
+            matches = self.matcher_obj.knnMatch(self.desc_1, image_descriptor, k=2)
+
+            good_points = []
+            for m, n in matches:
+                if m.distance < 0.6*n.distance:
+                    good_points.append(m)
+            number_keypoints = 0
+            if len(image_descriptor) <= len(desc_1):
+                number_keypoints = len(image_descriptor)
+            else:
+                number_keypoints = len(desc_1)
+
+            print("Title: " + image_name)
+            percentage_similarity = float(len(good_points)) / number_keypoints * 100
+            print("--- %s seconds ---" % (time.time() - start_time))
+            print("Similarity: " + str((percentage_similarity)) + " %\n")
+            percent.append(str(int(percentage_similarity)))
+            image.append(image_name)
+
+            # pprint.pprint(data1)
+        zipped = sorted(zip(percent, image), key=lambda pair: pair[0], reverse=True)
+        # zipped = sorted(zipped, key = lambda x: x[0])
+
+        print('writing results to a file...')
+        with open('../database/Results_Comparison/' +file_name+'desc_comp_results.csv', 'a') as csvfile:
+            fieldnames = ['similarity(%)', 'image name', 'time and date']
+
+            # spamwriter = csv.writer(csvfile, delimiter=' ',
+            #                         quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            writer = csv.DictWriter(csvfile, delimiter='\t', fieldnames=fieldnames)
+            writer.writeheader()
+            for percentage, name_image in zipped:
+                writer.writerow(
+                    {'similarity(%)': percentage + " %", 'image name': name_image, 'time and date': datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")})
+                # writer.writerow({'first_name': 'Lovely', 'last_name': 'Spam'})
+                # writer.writerow({'first_name': 'Wonderful', 'last_name': 'Spam'})
+        print('finished writing to a file')
+        print('Done!!!')
+
+
+    
     def save_stats_to_file(self,file_name):
         zipped_file = self.compare_images()
         im_typ = 'image type'
@@ -148,38 +236,41 @@ class Matching_Algorithm:
         print('Done!!!')
 
 
-# m = Matching_Algorithm('orb', "../images/train/arabic.jpg","bf", "../images/train/arabic.jpg")
+get_time = time.time()
+m = Matching_Algorithm('sift', "../images/train/memory.jpg",
+                       "bf", "../images/train/memory.jpg")
 # @TODO ikram look at the syntax the way to initialise it
-
+m.save_descriptor_to_DB('biasi')
+m.read_desc_from_DB('biasi')
 # Matching_Algorithm("algorithm_to_use", "image_url", "bf_or_flann_matcher", "get_train_images_url")
 # m.save_stats_to_file("biasi")
 # p = Matching_Algorithm.
-matcher = "orb"
-get_time = time.time()
+# matcher = "bf"
+
 # algo = ['sift', 'surf', 'akaze','orb']
 # algo = ['sift', 'surf']
-algo = ['kaze']
+# algo = ['sift']
 
 
 
-for algo_name in algo:
+# for algo_name in algo:
      
-    sift = Matching_Algorithm(algo_name, "../images/train/arabic.jpg", matcher, "../images/testBooks/arabic/*")
-    # sift = Matching_Algorithm(algo_name, "../images/train/butterfly.jpg", matcher, "../images/testBooks/butterfly/*")
-    # sift = Matching_Algorithm(algo_name , "../images/train/condame.jpg", matcher, "../images/testBooks/condame/*")
-    # sift = Matching_Algorithm(algo_name, "../images/train/life.JPEG", matcher, "../images/testBooks/lives/*")
-    # sift = Matching_Algorithm(algo_name, "../images/train/likeblack.jpg", matcher, "../images/testBooks/likeblack/*")
-    # sift = Matching_Algorithm(algo_name, "../images/train/madam.jpg", matcher, "../images/testBooks/madam/*")
-    # sift = Matching_Algorithm(algo_name, "../images/train/malcomx.jpg", matcher, "../images/testBooks/malcomx/*")
-    # sift = Matching_Algorithm(algo_name, "../images/train/memory.jpg", matcher, "../images/testBooks/memory/*")
-    # sift = Matching_Algorithm(algo_name, "../images/train/prayer.jpg", matcher, "../images/testBooks/prayer/*")
-    # sift = Matching_Algorithm(algo_name, "../images/train/rose.jpg", matcher, "../images/testBooks/rose/*")
-    # sift = Matching_Algorithm(algo_name, "../images/train/sherlock.jpg", matcher, "../images/testBooks/sherlock/*")
-    # sift = Matching_Algorithm(algo_name, "../images/train/the_100.jpg", matcher, "../images/testBooks/100/*")
-    print algo_name
-    for i in range(0, 10):
-        print("--- %s iteration ---" % (i + 1))
-        sift.save_stats_to_file(algo_name)
+#     sift = Matching_Algorithm(algo_name, "../images/train/arabic.jpg", matcher, "../images/testBooks/arabic/*")
+#     # sift = Matching_Algorithm(algo_name, "../images/train/butterfly.jpg", matcher, "../images/testBooks/butterfly/*")
+#     # sift = Matching_Algorithm(algo_name , "../images/train/condame.jpg", matcher, "../images/testBooks/condame/*")
+#     # sift = Matching_Algorithm(algo_name, "../images/train/life.JPEG", matcher, "../images/testBooks/lives/*")
+#     # sift = Matching_Algorithm(algo_name, "../images/train/likeblack.jpg", matcher, "../images/testBooks/likeblack/*")
+#     # sift = Matching_Algorithm(algo_name, "../images/train/madam.jpg", matcher, "../images/testBooks/madam/*")
+#     # sift = Matching_Algorithm(algo_name, "../images/train/malcomx.jpg", matcher, "../images/testBooks/malcomx/*")
+#     # sift = Matching_Algorithm(algo_name, "../images/train/memory.jpg", matcher, "../images/testBooks/memory/*")
+#     # sift = Matching_Algorithm(algo_name, "../images/train/prayer.jpg", matcher, "../images/testBooks/prayer/*")
+#     # sift = Matching_Algorithm(algo_name, "../images/train/rose.jpg", matcher, "../images/testBooks/rose/*")
+#     # sift = Matching_Algorithm(algo_name, "../images/train/sherlock.jpg", matcher, "../images/testBooks/sherlock/*")
+#     # sift = Matching_Algorithm(algo_name, "../images/train/the_100.jpg", matcher, "../images/testBooks/100/*")
+#     print algo_name
+#     for i in range(0, 10):
+#         print("--- %s iteration ---" % (i + 1))
+#         sift.save_stats_to_file(algo_name)
 
 os.system('afplay /System/Library/Sounds/Sosumi.aiff')
 get_time = time.time() - get_time 
