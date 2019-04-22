@@ -29,6 +29,8 @@ class Matching_Algorithm:
                 self.algorithm = cv2.ORB_create()
             elif algorithm == "AKAZE":
                 self.algorithm = cv2.AKAZE_create()
+            elif algorithm == "KAZE":
+                self.algorithm = cv2.KAZE_create()
             else:
                 raise Exception("object not created")
             
@@ -152,25 +154,28 @@ class Matching_Algorithm:
 # Matching_Algorithm("algorithm_to_use", "image_url", "bf_or_flann_matcher", "get_train_images_url")
 # m.save_stats_to_file("biasi")
 # p = Matching_Algorithm.
+matcher = "orb"
 get_time = time.time()
-algo = ['sift', 'surf', 'akaze', 'orb']
-# algo = ['orb', 'akaze']
-# algo = ['akaze']
+# algo = ['sift', 'surf', 'akaze','orb']
+# algo = ['sift', 'surf']
+algo = ['kaze']
+
+
 
 for algo_name in algo:
      
-    # sift = Matching_Algorithm(algo_name, "../images/train/arabic.jpg", "bf", "../images/testBooks/arabic/*")
-    # sift = Matching_Algorithm(algo_name, "../images/train/butterfly.jpg", "bf", "../images/testBooks/butterfly/*")
-    # sift = Matching_Algorithm(algo_name , "../images/train/condame.jpg", "bf", "../images/testBooks/condame/*")
-    # sift = Matching_Algorithm(algo_name, "../images/train/life.JPEG", "bf", "../images/testBooks/lives/*")
-    # sift = Matching_Algorithm(algo_name, "../images/train/likeblack.jpg", "bf", "../images/testBooks/likeblack/*")
-    # sift = Matching_Algorithm(algo_name, "../images/train/madam.jpg", "bf", "../images/testBooks/madam/*")
-    # sift = Matching_Algorithm(algo_name, "../images/train/malcomx.jpg", "bf", "../images/testBooks/malcomx/*")
-    # sift = Matching_Algorithm(algo_name, "../images/train/memory.jpg", "bf", "../images/testBooks/memory/*")
-    # sift = Matching_Algorithm(algo_name, "../images/train/prayer.jpg", "bf", "../images/testBooks/prayer/*")
-    # sift = Matching_Algorithm(algo_name, "../images/train/rose.jpg", "bf", "../images/testBooks/rose/*")
-    # sift = Matching_Algorithm(algo_name, "../images/train/sherlock.jpg", "bf", "../images/testBooks/sherlock/*")
-    sift = Matching_Algorithm(algo_name, "../images/train/the_100.jpg", "bf", "../images/testBooks/100/*")
+    sift = Matching_Algorithm(algo_name, "../images/train/arabic.jpg", matcher, "../images/testBooks/arabic/*")
+    # sift = Matching_Algorithm(algo_name, "../images/train/butterfly.jpg", matcher, "../images/testBooks/butterfly/*")
+    # sift = Matching_Algorithm(algo_name , "../images/train/condame.jpg", matcher, "../images/testBooks/condame/*")
+    # sift = Matching_Algorithm(algo_name, "../images/train/life.JPEG", matcher, "../images/testBooks/lives/*")
+    # sift = Matching_Algorithm(algo_name, "../images/train/likeblack.jpg", matcher, "../images/testBooks/likeblack/*")
+    # sift = Matching_Algorithm(algo_name, "../images/train/madam.jpg", matcher, "../images/testBooks/madam/*")
+    # sift = Matching_Algorithm(algo_name, "../images/train/malcomx.jpg", matcher, "../images/testBooks/malcomx/*")
+    # sift = Matching_Algorithm(algo_name, "../images/train/memory.jpg", matcher, "../images/testBooks/memory/*")
+    # sift = Matching_Algorithm(algo_name, "../images/train/prayer.jpg", matcher, "../images/testBooks/prayer/*")
+    # sift = Matching_Algorithm(algo_name, "../images/train/rose.jpg", matcher, "../images/testBooks/rose/*")
+    # sift = Matching_Algorithm(algo_name, "../images/train/sherlock.jpg", matcher, "../images/testBooks/sherlock/*")
+    # sift = Matching_Algorithm(algo_name, "../images/train/the_100.jpg", matcher, "../images/testBooks/100/*")
     print algo_name
     for i in range(0, 10):
         print("--- %s iteration ---" % (i + 1))
