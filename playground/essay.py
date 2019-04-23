@@ -3,15 +3,15 @@ import datetime
 import cv2
 import numpy as np
 # import ssim.ssimlib as pyssim
-from skimage.measure import compare_ssim as ssim
+from skimage.measure import compare_ssim as sm
 from sklearn.cluster import SpectralClustering, AffinityPropagation
 from sklearn import metrics
 
 print(cv2.__version__)
-print('biasi')
 
-img1 = cv2.imread('../images/test/original_book.jpg',0)
-img2 = cv2.imread('../images/test/original_book.jpg',0)
+
+img1 = cv2.imread('../images/testBooks/test/condame_cropped.jpg',0)
+img2 = cv2.imread('../images/train/condame.jpg',0)
 
 
 
@@ -49,8 +49,8 @@ def build_similarity_matrix(dir_name, algorithm='SIFT'):
     np.fill_diagonal(sm, 1.0)
     # print sm
 
-    print("Building the similarity matrix using %s algorithm for %d images" %
-          (algorithm, num_images))
+    print("Building the similarity matrix using %s algorithm for %d images" %(algorithm, num_images))
+
     start_total = datetime.datetime.now()
 
     # Traversing the upper triangle only - transposed matrix will be used
@@ -72,7 +72,7 @@ def build_similarity_matrix(dir_name, algorithm='SIFT'):
     print("Done - total calculation time: %d seconds" % (end_total - start_total).total_seconds())
     return sm
 
-
+print sm
 def get_cluster_metrics(X, labels, labels_true=None):
     metrics_dict = dict()
     metrics_dict['Silhouette coefficient'] = metrics.silhouette_score(X,labels, metric='precomputed')

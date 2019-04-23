@@ -3,12 +3,13 @@ import numpy as np
 import glob
 from matplotlib import pyplot as plt
 import time
+import winsound
 import functions as fn
 
 
 sum_time = 0
 
-img = cv2.imread("../images/test/original_book.jpg")
+img = cv2.imread("../images/train/condame.jpg")
 original = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 # kaze and Flann
@@ -25,13 +26,13 @@ print('comparing...')
 percent = []
 image = []
 compute_time_arry = []
-all_images_to_compare = fn.loadimages("../images/train/*")
+all_images_to_compare = fn.loadimages("../images/testBooks/test/*")
 
 
 init_start_time = time.time()
 
 for image_to_compare, title in all_images_to_compare:
-    start_time = time.time()
+   
    
     # 1) Check if 2 images are equals
     # if original.shape == image_to_compare.shape:
@@ -45,12 +46,13 @@ for image_to_compare, title in all_images_to_compare:
 
     # 2) Check for similarities between the 2 images
     kp_2, desc_2 = kaze.detectAndCompute(image_to_compare, None)
-
-    matches = flann.knnMatch(desc_1, desc_2, k=2)
+    bf = cv2.BFMatcher()
+    start_time = time.time()
+    matches = bf.knnMatch(desc_1, desc_2, k=2)
 
     good_points = []
     for m, n in matches:
-        if m.distance < 0.6*n.distance:
+        if m.distance < 1*n.distance:
             good_points.append(m)
     number_keypoints = 0
     if len(kp_1) <= len(kp_2):
@@ -78,6 +80,7 @@ print("--- sum total %s seconds ---" % (time.time() - init_start_time))
 
     # plt.imshow(img3,), plt.show()
 zipped = zip(image,percent,compute_time_arry)
-fn.save_stats_to_file('akaze_flann_stats.csv',zipped)
+fn.save_stats_to_file('akaze_knn_result.csv',zipped)
+winsound.MessageBeep()
 
 

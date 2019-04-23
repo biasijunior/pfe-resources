@@ -3,12 +3,13 @@ import numpy as np
 import glob
 from matplotlib import pyplot as plt
 import functions as fn
+import winsound
 
 import time
 
-start_time = time.time()
 
-original = cv2.imread("../images/test/original_book.jpg")
+
+original = cv2.imread("../images/train/condame.jpg")
 
 # SURF and Flann
 surf = cv2.xfeatures2d.SURF_create()
@@ -17,33 +18,26 @@ kp_1, desc_1 = surf.detectAndCompute(original, None)
 index_params = dict(algorithm=0, trees=5)
 search_params = dict()
 # flann = cv2.FlannBasedMatcher(index_params, search_params)
-flann = cv2.BFMatcher()
+bf = cv2.BFMatcher()
 # Load all the images
-all_images_to_compare = []
-titles = []
-for f in glob.iglob("../images/books/test/*"):
-    image = cv2.imread(f)
-    titles.append(f)
-    all_images_to_compare.append(image)
 
-init_start_time = time.time()
 
 percent = []
 image = []
 compute_time_arry = []
-all_images_to_compare = fn.loadimages("../images/train/*")
+all_images_to_compare = fn.loadimages("../images/testBooks/test/*")
 
 for image_to_compare, title in all_images_to_compare:
-    start_time = time.time()
+    
    
     # 2) Check for similarities between the 2 images
     kp_2, desc_2 = surf.detectAndCompute(image_to_compare, None)
-
-    matches = flann.knnMatch(desc_1, desc_2, k=2)
+    start_time = time.time()
+    matches = bf.knnMatch(desc_1, desc_2, k=2)
 
     good_points = []
     for m, n in matches:
-        if m.distance < 0.6*n.distance:
+        if m.distance < 1*n.distance:
             good_points.append(m)
     number_keypoints = 0
     if len(kp_1) <= len(kp_2):
@@ -65,6 +59,7 @@ for image_to_compare, title in all_images_to_compare:
 
     # plt.imshow(img3,), plt.show()
 
-print("--- total %s seconds ---" % (time.time() - init_start_time))
+    #print("--- total %s seconds ---" % (time.time() - init_start_time))
 zipped = zip(image, percent, compute_time_arry)
 fn.save_stats_to_file('surf_bf_results_stats.csv', zipped)
+winsound.MessageBeep()
