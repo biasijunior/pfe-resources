@@ -37,7 +37,7 @@ for image_to_compare, title in all_images_to_compare:
 
     good_points = []
     for m, n in matches:
-        if m.distance < 0.95*n.distance:
+        if m.distance < 1*n.distance:
             good_points.append(m)
     number_keypoints = 0
     if len(kp_1) <= len(kp_2):

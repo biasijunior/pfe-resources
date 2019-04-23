@@ -323,3 +323,14 @@ test\prayer_45.png	44	0.3299999237060547
 test\prayer_blurred.jpg	43	0.07799983024597168
 test\rose_90.jpg	48	0.20300006866455078
 test\rose_blurred.jpg	49	0.07799983024597168
+image type	percentage similarity	computational time
+test\condame.jpg	100	0.17100000381469727
+test\condame_45.png	100	0.4649999141693115
+test\condame_90.jpg	100	0.1919999122619629
+test\condame_cropped.jpg	100	0.21799993515014648
+test\life.JPEG	100	0.1400001049041748
+test\malcomx.jpg	100	1.2310001850128174
+test\prayer_45.png	100	0.7189998626708984
+test\prayer_blurred.jpg	100	0.09400010108947754
+test\rose_90.jpg	100	0.564000129699707
+test\rose_blurred.jpg	100	0.8280000686645508
