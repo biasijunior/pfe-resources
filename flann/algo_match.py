@@ -3,12 +3,22 @@ import cv2 as cv
 import matplotlib.pyplot as plt
 import time
 import functions as fn
+"""
+SIFT edgeThreshold used was 1.5 with distance equale to or less than 100
+    i.e. SIFT_create(edgeThreshold=1.5) , matches[i].distance <= 100
 
+TRY MODIFYING THESE PARAMETRES AND ALSO TRY TO MODIFY THE "crossCheck to true/false"
+
+
+        
+
+
+"""
 
 img1 = cv.imread('../images/train/prayer.jpg', 0)          # queryImage
 # img2 = cv.imread('../images/testBooks/arabic/arabic_90.jpg', 0)  # trainImage
 # Initiate ORB detector
-orb = cv.xfeatures2d.SIFT_create(edgeThreshold=1.5)
+orb = cv.xfeatures2d.SURF_create(edgeThreshold=1.5)
 # orb = cv.ORB_create()
 
 # find the keypoints and descriptors with ORB
