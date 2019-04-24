@@ -48,8 +48,13 @@ IMAGES_PER_CLUSTER = 5
 """
 def get_image_similarity(img1, img2, algorithm='SIFT'):
     # Converting to grayscale and resizing
-    i1 = cv2.resize(cv2.imread(img1, cv2.IMREAD_GRAYSCALE), SIM_IMAGE_SIZE)
-    i2 = cv2.resize(cv2.imread(img2, cv2.IMREAD_GRAYSCALE), SIM_IMAGE_SIZE)
+    # i1 = cv2.resize(cv2.imread(img1, cv2.IMREAD_GRAYSCALE), SIM_IMAGE_SIZE)
+    # i2 = cv2.resize(cv2.imread(img2, cv2.IMREAD_GRAYSCALE), SIM_IMAGE_SIZE)
+
+
+    i1 = cv2.imread(img1, 0)
+    i2 = cv2.imread(img2, 0)
+
 
     similarity = 0.0
 
@@ -103,10 +108,10 @@ def build_similarity_matrix(dir_name, algorithm='SIFT'):
     sm = np.zeros(shape=(num_images, num_images), dtype=np.float64)
     np.fill_diagonal(sm, 1.0)
 
+    print images
     print("Building the similarity matrix using %s algorithm for %d images" %
           (algorithm, num_images))
     start_total = datetime.datetime.now()
-
     # Traversing the upper triangle only - transposed matrix will be used
     # later for filling the empty cells.
     k = 0
@@ -114,9 +119,9 @@ def build_similarity_matrix(dir_name, algorithm='SIFT'):
         for j in range(sm.shape[1]):
             j = j + k
             if i != j and j < sm.shape[1]:
-                sm[i][j] = get_image_similarity('%s/%s' % (dir_name, images[i]),
-                                                '%s/%s' % (dir_name, images[j]),
-                                                algorithm=algorithm)
+                print "biasi before"
+                sm[i][j] = get_image_similarity('%s/%s' % (dir_name, images[i]),'%s/%s' % (dir_name, images[j]), algorithm = algorithm )
+                print "biasi after"
         k += 1
 
     # Adding the transposed matrix and subtracting the diagonal to obtain
@@ -172,6 +177,7 @@ def do_cluster(dir_name, algorithm='SIFT', print_metrics=True, labels_true=None)
 
     af = AffinityPropagation(affinity='precomputed').fit(matrix)
     af_metrics = get_cluster_metrics(matrix, af.labels_, labels_true)
+    print af_metrics
 
     # if print_metrics:
     #     print("\nPerformance metrics for Affinity Propagation Clustering")
@@ -186,3 +192,12 @@ def do_cluster(dir_name, algorithm='SIFT', print_metrics=True, labels_true=None)
     else:
         print("\nSelected Affinity Propagation for the labeling results")
         return af.labels_
+
+
+img1 = '../images/train/arabic.jpg'
+img2 = '../images/train/condame.jpg'
+
+# print img2
+# get_image_similarity(img1, img2, algorithm='SIFT')
+# build_similarity_matrix("../images/train/", algorithm='SIFT')
+do_cluster("../images/testBooks/100", algorithm='SIFT',print_metrics=True, labels_true=None)
