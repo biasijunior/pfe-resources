@@ -1,8 +1,12 @@
 import numpy as np
 import cv2 as cv
 import matplotlib.pyplot as plt
-img1 = cv.imread('../images/testBooks/arabic/arabic_cropped.jpg', 0)          # queryImage
+img1 = cv.imread('../images/testBooks/arabic/arabic_blurred.jpg', 0)          # queryImage
 img2 = cv.imread('../images/train/arabic.jpg', 0)  # trainImage
+# img1 = cv.imread('../images/testBooks/arabic/arabic_cropped.jpg', 0)          # queryImage
+# img2 = cv.imread('../images/train/condame.jpg', 0)  # trainImage
+# img1 = cv.imread('../images/train/arabic.jpg', 0)          # queryImage
+# img2 = cv.imread('../images/train/arabic.jpg', 0)  # trainImage
 # Initiate ORB detector
 # orb = cv.xfeatures2d.SURF_create()
 # orb = cv.xfeatures2d.SIFT_create()
@@ -24,7 +28,7 @@ matches = bf.match(des1, des2)
 
 matches = sorted(matches, key=lambda x: x.distance)
 
-for i in range(0,10):
+for i in range(0,100):
     # print matches[i].trainIdx
     print matches[i].distance
 # Draw first 10 matches.
