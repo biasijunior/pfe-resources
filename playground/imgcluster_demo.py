@@ -29,7 +29,7 @@ import cv2
 import imgcluster
 from matplotlib import pyplot as plt
 
-DIR_NAME = '../images/testBooks/100'
+DIR_NAME = '../images/test/'
 
 # Demo for clustering a set of 20 images using 'imgcluster' module.
 # To be executed in the standalone mode by default. IP[y] Notebook requires some minor adjustments.

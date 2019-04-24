@@ -7,7 +7,7 @@ import time
 
 start_time = time.time()
 
-img = cv2.imread("../images/test/original_book.jpg")
+img = cv2.imread("../images/train/condame.jpg")
 original = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 # Sift and Flann
@@ -18,7 +18,7 @@ bf = cv2.BFMatcher()
 # Load all the images
 all_images_to_compare = []
 titles = []
-for f in glob.iglob("../images/books/test/*"):
+for f in glob.iglob("../images/testBooks/test/*"):
     imag = cv2.imread(f)
     image = cv2.cvtColor(imag, cv2.COLOR_BGR2GRAY)
     titles.append(f)
@@ -33,7 +33,7 @@ for image_to_compare, title in zip(all_images_to_compare, titles):
     #     print("The images have same size and channels")
     # difference = cv2.subtract(original, image_to_compare)
     # b, g, r = cv2.split(difference)
-
+    print 'some'
     # if cv2.countNonZero(b) == 0 and cv2.countNonZero(g) == 0 and cv2.countNonZero(r) == 0:
     #         print("Similarity: 100% (equal size and channels)")
     #         break
@@ -45,7 +45,7 @@ for image_to_compare, title in zip(all_images_to_compare, titles):
      
     good_points = []
     for m, n in matches:
-        if m.distance < 0.6*n.distance:
+        if m.distance < 0.95*n.distance:
             good_points.append(m)
     number_keypoints = 0
     if len(kp_1) <= len(kp_2):
