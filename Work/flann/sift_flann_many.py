@@ -2,32 +2,40 @@ import cv2
 import numpy as np
 import glob
 from matplotlib import pyplot as plt
-import functions as fn
-
 import time
+import sys
+sys.path.append('..')
+import functions.functions as fn
 
 start_time = time.time()
 
 img = cv2.imread("../images/test/original_book.jpg")
 original = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-# kaze and Flann
-kaze = cv2.KAZE_create()
-kp_1, desc_1 = kaze.detectAndCompute(original, None)
+# Sift and Flann
+sift = cv2.xfeatures2d.SIFT_create()
+kp_1, desc_1 = sift.detectAndCompute(original, None)
 
 index_params = dict(algorithm=0, trees=5)
 search_params = dict()
-# flann = cv2.FlannBasedMatcher(index_params, search_params)
-flann = cv2.BFMatcher()
 
-print('comparing...')
+
+flann = cv2.FlannBasedMatcher(index_params, search_params)
+# flann = cv2.BFMatcher()
+# Load all the images
+all_images_to_compare = []
+titles = []
+for f in glob.iglob("../images/books/test/*"):
+    imag = cv2.imread(f)
+    image = cv2.cvtColor(imag, cv2.COLOR_BGR2GRAY)
+    titles.append(f)
+    all_images_to_compare.append(image)
+
+init_start_time = time.time()
 percent = []
 image = []
 compute_time_arry = []
 all_images_to_compare = fn.loadimages("../images/train/*")
-
-
-init_start_time = time.time()
 
 for image_to_compare, title in all_images_to_compare:
     start_time = time.time()
@@ -42,7 +50,7 @@ for image_to_compare, title in all_images_to_compare:
     #         break
 
     # 2) Check for similarities between the 2 images
-    kp_2, desc_2 = kaze.detectAndCompute(image_to_compare, None)
+    kp_2, desc_2 = sift.detectAndCompute(image_to_compare, None)
 
     matches = flann.knnMatch(desc_1, desc_2, k=2)
 
@@ -59,17 +67,18 @@ for image_to_compare, title in all_images_to_compare:
     print("Title: " + title)
     percentage_similarity = float(len(good_points)) / number_keypoints * 100
     total_time = time.time() - start_time
+
+    print("Similarity: " + str(int(percentage_similarity)) + " %\n")
     print("--- %s seconds ---" % (time.time() - start_time))
-    print("Similarity: " + str(int(percentage_similarity)) + "\n")
     percent.append(str(int(percentage_similarity)))
     image.append(title)
     compute_time_arry.append(total_time)
+
+print("--- total %s seconds ---" % (time.time() - init_start_time))
 
     
     # img3 = cv2.drawMatches(original, kp_1, image_to_compare, kp_2, good_points, None, flags=2)
 
     # plt.imshow(img3,), plt.show()
-print("--- total %s seconds ---" % (time.time() - init_start_time))
-zipped = zip(image,percent,compute_time_arry)
-fn.save_stats_to_file('kaze_flann_stats.csv',zipped)
-
+zipped = zip(image, percent, compute_time_arry)
+fn.save_stats_to_file('sift_flann_results_stats.csv', zipped)

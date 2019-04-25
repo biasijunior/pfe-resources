@@ -4,11 +4,12 @@ import glob
 from matplotlib import pyplot as plt
 import time
 import sys
-import functions as fn
+sys.path.append('..')
+import functions.functions as fn
 
 start_time = time.time()
 
-img = cv2.imread("../images/train/prayer.jpg")
+# img = cv2.imread("../../images/train/prayer.jpg")
 # img2 = cv2.imread("../images/test/original_book.jpg")
 
 
@@ -32,7 +33,7 @@ flann = cv2.FlannBasedMatcher(index_params, search_params)
 percent = []
 image = []
 compute_time_arry = []
-all_images_to_compare = fn.loadimages("../images/testBooks/test/*")
+all_images_to_compare = fn.loadimages("../../images/testBooks/test/*")
 
 for image_to_compare, title in all_images_to_compare:
 
