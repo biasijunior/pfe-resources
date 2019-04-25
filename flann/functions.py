@@ -13,8 +13,9 @@ def loadimages(path_to_images):
     print("loading images \r")
 
     for f in glob.iglob(path_to_images):
-        imag = cv2.imread(f)
-        image = cv2.cvtColor(imag, cv2.COLOR_BGR2GRAY)
+        # print f
+        image = cv2.imread(f,0)
+        # image = cv2.cvtColor(imag, cv2.COLOR_BGR2GRAY)
         titles.append(f.rsplit('/', 1)[1])
         print i,
         sys.stdout.flush()
