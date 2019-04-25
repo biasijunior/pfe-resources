@@ -112,19 +112,19 @@ import numpy as np
 
 #time for getting descriptors FLANN comparing algos
 
-plt.plot(['rotated_45','rotated_90','cropped','blurred'],[13.18976329, 2.969968061, 2.905574723, 2.722227371])
-plt.plot(['rotated_45','rotated_90','cropped','blurred'],[5.70571029, 4.193383998, 4.149927938, 2.519072461])
-# plt.plot(['rotated_45','rotated_90','cropped','blurred'],[14.33533716, 3.38424399693807, 3.36949411431948, 3.05343625942866])
-# plt.plot(['rotated_45','rotated_90','cropped','blurred'],[6.25990654627482, 4.66048846046130, 4.56513202985128, 2.80168905258179])
+# plt.plot(['rotated_45','rotated_90','cropped','blurred'],[13.18976329, 2.969968061, 2.905574723, 2.722227371])
+# plt.plot(['rotated_45','rotated_90','cropped','blurred'],[5.70571029, 4.193383998, 4.149927938, 2.519072461])
+# # plt.plot(['rotated_45','rotated_90','cropped','blurred'],[14.33533716, 3.38424399693807, 3.36949411431948, 3.05343625942866])
+# # plt.plot(['rotated_45','rotated_90','cropped','blurred'],[6.25990654627482, 4.66048846046130, 4.56513202985128, 2.80168905258179])
 
-plt.legend(['SIFT','SURF'], loc='lower left')
-plt.axis([None,None, 0, 15])
-plt.ylabel('getting_descriptors_time_average (sec)')
-plt.xlabel(' modified images ')
-plt.title('algos_BF_FLANN_desc')
-plt.show()
-# plt.pause(0.05)
-# plt.savefig('../database/bf_results/knn_descriptors_time_algos.png')
+# plt.legend(['SIFT','SURF'], loc='lower left')
+# plt.axis([None,None, 0, 15])
+# plt.ylabel('getting_descriptors_time_average (sec)')
+# plt.xlabel(' modified images ')
+# plt.title('algos_BF_FLANN_desc')
+# plt.show()
+# # plt.pause(0.05)
+# # plt.savefig('../database/bf_results/knn_descriptors_time_algos.png')
 
 ##############################################
 
@@ -143,3 +143,28 @@ plt.show()
 # plt.show()
 # # plt.pause(0.05)
 # # plt.savefig('../database/bf_results/knn_matching_time_algos.png')
+
+########################################
+
+#FLANN KNN ORB
+
+plt.plot(['condame_original','condame_90','condame_cropped','condame_45','prayer_45','life','rose_90','malcomx','prayer_blurred','rose_blurred'],[100,100,68,25,0,0,0,0,0,0])
+plt.plot(['condame_original','condame_90','condame_cropped','condame_45','prayer_45','life','rose_90','malcomx','prayer_blurred','rose_blurred'],[100,100,69,35,0,0,0,0,0,0])
+plt.plot(['condame_original','condame_90','condame_cropped','condame_45','prayer_45','life','rose_90','malcomx','prayer_blurred','rose_blurred'],[100,100,69,42,0,0,0,0,0,0])
+plt.plot(['condame_original','condame_90','condame_cropped','condame_45','prayer_45','life','rose_90','malcomx','prayer_blurred','rose_blurred'],[100,100,71,48,1,0,0,0,0,0])
+plt.plot(['condame_original','condame_90','condame_cropped','condame_45','prayer_45','life','rose_90','malcomx','prayer_blurred','rose_blurred'],[100,100,74,54,2,0,1,2,0,0])
+plt.plot(['condame_original','condame_90','condame_cropped','condame_45','prayer_45','life','rose_90','malcomx','prayer_blurred','rose_blurred'],[100,100,77,59,5,2,4,2,0,0])
+plt.plot(['condame_original','condame_90','condame_cropped','condame_45','prayer_45','life','rose_90','malcomx','prayer_blurred','rose_blurred'],[100,100,79,67,8,4,10,5,0,0])
+plt.plot(['condame_original','condame_90','condame_cropped','condame_45','prayer_45','life','rose_90','malcomx','prayer_blurred','rose_blurred'],[100,100,82,72,17,12,17,12,0,0])
+plt.plot(['condame_original','condame_90','condame_cropped','condame_45','prayer_45','life','rose_90','malcomx','prayer_blurred','rose_blurred'],[100,100,85,80,33,27,32,25,1,0])
+plt.plot(['condame_original','condame_90','condame_cropped','condame_45','prayer_45','life','rose_90','malcomx','prayer_blurred','rose_blurred'],[100,100,91,88,58,52,59,53,1,1])
+plt.plot(['condame_original','condame_90','condame_cropped','condame_45','prayer_45','life','rose_90','malcomx','prayer_blurred','rose_blurred'],[100,100,98,97,92,92,92,92,2,5])
+
+plt.legend(['0.5','0.55','0.6','0.65','0.7','0.75','0.8','0.85','0.9','0.95','1'], loc='lower left')
+plt.axis([None,None, 0, 100])
+plt.ylabel('percentage similarity')
+plt.xlabel(' images ')
+plt.title('flann_orb_similarity_percentage')
+plt.show()
+# plt.pause(0.05)
+# plt.savefig('../database/bf_results/knn_matching_time_algos.png')
