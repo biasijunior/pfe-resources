@@ -1,0 +1,11 @@
+image type	percentage similarity	computational time
+test\condame.jpg	100	0.39300012588500977
+test\condame_45.png	76	0.7089998722076416
+test\condame_90.jpg	100	0.37800002098083496
+test\condame_cropped.jpg	86	0.34400010108947754
+test\life.JPEG	51	0.05200004577636719
+test\malcomx.jpg	46	0.3940000534057617
+test\prayer_45.png	46	0.7029998302459717
+test\prayer_blurred.jpg	29	0.32200002670288086
+test\rose_90.jpg	48	0.3880000114440918
+test\rose_blurred.jpg	6	0.33299994468688965

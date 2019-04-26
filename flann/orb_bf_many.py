@@ -23,7 +23,7 @@ print('comparing...')
 percent = []
 image = []
 compute_time_arry = []
-all_images_to_compare = fn.loadimages("../images/testBooks/test/*")
+all_images_to_compare = fn.loadimages("../images/testBooks/test/new/memory_blurred.jpg")
 
 for image_to_compare, title in all_images_to_compare:
     
@@ -33,15 +33,20 @@ for image_to_compare, title in all_images_to_compare:
      
     good_points = []
     for m, n in matches:
-        if m.distance < 1*n.distance:
+        if m.distance < 0.85*n.distance:
             good_points.append(m)
-    number_keypoints = 0
+    # number_keypoints = 0
     number_keypoints = 0
     if len(desc_2) <= len(desc_1):
-        number_keypoints = len(desc_2)
+        number_keypoints = len(desc_1)
     else:
-        number_keypoints = len(des_1)
-    
+        number_keypoints = len(desc_2)
+
+    # number_keypoints = max(len(desc_1),len(desc_2))
+    print(str(len(good_points))+"good points")
+    print(str(number_keypoints)+"number of key points")
+
+
     
     print("Title: " + title)
     percentage_similarity = float(len(good_points)) / number_keypoints * 100
@@ -61,7 +66,7 @@ zipped = zip(image,percent,compute_time_arry)
 
 print('writing results to a file...')
 
-fn.save_stats_to_file('orb_resultats.csv',zipped)
+# fn.save_stats_to_file('orb_resultats.csv',zipped)
 winsound.MessageBeep()
 
 

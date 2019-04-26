@@ -13,23 +13,29 @@ img = cv2.imread("../images/train/condame.jpg")
 original = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 # kaze and Flann
-kaze = cv2.AKAZE_create()
+begin_time = time.time()
+kaze = cv2.xfeatures2d.SURF_create(10000)
 kp_1, desc_1 = kaze.detectAndCompute(original, None)
+
 
 index_params = dict(algorithm=0, trees=5)
 search_params = dict()
 # flann = cv2.FlannBasedMatcher(index_params, search_params)
 
 flann = cv2.BFMatcher()
+time_desc=time.time()-begin_time
+print("new time %s "%(time.time()-begin_time)+"     ")
+nombre=len(kp_1)
+print("nombre desc %d"%nombre)
 
-print('comparing...')
+# print('comparing...')
 percent = []
 image = []
 compute_time_arry = []
-all_images_to_compare = fn.loadimages("../images/testBooks/test/*")
+all_images_to_compare = fn.loadimages("../images/testBooks/condame/*")
 
 
-init_start_time = time.time()
+# init_start_time = time.time()
 
 for image_to_compare, title in all_images_to_compare:
    
@@ -72,15 +78,15 @@ for image_to_compare, title in all_images_to_compare:
 
     # print("--- total %s seconds ---" % (time.time() - init_start_time))
 
-print("--- sum total %s seconds ---" % (time.time() - init_start_time))
+# print("--- sum total %s seconds ---" % (time.time() - init_start_time))
 
 
 # print("--- total sum %s seconds ---" % (sum_time))
     # img3 = cv2.drawMatches(original, kp_1, image_to_compare, kp_2, good_points, None, flags=2)
 
     # plt.imshow(img3,), plt.show()
-zipped = zip(image,percent,compute_time_arry)
-fn.save_stats_to_file('akaze_knn_result.csv',zipped)
+# zipped = zip(image,percent,compute_time_arry)
+# fn.save_stats_to_file('surf_bf_knn_add.csv',zipped)
 winsound.MessageBeep()
 
 
