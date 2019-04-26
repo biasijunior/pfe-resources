@@ -7,7 +7,7 @@ import time
 import os
 import cPickle as pickle
 import datetime
-import function as fn
+import functions as fn
 class Matching_Algorithm:
     
     def __init__(self, algorithm_to_use, image_url, bf_or_flann_matcher, get_train_images_url=""):
@@ -237,11 +237,13 @@ class Matching_Algorithm:
 
 
 get_time = time.time()
-m = Matching_Algorithm('sift', "../images/train/memory.jpg",
-                       "bf", "../images/train/memory.jpg")
+m = Matching_Algorithm('orb', "../images/train/condame.jpg",
+                       "bf", "../images/train/condame.jpg")
+m.get_keypoint_and_desc()
+m.compare_images()
 # @TODO ikram look at the syntax the way to initialise it
-m.save_descriptor_to_DB('biasi')
-m.read_desc_from_DB('biasi')
+# m.save_descriptor_to_DB('biasi')
+# m.read_desc_from_DB('biasi')
 # Matching_Algorithm("algorithm_to_use", "image_url", "bf_or_flann_matcher", "get_train_images_url")
 # m.save_stats_to_file("biasi")
 # p = Matching_Algorithm.

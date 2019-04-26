@@ -7,7 +7,7 @@ import time
 
 start_time = time.time()
 
-img = cv2.imread("../images/train/condame.jpg")
+img = cv2.imread("../../images/train/condame_blurred.jpg")
 original = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 # Sift and Flann
@@ -18,7 +18,7 @@ bf = cv2.BFMatcher()
 # Load all the images
 all_images_to_compare = []
 titles = []
-for f in glob.iglob("../images/testBooks/test/*"):
+for f in glob.iglob("../../images/testBooks/test/*"):
     imag = cv2.imread(f)
     image = cv2.cvtColor(imag, cv2.COLOR_BGR2GRAY)
     titles.append(f)
@@ -45,14 +45,14 @@ for image_to_compare, title in zip(all_images_to_compare, titles):
      
     good_points = []
     for m, n in matches:
-        if m.distance < 0.95*n.distance:
+        if m.distance < 0.65*n.distance:
             good_points.append(m)
     number_keypoints = 0
     if len(kp_1) <= len(kp_2):
         number_keypoints = len(kp_1)
     else:
         number_keypoints = len(kp_1)
-
+    number_keypoints = max(len(desc_1),len(desc_2))
     print("Title: " + title)
     percentage_similarity = float(len(good_points)) / number_keypoints * 100
     print("--- %s seconds ---" % (time.time() - start_time))

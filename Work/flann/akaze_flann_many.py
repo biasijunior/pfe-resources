@@ -15,7 +15,7 @@ img = cv2.imread("../../images/train/condame.jpg")
 original = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 # kaze and Flann
-kaze = cv2.AKAZE_create()
+kaze = cv2.ORB_create()
 kp_1, desc_1 = kaze.detectAndCompute(original, None)
 
 index_params = dict(algorithm=0, trees=5)
