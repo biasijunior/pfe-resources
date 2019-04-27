@@ -18,20 +18,25 @@ original = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 kaze = cv2.ORB_create()
 kp_1, desc_1 = kaze.detectAndCompute(original, None)
 
+
 index_params = dict(algorithm=0, trees=5)
 search_params = dict()
 # flann = cv2.FlannBasedMatcher(index_params, search_params)
 
 flann = cv2.BFMatcher()
+time_desc=time.time()-begin_time
+print("new time %s "%(time.time()-begin_time)+"     ")
+nombre=len(kp_1)
+print("nombre desc %d"%nombre)
 
-print('comparing...')
+# print('comparing...')
 percent = []
 image = []
 compute_time_arry = []
 all_images_to_compare = fn.loadimages("../../images/testBooks/test/*")
 
 
-init_start_time = time.time()
+# init_start_time = time.time()
 
 for image_to_compare, title in all_images_to_compare:
    
@@ -74,7 +79,7 @@ for image_to_compare, title in all_images_to_compare:
 
     # print("--- total %s seconds ---" % (time.time() - init_start_time))
 
-print("--- sum total %s seconds ---" % (time.time() - init_start_time))
+# print("--- sum total %s seconds ---" % (time.time() - init_start_time))
 
 
 # print("--- total sum %s seconds ---" % (sum_time))
