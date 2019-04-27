@@ -12,10 +12,6 @@ SIFT edgeThreshold used was 1.5 with distance equale to or less than 100
 
 TRY MODIFYING THESE PARAMETRES AND ALSO TRY TO MODIFY THE "crossCheck to true/false"
 
-
-        
-
-
 """
 img_url = '../../../images/train/rose.jpg'
 img1 = cv.imread(img_url, 0) 

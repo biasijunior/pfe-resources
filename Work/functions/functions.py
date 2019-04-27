@@ -40,7 +40,7 @@ def save_stats_to_file(file_name,zipped_file):
 
 
         writer = csv.DictWriter(csvfile, delimiter='\t', fieldnames=fieldnames)
-        if csvfile.tell == 0:
+        if csvfile.tell() == 0:
             writer.writeheader()
         # for img_type, per_sim, match_time, desc_time_taken in zipped_file:
 
