@@ -13,7 +13,7 @@ SIFT edgeThreshold used was 1.5 with distance equale to or less than 100
 TRY MODIFYING THESE PARAMETRES AND ALSO TRY TO MODIFY THE "crossCheck to true/false"
 
 """
-img_url = '../../../images/train/rose.jpg'
+img_url = '../../../images/train/arabic.jpg'
 img1 = cv.imread(img_url, 0) 
 # img_url.rsplit('/', 1)[1]         # queryImage
 img_url = img_url.rsplit('/', 1)[1]
@@ -22,9 +22,9 @@ compare_to_image = img_url.rsplit('.', 1)[0]
 
 # img2 = cv.imread('../images/testBooks/arabic/arabic_90.jpg', 0)  # trainImage
 # Initiate ORB detector
-orb = cv.xfeatures2d.SIFT_create()
-# orb = cv.ORB_create()
-algo_name = 'sift'
+orb = cv.xfeatures2d.SURF_create()
+# orb = cv.SIFT_create()
+algo_name = 'surf'
 # find the keypoints and descriptors with ORB
 kp1, des1 = orb.detectAndCompute(img1, None)
 # create BFMatcher object
@@ -32,8 +32,13 @@ kp1, des1 = orb.detectAndCompute(img1, None)
 bf = cv.BFMatcher()
 title = algo_name + '_BFMatcher() Match for '
 fig = plt.figure()
+num_plots = 15
+plt.cm.gist_ncar
+colormap = plt.cm.gist_ncar
+plt.gca().set_color_cycle([colormap(i)
+                           for i in np.linspace(0, 0.78, num_plots)])
 
-images = fn.loadimages('../../../images/testBooks/test/*')
+images = fn.loadimages('../../images/testBooks/test/*')
 desc_comp_time = []
 image_names = []
 matching_time = []
@@ -52,7 +57,7 @@ for img, img_name in images:
     print img_name
     extr_match = time.time()
     matches = bf.match(des1, des2)
-    matching_time.append(time.time() - extr_match)
+    
     # print matches.shape
     # Sort them in the order of their distance.
     
@@ -69,6 +74,7 @@ for img, img_name in images:
         #     good_match.append(p1)
         
         # print('%.5f' % p1)
+    matching_time.append(time.time() - extr_match)
     x = np.arange(len(matches))
     match_distance.append(good_match)
     plt.plot(x, good_match, label=img_name)
@@ -85,11 +91,12 @@ for img, img_name in images:
 zipper = zip(image_names,matching_time,desc_comp_time)
 # print zipper
 # print zipper
-fn.save_stats_to_file('match/'+algo_name+'_match_distance_for_'+compare_to_image+'.csv',zipper)
+fn.save_stats_to_file('match/'+algo_name+'_match_correction_distance_for_'+compare_to_image+'.csv',zipper)
 
-plt.title(title + compare_to_image)
-plt.xlabel('number of distance point')
-plt.ylabel('distance between images')
+plt.title("compared to " + img_url)
+plt.xlabel('number of descriptors')
+plt.ylabel('distance')
+# plt.cm.gist_ncar(np.random.random())
 plt.show()
 
 fig.savefig(title+compare_to_image)

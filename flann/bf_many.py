@@ -3,7 +3,7 @@ import numpy as np
 import glob
 from matplotlib import pyplot as plt
 import csv
-import winsound
+# import winsound
 
 import time
 import functions as fn
@@ -33,36 +33,33 @@ for image_to_compare, title in all_images_to_compare:
      
     good_points = []
     for m, n in matches:
-        if m.distance < 1*n.distance:
+        if m.distance < p*n.distance:
             good_points.append(m)
-    number_keypoints = 0
-    number_keypoints = 0
-    if len(desc_2) <= len(desc_1):
-        number_keypoints = len(desc_2)
-    else:
-        number_keypoints = len(des_1)
     
-    
-    print("Title: " + title)
+    number_keypoints = max(len(desc_1), len(desc_2))
     percentage_similarity = float(len(good_points)) / number_keypoints * 100
     total_time = time.time() - start_time
+
+    print("Title: " + title)
     print("--- %s seconds ---" % (total_time))
     print("Similarity: " + str((percentage_similarity)) + " %\n")
-    percent.append(str(int(percentage_similarity)))
+
+    percent.append(int(percentage_similarity))
     image.append(title)
     compute_time_arry.append(total_time)
+    plt.plot(image,percentage_similarity, label=p)
 
 
     # pprint.pprint(data1)
 # zipped = sorted(zip(percent, image), key=lambda pair: pair[0], reverse= True)
 # zipped = sorted(zipped, key = lambda x: x[0])
 
-zipped = zip(image,percent,compute_time_arry)
+# zipped = zip(image,percent,compute_time_arry)
 
-print('writing results to a file...')
+# print('writing results to a file...')
 
-fn.save_stats_to_file('orb_resultats.csv',zipped)
-winsound.MessageBeep()
+# fn.save_stats_to_file('orb_resultats.csv',zipped)
+# winsound.MessageBeep()
 
 
     

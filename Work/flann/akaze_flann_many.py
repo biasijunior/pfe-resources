@@ -19,11 +19,18 @@ kaze = cv2.ORB_create()
 kp_1, desc_1 = kaze.detectAndCompute(original, None)
 
 
-index_params = dict(algorithm=0, trees=5)
-search_params = dict()
-# flann = cv2.FlannBasedMatcher(index_params, search_params)
+FLANN_INDEX_LSH = 6
 
-flann = cv2.BFMatcher()
+index_params = dict(algorithm=FLANN_INDEX_LSH,
+                    table_number=6,  # 12
+                    key_size=12,     # 20
+                    multi_probe_level=1)  # 2
+
+search_params = dict(checks=50)
+flann = cv2.FlannBasedMatcher(index_params, search_params)
+
+# flann = cv2.BFMatcher()
+begin_time = time.time()
 time_desc=time.time()-begin_time
 print("new time %s "%(time.time()-begin_time)+"     ")
 nombre=len(kp_1)
@@ -53,13 +60,13 @@ for image_to_compare, title in all_images_to_compare:
 
     # 2) Check for similarities between the 2 images
     kp_2, desc_2 = kaze.detectAndCompute(image_to_compare, None)
-    bf = cv2.BFMatcher()
+    # bf = cv2.BFMatcher()
     start_time = time.time()
-    matches = bf.knnMatch(desc_1, desc_2, k=2)
+    matches = flann.knnMatch(desc_1, desc_2, k=2)
 
     good_points = []
     for m, n in matches:
-        if m.distance < 1*n.distance:
+        if m.distance < 0.4*n.distance:
             good_points.append(m)
     number_keypoints = 0
     if len(kp_1) <= len(kp_2):

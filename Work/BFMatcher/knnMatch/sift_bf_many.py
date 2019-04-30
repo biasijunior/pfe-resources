@@ -57,12 +57,12 @@ for image_to_compare, title in all_images_to_compare:
     else:
         number_keypoints = len(kp_1)
 
-    print("Title: " + title)
     percentage_similarity = float(len(good_points)) / number_keypoints * 100
     total_time = time.time() - start_time
+    print("Title: " + title)
     print("--- %s seconds ---" % (time.time() - start_time))
     print("Similarity: " + str(int(percentage_similarity)) + " %\n")
-    percent.append(str(int(percentage_similarity)))
+    percent.append(int(percentage_similarity))
     image.append(title)
     compute_time_arry.append(total_time)
 

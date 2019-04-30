@@ -35,13 +35,20 @@ def save_stats_to_file(file_name,zipped_file):
 
     with open('../database/' + file_name, 'a') as csvfile:
         fieldnames = [im_typ, percent_sim, compute_time,desc_time]
+        # fieldnames = [im_typ, compute_time, desc_time]
+
 
         writer = csv.DictWriter(csvfile, delimiter='\t', fieldnames=fieldnames)
-        if csvfile.tell == 0:
-            writer.writeheader()
+        # if csvfile.tell == 0:
+        writer.writeheader()
+        
+        # for img_type,  match_time, desc_time_taken in zipped_file:
+
         for img_type, per_sim, match_time, desc_time_taken in zipped_file:
             writer.writerow(
-                {im_typ: img_type , percent_sim : per_sim, compute_time: match_time, desc_time: desc_time_taken})
+                {im_typ: img_type, percent_sim: per_sim, compute_time: match_time, desc_time: desc_time_taken})
+
+                # {im_typ: img_type , compute_time: match_time, desc_time: desc_time_taken})
     print('finished writing to a file')
     print('Done!!!')
 
