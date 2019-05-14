@@ -1,0 +1,13 @@
+image name	percentage similarity	matching time	time_to_fetch_descriptors
+image name	matching time	time_to_fetch_descriptors
+train\arabic.jpg	0	1.2219998836517334
+train\butterfly.jpg	0	0.21199989318847656
+train\condame.jpg	100	0.19000005722045898
+train\likeblack.jpg	0	0.25799989700317383
+train\madam.jpg	1	0.15899991989135742
+train\malcomx.jpg	0	0.6459999084472656
+train\memory.jpg	0	0.35199999809265137
+train\prayer.jpg	0	0.32400012016296387
+train\rose.jpg	0	0.28100013732910156
+train\sherlock.jpg	0	0.6670000553131104
+train\the_100.jpg	0	1.0299999713897705

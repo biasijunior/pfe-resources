@@ -2,17 +2,17 @@ import matplotlib.pyplot as plt
 import numpy as np
 # AKAZE KNN SIMILARITY
 
-# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','2','3','4','5','6','7','8','9'],[100,90,	60, 56, 38,	5,	0,	0,	0,	0,	0,	0,	0,	0,	0])
-# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','2','3','4','5','6','7','8','9'],[100,91,	66, 62, 44,	6,	0,	0,	0,	0,	0,	0,	0,	0,	0])
-# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','2','3','4','5','6','7','8','9'],[100,92,	71, 67, 50,	7,	0,	0,	0,	0,	0,	0,	0,	0,	0])
-# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','2','3','4','5','6','7','8','9'],[100,93,	76, 72, 56,	8,	0,	0,	0,	0,	0,	0,	0,	0,	0])
-# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','2','3','4','5','6','7','8','9'],[100,93, 79, 76, 60, 10,	0,	0,	0,	0,	0,	0,	0,	0,	0])
-# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','2','3','4','5','6','7','8','9'],[100,94, 83, 80, 65, 11,	0,	0,	0,	0,	1,	0,	0,	0,	0])
-# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','2','3','4','5','6','7','8','9'],[100,95, 86, 83, 70, 13,	1,	1,	1,	1,	2,	1,	1,	1,	1])
-# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','2','3','4','5','6','7','8','9'],[100,95, 88, 86, 74, 18,	3,	4,	4,	4,	7,	3,	5,	4,	5])
-# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','2','3','4','5','6','7','8','9'],[100,96, 91, 89, 81, 28,	12,	12,	13,	12,	16,	11,	14,	12,	15])
-# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','2','3','4','5','6','7','8','9'],[100,97, 95, 93, 88, 50,	37,	36,	37,	34,	40,	36,	39,	35,	38])
-# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','2','3','4','5','6','7','8','9'],[100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100])
+# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,90,	60, 56, 38,	5,	0,	0,	0,	0,	0,	0,	0,	0,	0])
+# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,91,	66, 62, 44,	6,	0,	0,	0,	0,	0,	0,	0,	0,	0])
+# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,92,	71, 67, 50,	7,	0,	0,	0,	0,	0,	0,	0,	0,	0])
+# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,93,	76, 72, 56,	8,	0,	0,	0,	0,	0,	0,	0,	0,	0])
+# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,93, 79, 76, 60, 10,	0,	0,	0,	0,	0,	0,	0,	0,	0])
+# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,94, 83, 80, 65, 11,	0,	0,	0,	0,	1,	0,	0,	0,	0])
+# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,95, 86, 83, 70, 13,	1,	1,	1,	1,	2,	1,	1,	1,	1])
+# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,95, 88, 86, 74, 18,	3,	4,	4,	4,	7,	3,	5,	4,	5])
+# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,96, 91, 89, 81, 28,	12,	12,	13,	12,	16,	11,	14,	12,	15])
+# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,97, 95, 93, 88, 50,	37,	36,	37,	34,	40,	36,	39,	35,	38])
+# plt.plot(['original','cropped','lumino','rot_90','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100])
 
 # plt.legend(['0.5','0.55','0.6','0.65','0.7','0.75','0.8','0.85','0.9','0.95','1'], loc='lower left')
 # plt.axis([None,None, 0, 101])
@@ -25,25 +25,73 @@ import numpy as np
 
 #orb bf knn similarity
 
-plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','2','3','4','5','6','7','8','9'],[100,	100,	54,	22,	5,	0,	0,	0,	0,	0,	0,	0,	0,	9])
-plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','2','3','4','5','6','7','8','9'],[100,	100,	57,	25,	9,	0,	0,	0,	0,	0,	0,	0,	0,	13])
-plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','2','3','4','5','6','7','8','9'],[100,	100,	60,	30,	12,	0,	0,	0,	0,	0,	0,	0,	0,	16])
-plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','2','3','4','5','6','7','8','9'],[100,	100,	62,	34,	19,	0	,0,	0,	0,	0,	0,	0,	0,	23])
-plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','2','3','4','5','6','7','8','9'],[100,	100,	65,	37,	23,	0	,0,	1,	0,	0,	0,	0,	0,	31])
-plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','2','3','4','5','6','7','8','9'],[100,	100,	67,	43,	30,	2	,2,	1,	2,	0,	1,	0,	1,	38])
-plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','2','3','4','5','6','7','8','9'],[100,	100,	70,	47,	38,	5	,4,	3,	5,	0,	4,	0,	2,	46])
-plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','2','3','4','5','6','7','8','9'],[100,	100,	74,	53,	46,	9	,10,	7	,10	,0,	11,	0,	6,	56])
-plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','2','3','4','5','6','7','8','9'],[100,	100,	79,	63,	59,	23,	23,	18,	21,	5	,23	,0	,17,	66])
-plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','2','3','4','5','6','7','8','9'],[100,	100,	86,	79,	76,	48,	51,	46,	46,	29,48	,6	,42,	80])
-plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','2','3','4','5','6','7','8','9'],[100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100])
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	100,	54,	    22, 	5,	    0,	    0,	    0,	    0,	    0,	    0,  	0,	    0,	9])
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	100,	57,	    25, 	9,	    0,	    0,	    0,	    0,	    0,	    0,  	0,	    0,	13])
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	100,	60,	    30, 	12, 	0,	    0,	    0,	    0,	    0,	    0,  	0,	    0,	16])
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	100,	62,	    34, 	19, 	0,      0,	    0,	    0,	    0,	    0,  	0,	    0,	23])
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	100,	65,	    37, 	23, 	0,      0,	    1,	    0,	    0,	    0,  	0,	    0,	31])
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	100,	67,	    43, 	30, 	2,      2,	    1,	    2,	    0,	    1,  	0,	    1,	38])
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	100,	70,	    47, 	38, 	5,      4,	    3,	    5,	    0,	    4,  	0,	    2,	46])
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	100,	74,	    53, 	46, 	9,      10,	    7,      10,     0,	    11, 	0,	    6,	56])
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	100,	79,	    63, 	59, 	23,	    23,	    18,	    21,	    5,      23,     0,      17,	66])
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	100,	86,	    79, 	76, 	48,	    51,	    46,	    46,	    29,     48,     6,      42,	80])
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	100,	100,    100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100])
 
-plt.legend(['0.5','0.55','0.6','0.65','0.7','0.75','0.8','0.85','0.9','0.95','1'], loc='lower left')
-plt.axis([None,None, 0, 101])
-plt.ylabel('percentage similarity')
-plt.xlabel(' images ')
-# plt.title('akaze_bf_knn_similarity_percentage')
-plt.show()
-plt.savefig('../database/bf_results/knn_matching_time_algos.png')
+# plt.legend(['0.5','0.55','0.6','0.65','0.7','0.75','0.8','0.85','0.9','0.95','1'], loc='lower left')
+# plt.axis([None,None, 0, 101])
+# plt.ylabel('percentage similarity')
+# plt.xlabel(' images ')
+# # plt.title('akaze_bf_knn_similarity_percentage')
+# plt.show()
+# # plt.savefig('../database/bf_results/knn_matching_orb.png')
+
+######################################
+
+# sift bf knn similarity
+
+# plt.plot(['original','cropped','rot_90','lumino','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	88,	82,	67,	56,	10,	0,	0,	0,	0,	0,	0,	0,	0,	0])
+# plt.plot(['original','cropped','rot_90','lumino','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	88,	83,	69,	59,	12,	1,	0,	0,	1,	0,	0,	0,	0,	0])
+# plt.plot(['original','cropped','rot_90','lumino','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	89,	85,	70,	63,	15,	2,	0,	0,	2,	0,	0,	0,	0,	0])
+# plt.plot(['original','cropped','rot_90','lumino','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	89,	86,	71,	65,	18,	2,	0,	0,	2,	1,	0,	0,	0,	0])
+# plt.plot(['original','cropped','rot_90','lumino','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	89,	86,	74,	68,	20,	4,	0,	1,	3,	1,	0,	1,	1,	0])
+# plt.plot(['original','cropped','rot_90','lumino','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	90,	88,	76,	70,	23,	6,	2,	2,	4,	3,	2,	2,	3,	2])
+# plt.plot(['original','cropped','rot_90','lumino','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	90,	89,	78,	73,	29,	10,	4,	5,	6,	6,	5,	4,	5,	4])
+# plt.plot(['original','cropped','rot_90','lumino','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	92,	90,	80,	77,	36,	15,	8,	11,	10,	13,	12,	10,	11,	9])
+# plt.plot(['original','cropped','rot_90','lumino','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	93,	92,	84,	81,	45,	26,	20,	23,	20,	26,	26,	22,	22,	21])
+# plt.plot(['original','cropped','rot_90','lumino','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	95,	94,	89,	89,	61,	49,	46,	44,	43,	48,	49,	48,	49,	49])
+# plt.plot(['original','cropped','rot_90','lumino','rot_45','blurred','other1','other2','other3','other4','other5','other6','other7','other8','other9'],[100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100])
+
+# plt.legend(['0.5','0.55','0.6','0.65','0.7','0.75','0.8','0.85','0.9','0.95','0.9','1'], loc='lower left')
+# plt.axis([None,None, 0, 101])
+# plt.ylabel('percentage similarity')
+# plt.xlabel(' images ')
+# # plt.title('akaze_bf_knn_similarity_percentage')
+# plt.show()
+
+
+############################
+
+# surf bf knn similarity
+
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8'],[100, 100,	100,	100,	20,	0,	0,	0,	0,	0,	20,	0,	0])
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8'],[100, 100,	100,	100,	20,	0,	0,	0,	0,	0,	20,	0,	0])
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8'],[100, 100,	100,	100,	20,	0,	0,	0,	0,	0,	20,	0,	0])
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8'],[100, 100,	100,	100,	40,	0,	0,	0,	0,	0,	20,	0,	0])
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8'],[100, 100,	100,	100,	40,	0,	0,	0,	0,	0,	20,	0,	0])
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8'],[100, 100,	100,	100,	40,	0,	0,	0,	0,	0,	20,	20,	0])
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8'],[100, 100,	100,	100,	40,	0,	0,	0,	20,	0,	20,	20,	0])
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8'],[100, 100,	100,	100,	40,	0,	0,	0,	60,	40,	20,	20,	0])
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8'],[100, 100,	100,	100,	80,	0,	0,	60,	80,	40,	40,	20,	0])
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8'],[100, 100,	100,	100,	80,	20,	20,	80,	80,	40,	60,	20,	20])
+# plt.plot(['original','rot_90','cropped','lumino','rot_45','other1','other2','other3','other4','other5','other6','other7','other8'],[100, 100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100,	100])
+
+# plt.legend(['0.5','0.55','0.6','0.65','0.7','0.75','0.8','0.85','0.9','0.95','1'], loc='lower left')
+# plt.axis([None,None, 0, 101])
+# plt.ylabel('percentage similarity')
+# plt.xlabel(' images ')
+# # plt.title('akaze_bf_knn_similarity_percentage')
+# plt.show()
+
 ##################################################
 
 # bf KNN COMPUTE TIME for matching
@@ -64,19 +112,19 @@ plt.savefig('../database/bf_results/knn_matching_time_algos.png')
 
 # time for matching algos comparing using BFMATCHER_KNN
 
-# plt.plot(['rotated_45','rotated_90','cropped','blurred'],[1.46306690176328,  1.32577413121859,    1.308867122729620,   0.246950163443883])
-# plt.plot(['rotated_45','rotated_90','cropped','blurred'],[0.00503451390699907, 0.00524500716816295, 0.00508482672951438, 0.000804948806762695])
-# plt.plot(['rotated_45','rotated_90','cropped','blurred'],[0.83459939,  0.748774860302607,   0.744147501389186,  0.110249926646550])
-# plt.plot(['rotated_45','rotated_90','cropped','blurred'],[10.8116898179054,    12.5201132694880,    12.4711701969306,    0.772699435551961])
+# plt.plot(['original','rotated_45','rotated_90','cropped','blurred','luminous'],[0.80275005102125, 1.46306690176328,  1.32577413121859,    1.308867122729620,   0.246950163443883, 0.730999946594])
+# plt.plot(['original','rotated_45','rotated_90','cropped','blurred','luminous'],[0.0153332551320667, 0.00503451390699907, 0.00524500716816295, 0.00508482672951438, 0.000804948806762695, 0.00999999046326])
+# plt.plot(['original','rotated_45','rotated_90','cropped','blurred','luminous'],[0.713333288827, 0.83459939,  0.748774860302607,   0.744147501389186,  0.110249926646550, 1.07600021362])
+# plt.plot(['original','rotated_45','rotated_90','cropped','blurred','luminous'],[0.0166654586791667, 0.000416656335195167,    0.0010000268618275,    0.000999987125396667,    0.000500003496805, 0.00400018692017])
 
 # plt.legend(['AKAZE','ORB','SIFT','SURF'], loc='lower left')
-# plt.axis([None,None, 0, 13])
+# plt.axis([None,None, 0, 2])
 # plt.ylabel('computational_time_average (sec)')
 # plt.xlabel(' modified images ')
-# plt.title('algos_KNN_matching_time')
+# # plt.title('algos_KNN_matching_time')
 # plt.show()
-# # plt.pause(0.05)
-# #plt.savefig('../database/bf_results/knn_matching_time_algos.png')
+# plt.pause(0.05)
+#plt.savefig('../database/bf_results/knn_matching_time_algos.png')
 
 # ###############################################
 # time for getting descriptors knn comparing algos
@@ -100,19 +148,19 @@ plt.savefig('../database/bf_results/knn_matching_time_algos.png')
 
 # similarity percentage comparing between algos _KNN
 
-# plt.plot(['rotated_45','rotated_90','cropped','blurred'],[55.8822719812, 71.1641894623, 86.1820443954, 41.2494103330])
-# plt.plot(['rotated_45','rotated_90','cropped','blurred'],[19.1, 91.0, 65, 97])
-# plt.plot(['rotated_45','rotated_90','cropped','blurred'],[57.80013289, 80.5709513950, 81.8748116254, 52.8376568889])
-# plt.plot(['rotated_45','rotated_90','cropped','blurred'],[15.25934353435, 91.94862396455, 74.87631275951, 34.1364597792])
+plt.plot(['original','rotated_45','rotated_90','cropped','blurred','luminous'],[100, 55.8822719812, 71.1641894623, 86.1820443954, 41.2494103330, 71])
+plt.plot(['original','rotated_45','rotated_90','cropped','blurred','luminous'],[100, 19.1, 91.0, 65, 97, 30])
+plt.plot(['original','rotated_45','rotated_90','cropped','blurred','luminous'],[100, 57.80013289, 80.5709513950, 81.8748116254, 52.8376568889, 70])
+plt.plot(['original','rotated_45','rotated_90','cropped','blurred','luminous'],[100, 39.33333333333333, 85.66666666666667, 81, 12.75, 100])
 
-# plt.legend(['AKAZE','ORB','SIFT','SURF'], loc='lower left')
-# plt.axis([None,None, 0, 100])
-# plt.ylabel('percentage similarity')
-# plt.xlabel(' modified images ')
+plt.legend(['AKAZE','ORB','SIFT','SURF'], loc='lower left')
+plt.axis([None,None, 0, 101])
+plt.ylabel('percentage similarity')
+plt.xlabel(' modified images ')
 # plt.title('knn_similarity_percentage')
-# plt.show()
-# # plt.pause(0.05)
-# # plt.savefig('../database/bf_results/knn_matching_time_algos.png')
+plt.show()
+# plt.pause(0.05)
+# plt.savefig('../database/bf_results/knn_matching_time_algos.png')
 
 
 # #############################################

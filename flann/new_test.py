@@ -9,7 +9,7 @@ import functions as fn
 
 sum_time = 0
 
-img = cv2.imread("../images/train/condame.jpg")
+img = cv2.imread("../images/train/madam.jpg")
 original = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 # kaze and Flann
@@ -33,7 +33,7 @@ flann = cv2.BFMatcher()
 percent = []
 image = []
 compute_time_arry = []
-all_images_to_compare = fn.loadimages("../images/testBooks/test/*")
+all_images_to_compare = fn.loadimages("../images/modified/45/madam_45.png")
 
 
 # init_start_time = time.time()
@@ -61,7 +61,7 @@ for image_to_compare, title in all_images_to_compare:
 
     good_points = []
     for m, n in matches:
-        if m.distance < 0.5*n.distance:
+        if m.distance < 0.6*n.distance:
             good_points.append(m)
     number_keypoints = 0
     if len(kp_1) <= len(kp_2):
@@ -89,8 +89,8 @@ for image_to_compare, title in all_images_to_compare:
     # img3 = cv2.drawMatches(original, kp_1, image_to_compare, kp_2, good_points, None, flags=2)
 
     # plt.imshow(img3,), plt.show()
-zipped = zip(image,percent,compute_time_arry)
-fn.save_stats_to_file('surf_new_correct.csv',zipped)
+# zipped = zip(image,percent,compute_time_arry)
+# fn.save_stats_to_file('surf_new_correct.csv',zipped)
 winsound.MessageBeep()
 
 
