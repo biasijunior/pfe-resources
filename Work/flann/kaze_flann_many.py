@@ -8,7 +8,7 @@ import functions.functions as fn
 
 import time
 
-start_time = time.time()
+algo_start_time = time.time()
 
 img = cv2.imread("../../images/test/original_book.jpg")
 original = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)

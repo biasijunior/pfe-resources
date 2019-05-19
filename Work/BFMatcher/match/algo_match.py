@@ -14,19 +14,17 @@ SIFT edgeThreshold used was 1.5 with distance equale to or less than 100
 TRY MODIFYING THESE PARAMETRES AND ALSO TRY TO MODIFY THE "crossCheck to true/false"
 
 """
-img_url = '../../../../real_images/bird_kio.jpeg'
+img_url = '../../real_images/bird_kio.jpeg'
 img1 = cv.imread(img_url, 0) 
 print (img1)
 # img_url.rsplit('/', 1)[1]         # queryImage
 img_url = img_url.rsplit('/', 1)[1]
 compare_to_image = img_url.rsplit('.', 1)[0]
 
-
-# img2 = cv.imread('../images/testBooks/arabic/arabic_90.jpg', 0)  # trainImage
 # Initiate ORB detector
-orb = cv.xfeatures2d.SIFT_create()
-# orb = cv.ORB_create()
-algo_name = 'sift2_modify_real'
+# orb = cv.xfeatures2d.SIFT_create()
+orb = cv.ORB_create()
+algo_name = 'orb_800_modify_real'
 # find the keypoints and descriptors with ORB
 kp1, des1 = orb.detectAndCompute(img1, None)
 # create BFMatcher object
@@ -42,8 +40,6 @@ num_plots = 15
 #                            for i in np.linspace(0, 0.78, num_plots)])
 
 time_started = time.time()
-
-
 # images = fn.loadimages('../../../../real_images/*')
 desc_comp_time = []
 image_names = []
@@ -53,14 +49,12 @@ match_distance = []
 print ("sorting matches...")
 j = 0
 
-for image_f in glob.iglob('../../../../real_images/*'):
+for image_f in glob.iglob('../../real_images/test/*'):
         # print path_to_images
     img = cv.imread(image_f, 0)
         # image = cv2.cvtColor(imag, cv2.COLOR_BGR2GRAY)
     img_name = image_f.rsplit('/', 1)[1]
     image_names.append(img_name)
-# print images
-# for img, img_name in images:
     # Match descriptors.
     
     start_time = time.time()
@@ -73,10 +67,8 @@ for image_f in glob.iglob('../../../../real_images/*'):
     
     # print matches.shape
     # Sort them in the order of their distance.
-    
     matches = sorted(matches, key=lambda x: x.distance)
-# Draw first 10 matches.
-
+    # Draw first 10 matches.
     good_match=[]
     # print "//////////-------///////////////----////////////////-----///////////"
     for i in range(0,len(matches)):
@@ -88,9 +80,9 @@ for image_f in glob.iglob('../../../../real_images/*'):
         
         # print('%.5f' % p1)
     matching_time.append(time.time() - extr_match)
-    x = np.arange(len(matches))
+    x = np.arange(15)
     match_distance.append(good_match)
-    plt.plot(x, good_match, label=img_name)
+    plt.plot(x, good_match[:15], label=img_name)
     plt.legend()
     # similarity = (float(len(good_match)) / max(len(des1), len(des2))) * 100
 
@@ -104,7 +96,7 @@ for image_f in glob.iglob('../../../../real_images/*'):
 zipper = zip(image_names,matching_time,desc_comp_time)
 # print zipper
 # print zipper
-fn.save_stats_to_file('match/'+algo_name+'_match_correction_distance_for_'+compare_to_image+'.csv',zipper)
+fn.save_descriptors_to_file('match/'+algo_name+'_match_correction_distance_for_'+compare_to_image+'.csv',zipper)
 print("finished after:  " + str(time.time()-time_started) + "   :seconds")
 plt.title("compared to " + img_url)
 plt.xlabel('number of descriptors')

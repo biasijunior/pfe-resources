@@ -27,7 +27,7 @@ def loadimages(path_to_images):
     return zip(all_images_to_compare, titles)
 
 
-def save_stats_to_file(file_name,zipped_file):
+def save_descriptors_to_file(file_name,zipped_file):
 
     im_typ = 'image name'
     # comment/uncomment percentage
@@ -53,6 +53,26 @@ def save_stats_to_file(file_name,zipped_file):
     print('finished writing to a file')
     print('Done!!!')
     os.system('afplay /System/Library/Sounds/Sosumi.aiff')
+
+
+def save_percentage_to_file(file_name,zipped_file):
+    im_typ = 'image name'
+    percent_sim = 'percentage similarity'
+    compute_time = 'matching time'
+    desc_time = 'time_to_fetch_descriptors'
+    with open('../../database/' + file_name, 'a') as csvfile:
+        fieldnames = [im_typ, percent_sim, compute_time, desc_time]
+        writer = csv.DictWriter(csvfile, delimiter='\t', fieldnames=fieldnames)
+        # if csvfile.tell() == 0:
+        writer.writeheader()
+        for img_type, per_sim, match_time, desc_time_taken in zipped_file:
+            writer.writerow(
+            {im_typ: img_type, percent_sim: per_sim, compute_time: match_time, desc_time: desc_time_taken})
+    print('finished writing to a file')
+    print('Done!!!')
+    os.system('afplay /System/Library/Sounds/Sosumi.aiff')
+
+
 
 
 

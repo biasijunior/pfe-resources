@@ -5,22 +5,23 @@ from matplotlib import pyplot as plt
 import time
 import sys
 sys.path.append('..')
-# import winsound
 import functions.functions as fn
 
+# ask ikram
+algo_start_time = time.time()
 
-sum_time = 0
+img_url = '../real_images/bird_kio.jpeg' # queryImage
+img = cv2.imread(img_url, 0) 
+print (img)
+# img_url.rsplit('/', 1)[1]         
+img_url = img_url.rsplit('/', 1)[1]
+compare_to_image = img_url.rsplit('.', 1)[0]
 
-img = cv2.imread("../../images/train/condame.jpg")
-original = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-# kaze and Flann
-kaze = cv2.ORB_create()
-kp_1, desc_1 = kaze.detectAndCompute(original, None)
-
+# akaze and Flann
+akaze = cv2.AKAZE_create()
+kp_1, desc_1 = akaze.detectAndCompute(img, None)
 
 FLANN_INDEX_LSH = 6
-
 index_params = dict(algorithm=FLANN_INDEX_LSH,
                     table_number=6,  # 12
                     key_size=12,     # 20
@@ -29,72 +30,79 @@ index_params = dict(algorithm=FLANN_INDEX_LSH,
 search_params = dict(checks=50)
 flann = cv2.FlannBasedMatcher(index_params, search_params)
 
-# flann = cv2.BFMatcher()
-begin_time = time.time()
-time_desc=time.time()-begin_time
-print("new time %s "%(time.time()-begin_time)+"     ")
-nombre=len(kp_1)
-print("nombre desc %d"%nombre)
+title = 'akaze_flann_Match for '
+fig = plt.figure()
 
-# print('comparing...')
-percent = []
-image = []
-compute_time_arry = []
-all_images_to_compare = fn.loadimages("../../images/testBooks/test/*")
-
-
-# init_start_time = time.time()
-
-for image_to_compare, title in all_images_to_compare:
-   
-   
-    # 1) Check if 2 images are equals
-    # if original.shape == image_to_compare.shape:
-    #     print("The images have same size and channels")
-    # difference = cv2.subtract(original, image_to_compare)
-    # b, g, r = cv2.split(difference)
-
-    # if cv2.countNonZero(b) == 0 and cv2.countNonZero(g) == 0 and cv2.countNonZero(r) == 0:
-    #         print("Similarity: 100% (equal size and channels)")
-    #         break
-
-    # 2) Check for similarities between the 2 images
-    kp_2, desc_2 = kaze.detectAndCompute(image_to_compare, None)
-    # bf = cv2.BFMatcher()
-    start_time = time.time()
-    matches = flann.knnMatch(desc_1, desc_2, k=2)
-
-    good_points = []
-    for m, n in matches:
-        if m.distance < 0.4*n.distance:
-            good_points.append(m)
-    number_keypoints = 0
-    if len(kp_1) <= len(kp_2):
-        number_keypoints = len(kp_1)
-    else:
-        number_keypoints = len(kp_1)
-
-    print("Title: " + title)
-    percentage_similarity = float(len(good_points)) / number_keypoints * 100
-    total_time = time.time() - start_time
-    print("--- %s seconds ---" % (time.time() - start_time))
-    print("Similarity: " + str(int(percentage_similarity)) + "\n")
-    percent.append(str(int(percentage_similarity)))
-    image.append(title)
-    compute_time_arry.append(total_time)
+for p in np.arange(0.5, 1.05, 0.05):
+    p = round(p,2)
+    percent = []
+    image_names = []
+    compute_time_arry = []
+    time_for_desc = []
     
+    # exit()
+    # for image_to_compare, title in all_images_to_compare:
+    for image_url in glob.iglob('../real_images/bird_*.jpeg'):
+        image_to_compare = cv2.imread(image_url, 0)
+        img_name = image_url.rsplit('/', 1)[1]
+        
+        print(image_url)
 
-    # print("--- total %s seconds ---" % (time.time() - init_start_time))
+        # 2) Check for similarities between the 2 images
+        begin_time = time.time()
+        kp_2, desc_2 = akaze.detectAndCompute(image_to_compare, None)
+        time_for_desc.append(time.time() - begin_time)
+        print ("-----description----")
+       
+        # print (len(desc_2))
+       
+        
+        start_time = time.time()
+        matches = flann.knnMatch(desc_1, desc_2, k=2)
+        good_points = []
+    
+        for m_n in matches:
+                if len(m_n) != 2:
+                    continue
+                (m,n) = m_n
+                if m.distance < p*n.distance:
+                    good_points.append(m)
 
-# print("--- sum total %s seconds ---" % (time.time() - init_start_time))
+        number_keypoints = max(len(desc_1),len(desc_2))
+        
+        percentage_similarity = float(len(good_points)) / number_keypoints * 100
+        total_time = time.time() - start_time
+        # print("Title: " + title)
+        # print("time desc: %s" %(time.time()-begin_time))
+        # print("--- %s seconds ---" % (time.time() - start_time))
+        print (img_name)
+        print("Similarity: " + str(percentage_similarity) + "% \n")
+        image_names.append(img_name)
+        percent.append(int(percentage_similarity))
+        compute_time_arry.append(total_time)
+        # print type(percent)
+        plot_zip = sorted(zip(image_names, percent ,compute_time_arry,time_for_desc),key=lambda pair: pair[1], reverse=True)
+        # percent, image = (zip(*plot_zip))
+        # image, percent, compute_time_arry, time_for_desc  = (zip(*plot_zip))
+        image_names, percent, compute_time_arry, time_for_desc = [list(tup) for tup in zip(*plot_zip)]
 
+        save_zip = zip(image_names,percent, compute_time_arry,time_for_desc)
 
-# print("--- total sum %s seconds ---" % (sum_time))
-    # img3 = cv2.drawMatches(original, kp_1, image_to_compare, kp_2, good_points, None, flags=2)
-
-    # plt.imshow(img3,), plt.show()
-# zipped = zip(image,percent,compute_time_arry)
-# fn.save_stats_to_file('akaze_knn_result.csv',zipped)
-# winsound.MessageBeep()
-
-
+        # print(save_zip)
+        # list(percent)
+        # print plot_zip
+   
+    fn.save_percentage_to_file('flann/surf_10n_0_00_correction_flann.csv', save_zip)
+    X = image_names[:8]
+    Y = percent[:8]
+    plt.plot(X, Y, label=p)
+    plt.legend()
+    print (image_names[:6], percent[:6],p)
+    print ("---------------------------------------------------------------------------------")
+print("The total execution time is :  %s seconds" % (time.time() - algo_start_time)) 
+plt.xlabel('images')
+plt.xticks(rotation=30)
+plt.ylabel('percent similarity')   
+# plt.cm.gist_ncar(np.random.random())
+plt.show()
+fig.savefig(title+compare_to_image)

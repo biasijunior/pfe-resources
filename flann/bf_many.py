@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import glob
-from matplotlib import pyplot as plt
+# from matplotlib import pyplot as plt
 import csv
 # import winsound
 

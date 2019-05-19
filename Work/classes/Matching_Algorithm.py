@@ -237,10 +237,12 @@ class Matching_Algorithm:
 
 
 get_time = time.time()
-m = Matching_Algorithm('orb', "../images/train/condame.jpg",
-                       "bf", "../images/train/condame.jpg")
-m.get_keypoint_and_desc()
-m.compare_images()
+# m = Matching_Algorithm('sift', "../images/train/condame.jpg",
+#                        "bf", "../images/train/condame.jpg")
+
+# m.get_keypoint_and_desc()
+# m = Matching_Algorithm()
+# m.compare_images()
 # @TODO ikram look at the syntax the way to initialise it
 # m.save_descriptor_to_DB('biasi')
 # m.read_desc_from_DB('biasi')
@@ -251,13 +253,13 @@ m.compare_images()
 
 # algo = ['sift', 'surf', 'akaze','orb']
 # algo = ['sift', 'surf']
-# algo = ['sift']
+algo = ['sift']
 
 
 
-# for algo_name in algo:
-     
-#     sift = Matching_Algorithm(algo_name, "../images/train/arabic.jpg", matcher, "../images/testBooks/arabic/*")
+for algo_name in algo:
+     print algo_name
+     sift = Matching_Algorithm(algo_name, "../images/train/arabic.jpg", 'bf', "../images/testBooks/condame/*")
 #     # sift = Matching_Algorithm(algo_name, "../images/train/butterfly.jpg", matcher, "../images/testBooks/butterfly/*")
 #     # sift = Matching_Algorithm(algo_name , "../images/train/condame.jpg", matcher, "../images/testBooks/condame/*")
 #     # sift = Matching_Algorithm(algo_name, "../images/train/life.JPEG", matcher, "../images/testBooks/lives/*")
@@ -272,7 +274,7 @@ m.compare_images()
 #     print algo_name
 #     for i in range(0, 10):
 #         print("--- %s iteration ---" % (i + 1))
-#         sift.save_stats_to_file(algo_name)
+sift.save_stats_to_file(algo_name)
 
 os.system('afplay /System/Library/Sounds/Sosumi.aiff')
 get_time = time.time() - get_time 
