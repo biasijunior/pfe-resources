@@ -64,8 +64,6 @@ for image_f in glob.iglob('../../real_images/test/*'):
     print( img_name + "  is image number :    "+ str((j+1)))
     extr_match = time.time()
     matches = bf.match(des1, des2)
-    
-    # print matches.shape
     # Sort them in the order of their distance.
     matches = sorted(matches, key=lambda x: x.distance)
     # Draw first 10 matches.
@@ -74,28 +72,19 @@ for image_f in glob.iglob('../../real_images/test/*'):
     for i in range(0,len(matches)):
         p1 = matches[i].distance
         good_match.append(p1)
-        # print p1
-        # if p1 <= 100:
-        #     good_match.append(p1)
-        
-        # print('%.5f' % p1)
+
     matching_time.append(time.time() - extr_match)
     x = np.arange(15)
     match_distance.append(good_match)
     plt.plot(x, good_match[:15], label=img_name)
     plt.legend()
-    # similarity = (float(len(good_match)) / max(len(des1), len(des2))) * 100
-
-    # print (str(similarity) + "%"+"      " + img_name)
     j = j + 1
 
 #     percentage_sim.append(similarity)
     image_names.append(img_name)
-# zipper = zip(image_names, percentage_sim, matching_time, desc_comp_time)
 
 zipper = zip(image_names,matching_time,desc_comp_time)
-# print zipper
-# print zipper
+
 fn.save_descriptors_to_file('match/'+algo_name+'_match_correction_distance_for_'+compare_to_image+'.csv',zipper)
 print("finished after:  " + str(time.time()-time_started) + "   :seconds")
 plt.title("compared to " + img_url)

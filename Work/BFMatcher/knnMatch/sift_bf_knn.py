@@ -52,10 +52,10 @@ for p in np.arange(0.4, 1.05, 0.05):
             number_keypoints = len(kp_1)
         else:
             number_keypoints = len(kp_1)
-        
+            
+        total_time = time.time() - start_time
         number_keypoints = max(len(desc_1),len(desc_2))
         percentage_similarity = float(len(good_points)) / number_keypoints * 100
-        total_time = time.time() - start_time
 
         print("Title: " + img_name + "  is number  " + str(j) + "  :::: for p = " + str(p))
         print("--- %s seconds ---" % (time.time() - start_time))
