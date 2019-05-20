@@ -61,11 +61,11 @@ for p in np.arange(0.5, 1.05, 0.05):
                 (m,n) = m_n
                 if m.distance < p*n.distance:
                     good_points.append(m)
-
+        total_time = time.time() - start_time
         number_keypoints = max(len(desc_1),len(desc_2))
         
         percentage_similarity = float(len(good_points)) / number_keypoints * 100
-        total_time = time.time() - start_time
+        
         # print("Title: " + title)
         # print("time desc: %s" %(time.time()-begin_time))
         # print("--- %s seconds ---" % (time.time() - start_time))
