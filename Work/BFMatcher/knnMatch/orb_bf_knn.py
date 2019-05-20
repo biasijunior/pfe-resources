@@ -8,9 +8,9 @@ from functions import functions as fn
 import time
 
 algo_start_time = time.time()
-img_url = '../../images/testBooks/condame/condame_45.png'
+img_url = '../../real_images/yusuf_orig.jpg'
+# img_url = '../../images/testBooks/condame/condame.jpg'
 img1 = cv2.imread(img_url, 0) 
-print (img1)
 # img_url.rsplit('/', 1)[1]         # queryImage
 img_url = img_url.rsplit('/', 1)[1]
 compare_to_image = img_url.rsplit('.', 1)[0]
@@ -19,17 +19,18 @@ sift = cv2.ORB_create()
 kp_1, desc_1 = sift.detectAndCompute(img1, None)
 
 bf = cv2.BFMatcher()
-title = 'orb_BFMatcher() Match for '
+title = 'orb_bf_knn_for_'
 fig = plt.figure()
 # Load all the images
-for p in np.arange(0.5, 1.05, 0.05):
+for p in np.arange(0.4, 1.05, 0.05):
     p = round(p,2)
     percent = []
     image_names = []
     compute_time_arry = []
     time_for_desc = []
+    j=0
 
-    for image_f in glob.iglob("../../images/testBooks/test/images/*"):
+    for image_f in glob.iglob("../../real_images/*"):
         image_to_compare = cv2.imread(image_f, 0)
         img_name = image_f.rsplit('/', 1)[1]
         # Match descriptors.
@@ -38,6 +39,7 @@ for p in np.arange(0.5, 1.05, 0.05):
         kp_2, desc_2 = sift.detectAndCompute(image_to_compare, None)
         time_for_desc.append(time.time() - begin_time)
         print ("-----description----")
+        j = j + 1
 
         start_time = time.time()
         matches = bf.knnMatch(desc_1, desc_2, k=2)
@@ -56,8 +58,7 @@ for p in np.arange(0.5, 1.05, 0.05):
         percentage_similarity = float(len(good_points)) / number_keypoints * 100
         total_time = time.time() - start_time
 
-        print("Title: " + img_name)
-        print("--- %s seconds ---" % (time.time() - start_time))
+        print("Title: " + img_name + "  is number  " + str(j) + "  :::: for p = " + str(p))
         print("Similarity: " + str(int(percentage_similarity)) + " % \n")
 
         image_names.append(img_name)
@@ -69,14 +70,14 @@ for p in np.arange(0.5, 1.05, 0.05):
 
         save_zip = zip(image_names,percent, compute_time_arry,time_for_desc)
    
-    fn.save_percentage_to_file('knnMatch/surf_10n_0_00_correction_flann.csv', save_zip)
-    X = image_names[:6]
-    Y = percent[:6]
+    fn.save_percentage_to_file('../../database/knnMatch/orb_bf_knn.csv', save_zip)
+    X = image_names[:9]
+    Y = percent[:9]
     plt.plot(X, Y, label=p)
     plt.legend()
-    print (image_names[:8], percent[:8],p)
+    print (image_names[:8], percent[:8])
     print ("---------------------------------------------------------------------------------")
-print("The total execution time is :  %s seconds" % (time.time() - algo_start_time)) 
+print("The total execution time for orb is :  %s seconds" % (time.time() - algo_start_time)) 
 plt.xlabel('images')
 plt.xticks(rotation=30)
 plt.ylabel('percent similarity')   

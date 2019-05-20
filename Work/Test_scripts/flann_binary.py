@@ -40,21 +40,20 @@ flann = cv2.FlannBasedMatcher(index_params, search_params)
 title = 'orb_flann_for'
 fig = plt.figure()
 
-for p in np.arange(0.5, 1.05, 0.05):
+for p in np.arange(0.4, 1.05, 0.05):
     p = round(p,2)
     percent = []
     image_names = []
     compute_time_arry = []
     time_for_desc = []
-    
+    j = 0
     # exit()
     # for image_to_compare, title in all_images_to_compare:
     for image_url in glob.iglob('../real_images/*'):
         image_to_compare = cv2.imread(image_url, 0)
         img_name = image_url.rsplit('/', 1)[1]
         
-        print(image_url)
-
+        j = j + 1
         # 2) Check for similarities between the 2 images
         begin_time = time.time()
         kp_2, desc_2 = sift.detectAndCompute(image_to_compare, None)
@@ -82,7 +81,7 @@ for p in np.arange(0.5, 1.05, 0.05):
         # print("Title: " + title)
         # print("time desc: %s" %(time.time()-begin_time))
         # print("--- %s seconds ---" % (time.time() - start_time))
-        print (img_name)
+        print("Title: " + img_name + "  is number  " + str(j) + "  :::: for p = " + str(p))
         print("Similarity: " + str(percentage_similarity) + "% \n")
         image_names.append(img_name)
         percent.append(int(percentage_similarity))
