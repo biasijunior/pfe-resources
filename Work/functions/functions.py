@@ -36,7 +36,7 @@ def save_descriptors_to_file(file_name,zipped_file):
     desc_time = 'time_to_fetch_descriptors'
 
     # print zipped_file
-    with open('../../database/' + file_name, 'a') as csvfile:
+    with open( file_name, 'a') as csvfile:
         fieldnames = [im_typ, compute_time,desc_time]
         # fieldnames = [im_typ, percent_sim, compute_time, desc_time]
 

@@ -21,7 +21,7 @@ bf = cv2.BFMatcher()
 title = 'sift_bf_knn_for_ '
 fig = plt.figure()
 # Load all the images
-for p in np.arange(0.4, 1.05, 0.05):
+for p in np.arange(0.4, 0.45, 0.05):
     j = 0
     p = round(p,2)
     percent = []
@@ -29,7 +29,7 @@ for p in np.arange(0.4, 1.05, 0.05):
     compute_time_arry = []
     time_for_desc = []
 
-    for image_f in glob.iglob("../../real_images/*"):
+    for image_f in glob.iglob("../../test_images/*"):
         image_to_compare = cv2.imread(image_f, 0)
         img_name = image_f.rsplit('/', 1)[1]
         # Match descriptors.

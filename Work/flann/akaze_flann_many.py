@@ -12,7 +12,6 @@ algo_start_time = time.time()
 
 img_url = '../real_images/bird_kio.jpeg' # queryImage
 img = cv2.imread(img_url, 0) 
-print (img)
 # img_url.rsplit('/', 1)[1]         
 img_url = img_url.rsplit('/', 1)[1]
 compare_to_image = img_url.rsplit('.', 1)[0]
@@ -30,33 +29,28 @@ index_params = dict(algorithm=FLANN_INDEX_LSH,
 search_params = dict(checks=50)
 flann = cv2.FlannBasedMatcher(index_params, search_params)
 
-title = 'akaze_flann_Match for '
+title = 'akaze_flann '
 fig = plt.figure()
 
-for p in np.arange(0.5, 1.05, 0.05):
+for p in np.arange(0.40, .45, 0.05):
     p = round(p,2)
     percent = []
     image_names = []
     compute_time_arry = []
     time_for_desc = []
-    
+    j = 0
     # exit()
     # for image_to_compare, title in all_images_to_compare:
-    for image_url in glob.iglob('../real_images/bird_*.jpeg'):
+    for image_url in glob.iglob('../test_images/*'):
         image_to_compare = cv2.imread(image_url, 0)
         img_name = image_url.rsplit('/', 1)[1]
-        
-        print(image_url)
-
+        j = j + 1
         # 2) Check for similarities between the 2 images
         begin_time = time.time()
         kp_2, desc_2 = akaze.detectAndCompute(image_to_compare, None)
         time_for_desc.append(time.time() - begin_time)
         print ("-----description----")
-       
-        # print (len(desc_2))
-       
-        
+     
         start_time = time.time()
         matches = flann.knnMatch(desc_1, desc_2, k=2)
         good_points = []
@@ -68,33 +62,23 @@ for p in np.arange(0.5, 1.05, 0.05):
                 if m.distance < p*n.distance:
                     good_points.append(m)
 
-        number_keypoints = max(len(desc_1),len(desc_2))
-        
-        percentage_similarity = float(len(good_points)) / number_keypoints * 100
         total_time = time.time() - start_time
-        # print("Title: " + title)
-        # print("time desc: %s" %(time.time()-begin_time))
-        # print("--- %s seconds ---" % (time.time() - start_time))
-        print (img_name)
-        print("Similarity: " + str(percentage_similarity) + "% \n")
+        number_keypoints = max(len(desc_1),len(desc_2))
+        percentage_similarity = float(len(good_points)) / number_keypoints * 100
+        
+        print("Title: " + img_name + "  is number  " + str(j) + "  :::: for p = " + str(p))
         image_names.append(img_name)
         percent.append(int(percentage_similarity))
         compute_time_arry.append(total_time)
         # print type(percent)
         plot_zip = sorted(zip(image_names, percent ,compute_time_arry,time_for_desc),key=lambda pair: pair[1], reverse=True)
-        # percent, image = (zip(*plot_zip))
-        # image, percent, compute_time_arry, time_for_desc  = (zip(*plot_zip))
         image_names, percent, compute_time_arry, time_for_desc = [list(tup) for tup in zip(*plot_zip)]
 
         save_zip = zip(image_names,percent, compute_time_arry,time_for_desc)
 
-        # print(save_zip)
-        # list(percent)
-        # print plot_zip
-   
-    fn.save_percentage_to_file('flann/surf_10n_0_00_correction_flann.csv', save_zip)
-    X = image_names[:8]
-    Y = percent[:8]
+    fn.save_percentage_to_file('../database/flann/akaze_flann.csv', save_zip)
+    X = image_names
+    Y = percent
     plt.plot(X, Y, label=p)
     plt.legend()
     print (image_names[:6], percent[:6],p)
@@ -105,4 +89,4 @@ plt.xticks(rotation=30)
 plt.ylabel('percent similarity')   
 # plt.cm.gist_ncar(np.random.random())
 plt.show()
-fig.savefig(title+compare_to_image)
+fig.savefig(title)

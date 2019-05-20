@@ -1,7 +1,11 @@
 import cv2
 import numpy as np
 import glob
+<<<<<<< HEAD
 # from matplotlib import pyplot as plt
+=======
+from matplotlib import pyplot as plt
+>>>>>>> 2b6486dfb15b4d8e13b2c293cfc796f4a0132278
 import csv
 # import winsound
 

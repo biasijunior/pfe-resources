@@ -15,9 +15,6 @@ img1 = cv2.imread(img_url, 0)
 img_url = img_url.rsplit('/', 1)[1]
 compare_to_image = img_url.rsplit('.', 1)[0]
 
-fn.loadimages('../real_images/*yusuf|*_orig.')
-exit()
-
 sift = cv2.ORB_create()
 kp_1, desc_1 = sift.detectAndCompute(img1, None)
 

@@ -11,13 +11,12 @@ algo_start_time = time.time()
 
 img_url = '../real_images/bird_kio.jpeg' # queryImage
 img = cv2.imread(img_url, 0) 
-print (img)
 # img_url.rsplit('/', 1)[1]         
 img_url = img_url.rsplit('/', 1)[1]
 compare_to_image = img_url.rsplit('.', 1)[0]
 
 # Sift and Flann
-sift = cv2.xfeatures2d.SURF_create()
+sift = cv2.xfeatures2d.SURF_create(5000)
 # sift = cv2.ORB_create()
 kp_1, desc_1 = sift.detectAndCompute(img, None)
 
@@ -27,21 +26,22 @@ search_params = dict(checks=50)
 
 flann = cv2.FlannBasedMatcher(index_params, search_params)
 
-title = 'surf_flann_Match for '
+title = 'surf_flann'
 fig = plt.figure()
 
-for p in np.arange(0.5, 1.05, 0.05):
+for p in np.arange(0.40, 0.45, 0.05):
     p = round(p,2)
     percent = []
     image_names = []
     compute_time_arry = []
     time_for_desc = []
-    
+    j = 0
     # exit()
     # for image_to_compare, title in all_images_to_compare:
-    for image_url in glob.iglob('../real_images/ali_*'):
+    for image_url in glob.iglob('../test_images/*'):
         image_to_compare = cv2.imread(image_url, 0)
         img_name = image_url.rsplit('/', 1)[1]
+        j = j + 1
         # 2) Check for similarities between the 2 images
         begin_time = time.time()
         kp_2, desc_2 = sift.detectAndCompute(image_to_compare, None)
@@ -59,14 +59,11 @@ for p in np.arange(0.5, 1.05, 0.05):
                 if m.distance < p*n.distance:
                     good_points.append(m)
 
-        number_keypoints = max(len(desc_1),len(desc_2))
-        
-        percentage_similarity = float(len(good_points)) / number_keypoints * 100
         total_time = time.time() - start_time
-        # print("Title: " + title)
-        # print("time desc: %s" %(time.time()-begin_time))
-        # print("--- %s seconds ---" % (time.time() - start_time))
-        print (img_name)
+        number_keypoints = max(len(desc_1),len(desc_2))
+        percentage_similarity = float(len(good_points)) / number_keypoints * 100
+        
+        print("Title: " + img_name + "  is number  " + str(j) + "  :::: for p = " + str(p))
         print("Similarity: " + str(percentage_similarity) + "% \n")
         image_names.append(img_name)
         percent.append(int(percentage_similarity))
@@ -77,9 +74,9 @@ for p in np.arange(0.5, 1.05, 0.05):
         image_names, percent, compute_time_arry, time_for_desc = [list(tup) for tup in zip(*plot_zip)]
         save_zip = zip(image_names,percent, compute_time_arry,time_for_desc)
         
-    fn.save_percentage_to_file('flann/surfn_0_00_correction_flann.csv', save_zip)
-    X = image_names[:8]
-    Y = percent[:8]
+    fn.save_percentage_to_file('../database/flann/surf_flann.csv', save_zip)
+    X = image_names
+    Y = percent
     plt.plot(X, Y, label=p)
     plt.legend()
     print (image_names[:5], percent[:5],p)
@@ -90,4 +87,4 @@ plt.xticks(rotation=30)
 plt.ylabel('percent similarity')   
 # plt.cm.gist_ncar(np.random.random())
 plt.show()
-fig.savefig(title+compare_to_image)
+fig.savefig(title)

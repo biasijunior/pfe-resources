@@ -22,7 +22,7 @@ bf = cv2.BFMatcher()
 title = 'akaze_bf_knn_for'
 fig = plt.figure()
 # Load all the images
-for p in np.arange(0.4, 1.05, 0.05):
+for p in np.arange(0.40, 0.45, 0.05):
     p = round(p,2)
     percent = []
     image_names = []
@@ -30,7 +30,7 @@ for p in np.arange(0.4, 1.05, 0.05):
     time_for_desc = []
     j = 0
 
-    for image_f in glob.iglob("../../real_images/*"):
+    for image_f in glob.iglob("../../test_images/*"):
         image_to_compare = cv2.imread(image_f, 0)
         img_name = image_f.rsplit('/', 1)[1]
         # Match descriptors.

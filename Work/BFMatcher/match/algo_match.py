@@ -16,15 +16,14 @@ TRY MODIFYING THESE PARAMETRES AND ALSO TRY TO MODIFY THE "crossCheck to true/fa
 """
 img_url = '../../real_images/bird_kio.jpeg'
 img1 = cv.imread(img_url, 0) 
-print (img1)
 # img_url.rsplit('/', 1)[1]         # queryImage
 img_url = img_url.rsplit('/', 1)[1]
 compare_to_image = img_url.rsplit('.', 1)[0]
 
 # Initiate ORB detector
-# orb = cv.xfeatures2d.SIFT_create()
-orb = cv.ORB_create()
-algo_name = 'orb_800_modify_real'
+orb = cv.xfeatures2d.SURF_create(5000)
+# orb = cv.AKAZE_create()
+algo_name = 'surf_20'
 # find the keypoints and descriptors with ORB
 kp1, des1 = orb.detectAndCompute(img1, None)
 # create BFMatcher object
@@ -49,7 +48,7 @@ match_distance = []
 print ("sorting matches...")
 j = 0
 
-for image_f in glob.iglob('../../real_images/test/*'):
+for image_f in glob.iglob('../../test_images/*'):
         # print path_to_images
     img = cv.imread(image_f, 0)
         # image = cv2.cvtColor(imag, cv2.COLOR_BGR2GRAY)
@@ -74,9 +73,9 @@ for image_f in glob.iglob('../../real_images/test/*'):
         good_match.append(p1)
 
     matching_time.append(time.time() - extr_match)
-    x = np.arange(15)
+    x = np.arange(len(good_match))
     match_distance.append(good_match)
-    plt.plot(x, good_match[:15], label=img_name)
+    plt.plot(x, good_match, label=img_name)
     plt.legend()
     j = j + 1
 
@@ -85,9 +84,9 @@ for image_f in glob.iglob('../../real_images/test/*'):
 
 zipper = zip(image_names,matching_time,desc_comp_time)
 
-fn.save_descriptors_to_file('match/'+algo_name+'_match_correction_distance_for_'+compare_to_image+'.csv',zipper)
+fn.save_descriptors_to_file('../../database/match/'+algo_name+'_match_correction_distance_for_'+compare_to_image+'.csv',zipper)
 print("finished after:  " + str(time.time()-time_started) + "   :seconds")
-plt.title("compared to " + img_url)
+# plt.title("compared to " + img_url)
 plt.xlabel('number of descriptors')
 plt.ylabel('distance')
 # plt.cm.gist_ncar(np.random.random())

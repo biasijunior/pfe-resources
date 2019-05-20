@@ -30,39 +30,28 @@ index_params = dict(algorithm=FLANN_INDEX_LSH,
 search_params = dict(checks=50)
 flann = cv2.FlannBasedMatcher(index_params, search_params)
 
-# im_g = ['original', 'rot_90', 'cropped', 'lumino', 'rot_45', 'other1',
-#         'other2', 'other3', 'other4', '0ther5', '0ther6', 'other7', 'other8']
-
-# all_images_to_compare = fn.loadimages("../real_images/test/*")
-
-
-
-title = 'orb_flann_for'
+title = 'orb_flann'
 fig = plt.figure()
 
-for p in np.arange(0.5, 1.05, 0.05):
+for p in np.arange(0.40, 0.45, 0.05):
     p = round(p,2)
     percent = []
     image_names = []
     compute_time_arry = []
     time_for_desc = []
-    
+    j = 0
     # exit()
     # for image_to_compare, title in all_images_to_compare:
-    for image_url in glob.iglob('../real_images/*'):
+    for image_url in glob.iglob('../test_images/*'):
         image_to_compare = cv2.imread(image_url, 0)
         img_name = image_url.rsplit('/', 1)[1]
-        
-        print(image_url)
+        j= j + 1
 
         # 2) Check for similarities between the 2 images
         begin_time = time.time()
         kp_2, desc_2 = sift.detectAndCompute(image_to_compare, None)
         time_for_desc.append(time.time() - begin_time)
         print ("-----description----")
-       
-        # print (len(desc_2))
-       
         
         start_time = time.time()
         matches = flann.knnMatch(desc_1, desc_2, k=2)
@@ -75,14 +64,11 @@ for p in np.arange(0.5, 1.05, 0.05):
                 if m.distance < p*n.distance:
                     good_points.append(m)
 
-        number_keypoints = max(len(desc_1),len(desc_2))
-        
-        percentage_similarity = float(len(good_points)) / number_keypoints * 100
         total_time = time.time() - start_time
-        # print("Title: " + title)
-        # print("time desc: %s" %(time.time()-begin_time))
-        # print("--- %s seconds ---" % (time.time() - start_time))
-        print (img_name)
+        number_keypoints = max(len(desc_1),len(desc_2))
+        percentage_similarity = float(len(good_points)) / number_keypoints * 100
+        
+        print("Title: " + img_name + "  is number  " + str(j) + "  :::: for p = " + str(p))
         print("Similarity: " + str(percentage_similarity) + "% \n")
         image_names.append(img_name)
         percent.append(int(percentage_similarity))
@@ -112,4 +98,4 @@ plt.xticks(rotation=30)
 plt.ylabel('percent similarity')   
 # plt.cm.gist_ncar(np.random.random())
 plt.show()
-fig.savefig(title+compare_to_image)
+fig.savefig(title)
