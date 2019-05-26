@@ -36,9 +36,9 @@ class Matching_Algorithm:
             else:
                 raise Exception("object not created")
             
-            print algorithm + " object successfully created"
+            print (algorithm + " object successfully created")
         except Exception as error:
-            print repr(error) + "\nError on algorith_name, ENTER a valid algorithm name e.g ORB, SIFT etc"
+            print (repr(error) + "\nError on algorith_name, ENTER a valid algorithm name e.g ORB, SIFT etc")
             exit()
 
 
@@ -52,9 +52,9 @@ class Matching_Algorithm:
                 self.matcher_obj = cv2.FlannBasedMatcher(index_params, search_params)
             else:
                 raise Exception("Wrong matcher!")
-            print "You have chosen "+ matcher_obj + "matcher"
+            print ("You have chosen "+ matcher_obj + "matcher")
         except Exception as error:
-            print repr(error) + "\n enter bf or flann"
+            print (repr(error) + "\n enter bf or flann")
             exit()
 
 
@@ -78,7 +78,7 @@ class Matching_Algorithm:
             imag = cv2.imread(f)
             image = cv2.cvtColor(imag, cv2.COLOR_BGR2GRAY)
             titles.append(f.rsplit('/', 1)[1])
-            print i,
+            print (i),
             sys.stdout.flush()
             all_images_to_compare.append(image)
             i += 1
@@ -139,10 +139,10 @@ class Matching_Algorithm:
                 # creating an array of decriptors
                 array_des.append(desc_2)
                 remaing = j/float(len(titles)) * 100
-                print int(remaing), '|',
+                print (int(remaing), '|'),
                 j = j + 1
                 sys.stdout.flush()
-                print titles + 'have fan'
+                print (titles + 'have fan')
         #creating a zipped object of image descriptors with their titles
         zipped_data = zip(array_des, titles)
         # creating a .pkl database
@@ -162,7 +162,7 @@ class Matching_Algorithm:
         print('reading descriptors from a file')
         zipped_obj = pickle.load(pkl_file)
 
-        print zipped_obj
+        print (zipped_obj)
         pkl_file.close()
 
         percent = []
@@ -258,7 +258,7 @@ algo = ['sift']
 
 
 for algo_name in algo:
-     print algo_name
+     print (algo_name)
      sift = Matching_Algorithm(algo_name, "../images/train/arabic.jpg", 'bf', "../images/testBooks/condame/*")
 #     # sift = Matching_Algorithm(algo_name, "../images/train/butterfly.jpg", matcher, "../images/testBooks/butterfly/*")
 #     # sift = Matching_Algorithm(algo_name , "../images/train/condame.jpg", matcher, "../images/testBooks/condame/*")
