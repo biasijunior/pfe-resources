@@ -6,10 +6,14 @@ import sys
 sys.path.append('../../')
 from functions import functions as fn
 import time
+import BFMatcher.urls as url
 
 algo_start_time = time.time()
 transformed = 0
-for test_image_url in glob.iglob("../../real_images/*"):
+image_urls = url.get_test_image_url()
+original_images_urls = url.get_original_urls()
+
+for test_image_url in glob.iglob(image_urls):
     transformed = transformed + 1
     test_image = cv2.imread(test_image_url, 0)
     test_image_name = test_image_url.rsplit('/', 1)[1]
@@ -22,17 +26,19 @@ for test_image_url in glob.iglob("../../real_images/*"):
     title = 'sift_bf_knn_for_ '
     fig = plt.figure()
     # Load all the images
-    for p in np.arange(0.4, 1.05, 0.05):
-        j = 0
+    for p in np.arange(0.40, 0.45, 0.05):
+        p = 0.7
         p = round(p,2)
         percent = []
         image_names = []
         compute_time_arry = []
         time_for_desc = []
+        j = 0
 
-        for image_f in glob.iglob("../../original_images/*"):
+        for image_f in glob.iglob(original_images_urls):
             image_to_compare = cv2.imread(image_f, 0)
             img_name = image_f.rsplit('/', 1)[1]
+            img_name = img_name.rsplit('.', 1)[0]
             # Match descriptors.
             begin_time = time.time()
             j = j + 1
@@ -72,21 +78,21 @@ for test_image_url in glob.iglob("../../real_images/*"):
             save_zip = zip(image_names,percent, compute_time_arry,time_for_desc)
             
     
-        fn.save_percentage_to_file('../../database/knnMatch/sift_bf_knn_c.csv', save_zip)
-        X = image_names[:4]
-        Y = percent[:4]
+        fn.save_percentage_to_file('../../database/knnMatch/sift_bf_knn.csv', save_zip)
+        X = image_names[:3]
+        Y = percent[:3]
         plt.plot(X, Y, label=p)
         plt.legend()
-        print (image_names[:4], percent[:4],p)
+        print (image_names[:3], percent[:3],p)
         print ("---------------------------------------------------------------------------------")
     print("The total execution time for sift is :  %s seconds" % (time.time() - algo_start_time)) 
     plt.xlabel('images')
-    plt.xticks(rotation=30)
+    # plt.xticks(rotation=-40)
     plt.ylabel('percent similarity')   
 
     # plt.show()
     fig.savefig(title+test_image_name)
 print ("--------------------------------------END-------------------------------------------")
-print("The total execution time for orb is :  %s seconds" % (time.time() - algo_start_time)) 
+print("The total execution time for sift bf knn is :  %s seconds" % (time.time() - algo_start_time)) 
 
 

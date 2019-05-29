@@ -6,40 +6,35 @@ import sys
 sys.path.append('../../')
 from functions import functions as fn
 import time
-import BFMatcher.urls as url
 
 algo_start_time = time.time()
 transformed = 0
-image_urls = url.get_test_image_url()
-original_images_urls = url.get_original_urls()
-
-for test_image_url in glob.iglob(image_urls):
+for test_image_url in glob.iglob("../../real_images/400_90.jpeg"):
     transformed = transformed + 1
     test_image = cv2.imread(test_image_url, 0)
     test_image_name = test_image_url.rsplit('/', 1)[1]
     test_image_name = test_image_name.rsplit('.', 1)[0]
     
-    sift = cv2.AKAZE_create()
+    sift = cv2.xfeatures2d.SIFT_create()
     kp_1, desc_1 = sift.detectAndCompute(test_image, None)
-   
-    print ('akaze started')
+    print ('sift started')
     bf = cv2.BFMatcher()
-
-    title = 'akaze_bf_knn_for_'
+    title = 'sift_bf_knn_for_ '
     fig = plt.figure()
     # Load all the images
-    for p in np.arange(0.40, 0.45, 0.05):
-        p =  0.75
+    for p in np.arange(0.4, 0.45, 0.05):
+        j = 0
         p = round(p,2)
         percent = []
         image_names = []
         compute_time_arry = []
         time_for_desc = []
-        j = 0
 
-        for image_f in glob.iglob(original_images_urls):
-            image_to_compare = cv2.imread(image_f, 0)
-            img_name = image_f.rsplit('/', 1)[1]
+        # train_images_url = 
+        for image_to_compare, img_name in fn.loadimages("../../original_images/*"):
+        # for image_f in glob.iglob("../../original_images/*"):
+        #     image_to_compare = cv2.imread(image_f, 0)
+        #     img_name = image_f.rsplit('/', 1)[1]
             # Match descriptors.
             begin_time = time.time()
             j = j + 1
@@ -51,7 +46,7 @@ for test_image_url in glob.iglob(image_urls):
             start_time = time.time()
             matches = bf.knnMatch(desc_1, desc_2, k=2)
             good_points = []
-            
+
             for m, n in matches:
                 if m.distance < p*n.distance:
                     good_points.append(m)
@@ -60,11 +55,10 @@ for test_image_url in glob.iglob(image_urls):
                 number_keypoints = len(kp_1)
             else:
                 number_keypoints = len(kp_1)
-
+                
             total_time = time.time() - start_time
             number_keypoints = max(len(desc_1),len(desc_2))
             percentage_similarity = float(len(good_points)) / number_keypoints * 100
-            
 
             print("Title: " + img_name + "  is number  " + str(j) + "  :::: and p = " + str(p) + " for transformed image ("+test_image_name+") number ::: " + str(transformed))
             print("--- %s seconds ---" % (time.time() - start_time))
@@ -78,21 +72,23 @@ for test_image_url in glob.iglob(image_urls):
             image_names, percent, compute_time_arry, time_for_desc = [list(tup) for tup in zip(*plot_zip)]
 
             save_zip = zip(image_names,percent, compute_time_arry,time_for_desc)
+            
     
-        fn.save_percentage_to_file('../../database/knnMatch/akaze_bf_knn.csv', save_zip)
-        X = image_names[:3]
-        Y = percent[:3]
+        fn.save_percentage_to_file('../../database/knnMatch/sift_bf_knn_c.csv', save_zip)
+        X = image_names[:4]
+        Y = percent[:4]
         plt.plot(X, Y, label=p)
         plt.legend()
-        print (image_names[:3], percent[:3],p)
+        print (image_names[:4], percent[:4],p)
         print ("---------------------------------------------------------------------------------")
+    print("The total execution time for sift is :  %s seconds" % (time.time() - algo_start_time)) 
     plt.xlabel('images')
-    # plt.xticks(rotation=-40)
+    plt.xticks(rotation=210)
     plt.ylabel('percent similarity')   
 
     # plt.show()
     fig.savefig(title+test_image_name)
 print ("--------------------------------------END-------------------------------------------")
-print("The total execution time for akaze bf knn is :  %s seconds" % (time.time() - algo_start_time)) 
+print("The total execution time for orb is :  %s seconds" % (time.time() - algo_start_time)) 
 
 

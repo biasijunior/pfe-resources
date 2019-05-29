@@ -8,23 +8,24 @@ import os
 
 def loadimages(path_to_images):
     all_images_to_compare = []
-    titles = []
+    image_names = []
     i = 1
 
     print("loading images \r")
     # print path_to_images
 
-    for f in glob.iglob(path_to_images):
-        # print path_to_images
-        image = cv2.imread(f,0)
+    for image_url in glob.iglob(path_to_images):
+        image = cv2.imread(image_url,0)
         # image = cv2.cvtColor(imag, cv2.COLOR_BGR2GRAY)
-        titles.append(f.rsplit('/', 1)[1])
-        print (i),
+        image_name = image_url.rsplit('/', 1)[1]
+        image_name = image_name.rsplit('.', 1)[0]
+        print(i)
+        image_names.append(image_name)
         sys.stdout.flush()
         all_images_to_compare.append(image)
         i += 1
     
-    return zip(all_images_to_compare, titles)
+    return zip(all_images_to_compare, image_names)
 
 
 def save_descriptors_to_file(file_name,zipped_file):

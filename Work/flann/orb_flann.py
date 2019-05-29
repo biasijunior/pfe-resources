@@ -6,10 +6,14 @@ import time
 import sys
 sys.path.append('..')
 import functions.functions as fn
+import urls as url
 
 algo_start_time = time.time()
+image_urls = url.get_test_image_url()
+original_images_urls = url.get_original_urls()
 transformed = 0
-for test_image_url in glob.iglob("../real_images/*"):
+
+for test_image_url in glob.iglob(image_urls):
     transformed = transformed + 1
     test_image = cv2.imread(test_image_url, 0)
     test_image_name = test_image_url.rsplit('/', 1)[1]
@@ -33,7 +37,8 @@ for test_image_url in glob.iglob("../real_images/*"):
     title = 'orb_flann_'
     fig = plt.figure()
 
-    for p in np.arange(0.40, 1.05, 0.05):
+    for p in np.arange(0.40, 0.45, 0.05):
+        p=0.63
         p = round(p,2)
         percent = []
         image_names = []
@@ -42,7 +47,7 @@ for test_image_url in glob.iglob("../real_images/*"):
         j = 0
         # exit()
         # for image_to_compare, title in all_images_to_compare:
-        for image_url in glob.iglob('../original_images/*'):
+        for image_url in glob.iglob(original_images_urls):
             image_to_compare = cv2.imread(image_url, 0)
             img_name = image_url.rsplit('/', 1)[1]
             j= j + 1
@@ -85,12 +90,12 @@ for test_image_url in glob.iglob("../real_images/*"):
             # list(percent)
             # print plot_zip
     
-        fn.save_percentage_to_file('../database/flann/orb_flann_c.csv', save_zip)
-        X = image_names[:4]
-        Y = percent[:4]
+        fn.save_percentage_to_file('../database/flann/orb_flann.csv', save_zip)
+        X = image_names[:3]
+        Y = percent[:3]
         plt.plot(X, Y, label=p)
         plt.legend()
-        print (image_names[:5], percent[:5],p)
+        print (image_names[:3], percent[:3],p)
         print ("---------------------------------------------------------------------------------")
     # print("The total execution time is :  %s seconds" % (time.time() - algo_start_time)) 
     plt.xlabel('images')
