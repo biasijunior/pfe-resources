@@ -108,7 +108,7 @@ def build_similarity_matrix(dir_name, algorithm='SIFT'):
     sm = np.zeros(shape=(num_images, num_images), dtype=np.float64)
     np.fill_diagonal(sm, 1.0)
 
-    print images
+    # print (images)
     print("Building the similarity matrix using %s algorithm for %d images" %
           (algorithm, num_images))
     start_total = datetime.datetime.now()
@@ -119,9 +119,7 @@ def build_similarity_matrix(dir_name, algorithm='SIFT'):
         for j in range(sm.shape[1]):
             j = j + k
             if i != j and j < sm.shape[1]:
-                print "biasi before"
                 sm[i][j] = get_image_similarity('%s/%s' % (dir_name, images[i]),'%s/%s' % (dir_name, images[j]), algorithm = algorithm )
-                print "biasi after"
         k += 1
 
     # Adding the transposed matrix and subtracting the diagonal to obtain
@@ -155,7 +153,7 @@ def get_cluster_metrics(X, labels, labels_true=None):
         metrics_dict['Completeness score'] = metrics.completeness_score(labels_true, labels)
         metrics_dict['Homogeneity score'] = metrics.homogeneity_score(labels_true, labels)
 
-        print "let me... do ...siht "
+        print ("let me... do ...siht ")
 
     return metrics_dict
 
@@ -166,18 +164,18 @@ def get_cluster_metrics(X, labels, labels_true=None):
 """
 def do_cluster(dir_name, algorithm='SIFT', print_metrics=True, labels_true=None):
     matrix = build_similarity_matrix(dir_name, algorithm=algorithm)
-    print "MATRIX"
-    print matrix
-    print "END MATRIX"
+    print ("MATRIX")
+    print (matrix)
+    print ("END MATRIX")
 
     sc = SpectralClustering(n_clusters=int(matrix.shape[0]/IMAGES_PER_CLUSTER),
                             affinity='precomputed').fit(matrix)
-    print "------/////HERE//////----"
-    print np.unique(sc.labels_)
-    print "------//////------STARTER------///////-------"
+    print ("------/////HERE//////----")
+    print (np.unique(sc.labels_))
+    
     
     sc_metrics = get_cluster_metrics(matrix, sc.labels_, labels_true)
-
+    print ("------//////------STARTER------///////-------")
     # if print_metrics:
     #     print("\nPerformance metrics for Spectral Clustering")
     #     print("Number of clusters: %d" % len(set(sc.labels_)))
@@ -185,28 +183,31 @@ def do_cluster(dir_name, algorithm='SIFT', print_metrics=True, labels_true=None)
 
     af = AffinityPropagation(affinity='precomputed').fit(matrix)
     af_metrics = get_cluster_metrics(matrix, af.labels_, labels_true)
-    print sc_metrics
-    print "---starter biasi---"
+    print (sc_metrics)
+    print ("---starter biasi---")
     # if print_metrics:
     #     print("\nPerformance metrics for Affinity Propagation Clustering")
     #     print("Number of clusters: %d" % len(set(af.labels_)))
     #     [print("%s: %.2f" % (k, af_metrics[k])) for k in list(af_metrics.keys())]
 
-    if (sc_metrics['Silhouette coefficient'] >= af_metrics['Silhouette coefficient']) and \
-            (sc_metrics['Completeness score'] >= af_metrics['Completeness score'] or
-             sc_metrics['Homogeneity score'] >= af_metrics['Homogeneity score']):
-        print("\nSelected Spectral Clustering for the labeling results")
-        return sc.labels_
-    else:
-        print("\nSelected Affinity Propagation for the labeling results")
-        return af.labels_
+    # if (sc_metrics['Silhouette coefficient'] >= af_metrics['Silhouette coefficient']) and \
+    #         (sc_metrics['Completeness score'] >= af_metrics['Completeness score'] or
+    #          sc_metrics['Homogeneity score'] >= af_metrics['Homogeneity score']):
+    #     print("\nSelected Spectral Clustering for the labeling results")
+    #     return sc.labels_
+    # else:
+    print("\nSelected Affinity Propagation for the labeling results")
+    return af.labels_
 
 
 img1 = '../images/train/arabic.jpg'
 img2 = '../images/train/condame.jpg'
+img1 ='../images/test/'
 
-TRUE_LABELS = [0, 1, 2, 1, 0, 1, 3, 3, 3, 3, 3, 1, 0, 2, 2, 1, 2, 0, 2, 2]
+TRUE_LABELS = [0, 1, 2, 1, 0, 1, 3, 3, 3, 3, 3, 1]
 # print img2
 # get_image_similarity(img1, img2, algorithm='SIFT')
-# build_similarity_matrix("../images/train/", algorithm='SIFT')
-do_cluster("../images/train/", algorithm='SIFT',print_metrics=True, labels_true=TRUE_LABELS)
+# # # build_similarity_matrix("../images/train/", algorithm='SIFT')
+# lables = do_cluster(img1, algorithm='SIFT',print_metrics=True)
+# print("-----------------after clustering--------------")
+# print(lables)
