@@ -23,8 +23,8 @@ for test_image_url in glob.iglob(url.get_test_image_url()):
     print(test_image_name)
     # exit()
     # Initiate ORB detector
-    # orb = cv2.xfeatures2d.SURF_create(1000)
-    orb = cv2.ORB_create()
+    orb = cv2.xfeatures2d.SURF_create(1000)
+    # orb = cv2.AKAZE_create()
     algo_name = 'surf_'
     # find the keypoints and descriptors with ORB
     kp1, des1 = orb.detectAndCompute(test_image, None)
@@ -116,6 +116,7 @@ for test_image_url in glob.iglob(url.get_test_image_url()):
     zipper = zip(image_names,matching_time,desc_comp_time)
 
     fn.save_descriptors_to_file('../../database/match/'+algo_name+'_match_'+test_image_name+'.csv',zipper)
+    # fn.save_descriptors_to_file('../../database/surf_new_match.csv',zipper)
     print("finished after:  " + str(time.time()-time_started) + "   :seconds")
     # plt.title("compared to " + img_url)
     plt.plot(orig_X, original_image, 'b',label=matche_img_name)
@@ -126,8 +127,6 @@ for test_image_url in glob.iglob(url.get_test_image_url()):
     # plt.show()
 
     fig.savefig(title+test_image_name)
-    if(transformed == 3):
-        exit()
     # figure.suptitle('test title', fontsize=20)
     # plt.xlabel('xlabel', fontsize=18)
     # plt.ylabel('ylabel', fontsize=16)

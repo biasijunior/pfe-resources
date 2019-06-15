@@ -7,7 +7,7 @@ sys.path.append('../../')
 from functions import functions as fn
 import time
 import BFMatcher.urls as url
-
+image_to_plot =['original','other1','other2','other3','other4']
 algo_start_time = time.time()
 transformed = 0
 image_urls = url.get_test_image_url()
@@ -28,8 +28,8 @@ for test_image_url in glob.iglob(image_urls):
     title = 'akaze_bf_knn_for_'
     fig = plt.figure()
     # Load all the images
-    for p in np.arange(0.40, 0.45, 0.05):
-        p =  0.75
+    for p in np.arange(0.40, 1.05, 0.05):
+        # p =  0.75
         p = round(p,2)
         percent = []
         image_names = []
@@ -81,8 +81,8 @@ for test_image_url in glob.iglob(image_urls):
     
         fn.save_percentage_to_file('../../database/knnMatch/akaze_bf_knn.csv', save_zip)
         X = image_names[:3]
-        Y = percent[:3]
-        plt.plot(X, Y, label=p)
+        Y = percent[:5]
+        plt.plot(image_to_plot, Y, label=p)
         plt.legend()
         print (image_names[:3], percent[:3],p)
         print ("---------------------------------------------------------------------------------")

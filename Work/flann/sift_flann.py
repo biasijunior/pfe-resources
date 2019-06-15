@@ -11,6 +11,7 @@ import urls as url
 algo_start_time = time.time()
 image_urls = url.get_test_image_url()
 original_images_urls = url.get_original_urls()
+image_to_plot =['original','other1','other2','other3','other4']
 
 transformed = 0
 for test_image_url in glob.iglob(image_urls):
@@ -31,8 +32,8 @@ for test_image_url in glob.iglob(image_urls):
 
     title = 'sift_flann_'
     fig = plt.figure()
-    for p in np.arange(0.40, 0.45, 0.05):
-        p = 0.7
+    for p in np.arange(0.40, 1.05, 0.05):
+        # p = 0.7
         p = round(p,2)
         percent = []
         image_names = []
@@ -66,7 +67,7 @@ for test_image_url in glob.iglob(image_urls):
             number_keypoints = max(len(desc_1),len(desc_2))
             percentage_similarity = float(len(good_points)) / number_keypoints * 100
             
-            print("Title: " + img_name + "  is number  " + str(j) + "  :::: and p = " + str(p) + " for transformed image ("+test_image_name+") number ::: " + str(transformed))
+            print("Title: " + img_name + "  is number  " + str(j) + "  :::: and p = " + str(p) + " for sift flann transformed image ("+test_image_name+") number ::: " + str(transformed))
             print("Similarity: " + str(percentage_similarity) + "% \n")
             image_names.append(img_name)
             percent.append(int(percentage_similarity))
@@ -79,17 +80,17 @@ for test_image_url in glob.iglob(image_urls):
             
         fn.save_percentage_to_file('../database/flann/sift_flann.csv', save_zip)
         X = image_names[:3]
-        Y = percent[:3]
-        plt.plot(X, Y, label=p)
+        Y = percent[:5]
+        plt.plot(image_to_plot, Y, label=p)
         plt.legend()
         print (image_names[:3], percent[:3],p)
         print ("---------------------------------------------------------------------------------")
     print("The total execution time is :  %s seconds" % (time.time() - algo_start_time)) 
     plt.xlabel('images')
-    plt.xticks(rotation=-40)
+    # plt.xticks(rotation=-40)
     plt.ylabel('percent similarity')   
     # plt.cm.gist_ncar(np.random.random())
     # plt.show()
     fig.savefig(title+test_image_name)
 print ("----------------------------------END-----------------------------------------------")
-print("The total execution time is :  %s seconds" % (time.time() - algo_start_time)) 
+print("The total execution sift time is :  %s seconds" % (time.time() - algo_start_time)) 

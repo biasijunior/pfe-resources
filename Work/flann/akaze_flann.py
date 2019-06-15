@@ -13,6 +13,8 @@ algo_start_time = time.time()
 transformed = 0
 image_urls = url.get_test_image_url()
 original_images_urls = url.get_original_urls()
+image_to_plot =['original','other1','other2','other3','other4']
+
 
 for test_image_url in glob.iglob(image_urls):
     transformed = transformed + 1
@@ -35,8 +37,8 @@ for test_image_url in glob.iglob(image_urls):
     title = 'akaze_flann_ '
     fig = plt.figure()
 
-    for p in np.arange(0.40, 0.45, 0.05):
-        p= 0.68
+    for p in np.arange(0.40, 1.05, 0.05):
+        # p= 0.68
         p = round(p,2)
         percent = []
         image_names = []
@@ -82,14 +84,14 @@ for test_image_url in glob.iglob(image_urls):
 
         fn.save_percentage_to_file('../database/flann/akaze_flann.csv', save_zip)
         X = image_names[:3]
-        Y = percent[:3]
-        plt.plot(X, Y, label=p)
+        Y = percent[:5]
+        plt.plot(image_to_plot, Y, label=p)
         plt.legend()
         print (image_names[:3], percent[:3],p)
         print ("---------------------------------------------------------------------------------")
     # print("The total execution time is :  %s seconds" % (time.time() - algo_start_time)) 
     plt.xlabel('images')
-    plt.xticks(rotation=-40)
+    # plt.xticks(rotation=-40)
     plt.ylabel('percent similarity')   
     # plt.cm.gist_ncar(np.random.random())
     # plt.show()
