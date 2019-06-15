@@ -34,6 +34,7 @@ from sklearn.cluster import SpectralClustering, AffinityPropagation
 from sklearn import metrics
 from pprint import pprint
 import save_cluster as sc
+import pickle
 
 
 # Constant definitions
@@ -51,25 +52,26 @@ IMAGES_PER_CLUSTER = 5
 """
 def get_image_similarity(img1, img2, algorithm='SIFT'):
     # Converting to grayscale and resizing
-    i1 = cv2.resize(cv2.imread(img1, cv2.IMREAD_GRAYSCALE), SIM_IMAGE_SIZE)
-    i2 = cv2.resize(cv2.imread(img2, cv2.IMREAD_GRAYSCALE), SIM_IMAGE_SIZE)
+    # i1 = cv2.resize(cv2.imread(img1, cv2.IMREAD_GRAYSCALE), SIM_IMAGE_SIZE)
+    # i2 = cv2.resize(cv2.imread(img2, cv2.IMREAD_GRAYSCALE), SIM_IMAGE_SIZE)
 
 
-    # i1 = cv2.imread(img1, 0)
-    # i2 = cv2.imread(img2, 0)
+    i1 = cv2.imread(img1, 0)
+    i2 = cv2.imread(img2, 0)
 
 
     similarity = 0.0
 
     if algorithm == 'SIFT':
         # Using OpenCV for feature detection and matching
-        # sift = cv2.xfeatures2d.SIFT_create()
-        sift = cv2.ORB_create()
+        sift = cv2.xfeatures2d.SIFT_create()
+        # sift = cv2.ORB_create()
 
         k1, d1 = sift.detectAndCompute(i1, None)
         k2, d2 = sift.detectAndCompute(i2, None)
 
         bf = cv2.BFMatcher()
+
         matches = bf.knnMatch(d1, d2, k=2)
 
         for m, n in matches:
@@ -108,8 +110,21 @@ def get_image_similarity(img1, img2, algorithm='SIFT'):
 # Fetches all images from the provided directory and calculates the similarity
 # value per image pair.
 def build_similarity_matrix(dir_name, algorithm='SIFT'):
-    images = os.listdir(dir_name)
-    num_images = len(images)
+    print(dir_name)
+    pkl_file = open(dir_name, 'rb')
+# get zipped object
+    print('reading descriptors from a file')
+    zipped_obj = pickle.load(pkl_file)
+    pkl_file.close()
+
+    
+    # c,p = zip(zipped_obj)
+    # print(len(c))
+    image_names, percent = [list(tup) for tup in zip(*zipped_obj)]
+    print("the legth is length::::::::",len(percent))
+
+    # images = os.listdir(dir_name)
+    num_images = len(image_names)
     sm = np.zeros(shape=(num_images, num_images), dtype=np.float64)
     np.fill_diagonal(sm, 1.0)
 
@@ -121,7 +136,6 @@ def build_similarity_matrix(dir_name, algorithm='SIFT'):
     # later for filling the empty cells.
     k = 0
     for i in range(sm.shape[0]):
-        print("image number %d out of %d" %(i+1,num_images))
         for j in range(sm.shape[1]):
             j = j + k
             if i != j and j < sm.shape[1]:
@@ -204,27 +218,21 @@ def do_cluster(dir_name, algorithm='SIFT', print_metrics=True, labels_true=None)
     #     return sc.labels_
     # else:
     print("\nSelected Affinity Propagation for the labeling results")
-    print(af_metrics)
-    print("\nsome_thing\n")
-    # print("Homogeneity: %0.3f" % metrics.homogeneity_score(labels_true, af.labels_))
-    pprint(af.cluster_centers_indices_)
-    
-    print("that was the center")
-
-    return af.labels_, af.cluster_centers_indices_
+    print(af)
+    print("some_thing")
+    pprint(af)
+    return af.labels_
 
 
-# img1 = '../images/train/arabic.jpg'
+img1 = '../database/descriptors/orb_descriptors.pkl'
 # img2 = '../images/train/condame.jpg'
-# img1 ='../images/train/'
+# img1 ='../images/test/'
 
-# TRUE_LABELS = [0, 1, 2, 1, 0, 1, 3, 3, 3, 3, 1]
+# TRUE_LABELS = [0, 1, 2, 1, 0, 1, 3, 3, 3, 3, 3, 1]
 
 # print img2
 # get_image_similarity(img1, img2, algorithm='SIFT')
-# # # build_similarity_matrix("../images/train/", algorithm='SIFT')
-# lables, cent = do_cluster(img1, algorithm='SIFT',print_metrics=True)
+build_similarity_matrix(img1, algorithm='SIFT')
+# lables = do_cluster(img1, algorithm='SIFT',print_metrics=True)
 # print("-----------------after clustering--------------")
 # print(lables)
-# print('centeres')
-# print(cent)

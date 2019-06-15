@@ -30,7 +30,7 @@ import imgcluster
 from matplotlib import pyplot as plt
 import save_cluster as clusters
 
-DIR_NAME = '../images/train/'
+DIR_NAME = '../Work/test_images/'
 
 # Demo for clustering a set of 20 images using 'imgcluster' module.
 # To be executed in the standalone mode by default. IP[y] Notebook requires some minor adjustments.
@@ -41,47 +41,105 @@ DIR_NAME = '../images/train/'
 """
 TRUE_LABELS = [0, 1, 2, 1, 0, 1, 3, 3, 3, 3, 3, 1, 0, 2, 2, 1, 2, 0, 2, 2]
 
-# if __name__ == "__main__":
-#     c = imgcluster.do_cluster(DIR_NAME, algorithm='SIFT', print_metrics=True, labels_true=None)
-#     clusters.save_clusters(c,'cluster.pkl')
+if __name__ == "__main__":
+    # matrix = imgcluster.build_similarity_matrix(DIR_NAME, algorithm='SIFT')
+    # clusters.save_matrix(matrix,'ap_matrix.pkl')
+    cluster_labels , center_indexs = imgcluster.do_cluster(DIR_NAME, algorithm='SIFT', print_metrics=True, labels_true=None)
+    
+    clusters.save_clusters(cluster_labels,'orb_cluster_obj.pkl')
+    clusters.save_clusters(center_indexs,'orb_centers.pkl')
 
-#     num_clusters = len(set(c))
-#     images = os.listdir(DIR_NAME)
-#     print(type(images))
-#     print(images)
-   
-#     for n in range(num_clusters):
-#         print("\n --- Images from cluster #%d ---" % n)
+    num_clusters = len(set(cluster_labels))
+    images = os.listdir(DIR_NAME)
+    print(type(images))
+    print(images)
+    # colors = cycle('bgrcmykbgrcmykbgrcmykbgrcmyk')
+    for k in range(num_clusters):
+        class_members = cluster_labels == k
+        name=[]
+        for i in np.argwhere(cluster_labels == k):
+            j = i[0]
+            name.append(j)
+        cluster_center = cluster_labels[center_indexs[k]]
+        print(cluster_center)
+        print("Image %s" % images[center_indexs[k]])
+        print("something funny")
+        print(name)
+        # cluster_center = X[cluster_centers_indices[k]]
 
-#         for i in np.argwhere(c == n):
-#             if i != -1:
-                
-#                 # print("Image %s" % images[i])
-#                 img = cv2.imread('%s/%s' % (DIR_NAME, images[i]))
-#                 plt.axis('off')
-#                 plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-#                 plt.show()
 
-
-
-c = clusters.read_clusters('cluster.pkl')
-num_clusters = len(set(c))
-images = os.listdir(DIR_NAME)
-print(type(images))
-# print(images[0])
-
-for n in range(num_clusters):
+    for n in range(num_clusters):
         print("\n --- Images from cluster #%d ---" % n)
+        
 
         for i in np.argwhere(c == n):
-            print(i)
-            if i != -1:
-                print(type(i))
-                print("Image %s" % images)
-                img = cv2.imread('%s/%s' % (DIR_NAME, images[n]))
-                plt.axis('off')
-                plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-                # plt.show()
+            # if i != -1:
+            j = i[0]
+#           name.append(j)
+#           print("Image %s" % images[j])
+                
+            print("Image %s" % images[j])
+                # img = cv2.imread('%s/%s' % (DIR_NAME, images[i]))
+                # plt.axis('off')
+# #                 plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+# # #                 plt.show()
 
 
+# img1 = cv2.imread('../Work/original_images/adam_orig.jpeg')
+# sift = cv2.ORB_create()
+# bf = cv2.BFMatcher()
+# kp_1, desc_1 = sift.detectAndCompute(img1, None)
+# c = clusters.read_clusters('orb_cluster_obj.pkl')
+
+# num_clusters = len(set(c))
+# images = os.listdir(DIR_NAME)
+# print(type(images))
+# print(c)
+# # print(images)
+
+
+# for n in range(num_clusters):
+#         print("\n --- Images from cluster #%d ---" % n)
+#         # print(np.argwhere(c==n))
+#         # print('biasi')
+
+#         name = "{}_{}".format("cluster_num", n)
+#         name = []
+        
+#         for i in np.argwhere(c == n):
+#             # print(j)
+#             j = i[0]
+#             name.append(j)
+#             print("Image %s" % images[j])
+            
+#             # print(j)
+#         print(name[0])
+#         # print("Image %s" % images[n])
+#         # img = cv2.imread('%s/%s' % (DIR_NAME, images[name[0]]))
+#         # kp_2, desc_2 = sift.detectAndCompute(img, None)
+
+#         # matches = bf.knnMatch(desc_1, desc_2, k=2)
+#         # good_points = []
+        
+#         # for m, n in matches:
+#         #     if m.distance < 0.7*n.distance:
+#         #         good_points.append(m)
+#         # number_keypoints = 0
+#         # if len(kp_1) <= len(kp_2):
+#         #     number_keypoints = len(kp_1)
+#         # else:
+#         #     number_keypoints = len(kp_1)
+#         # # total_time = time.time() - start_time
+#         # number_keypoints = max(len(desc_1),len(desc_2))
+#         # percentage_similarity = float(len(good_points)) / number_keypoints * 100
+#         # print(percentage_similarity)
+#             # if i != -1:
+#                 # print("Image %s" % images[j])
+#                 # img = cv2.imread('%s/%s' % (DIR_NAME, images[j]))
+#                 # plt.axis('off')
+#                 # # j = j +1
+#                 # plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
+#                 # plt.show()
+        
+# print(name)
 

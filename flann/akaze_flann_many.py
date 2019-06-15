@@ -3,7 +3,6 @@ import numpy as np
 import glob
 from matplotlib import pyplot as plt
 import time
-import winsound
 import functions as fn
 
 
@@ -14,7 +13,7 @@ original = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 # kaze and Flann
 # begin_time = time.time()
-kaze = cv2.xfeatures2d.SURF_create(10000)
+kaze = cv2.xfeatures2d.SURF_create(1000)
 # kaze = cv2.ORB_create()
 kp_1, desc_1 = kaze.detectAndCompute(original, None)
 
@@ -33,7 +32,7 @@ flann = cv2.BFMatcher()
 percent = []
 image = []
 compute_time_arry = []
-all_images_to_compare = fn.loadimages("../images/testBooks/test/*")
+all_images_to_compare = fn.loadimages("../images/testBooks/butterfly/*")
 
 
 # init_start_time = time.time()
@@ -90,7 +89,7 @@ for image_to_compare, title in all_images_to_compare:
 
     # plt.imshow(img3,), plt.show()
 zipped = zip(image,percent,compute_time_arry)
-fn.save_stats_to_file('surf_new_correct.csv',zipped)
-winsound.MessageBeep()
+fn.save_stats_to_file('surf_new_correctt.csv',zipped)
+
 
 
