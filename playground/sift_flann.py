@@ -63,32 +63,44 @@ def get_image_similarity(img1, img2, algorithm='SIFT'):
 
     if algorithm == 'SIFT':
         # Using OpenCV for feature detection and matching
-        # sift = cv2.xfeatures2d.SIFT_create()
-        sift = cv2.AKAZE_create()
+        sift = cv2.xfeatures2d.SIFT_create()
+        # sift = cv2.ORB_create()
 
         k1, d1 = sift.detectAndCompute(i1, None)
         k2, d2 = sift.detectAndCompute(i2, None)
+        #bf
+        # bf = cv2.BFMatcher()
+        #flann
+        FLANN_INDEX_KDTREE = 0
+        index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
+        search_params = dict(checks=50)
 
-        bf = cv2.BFMatcher()
-        matches = bf.match(d1, d2)
+        flann = cv2.FlannBasedMatcher(index_params, search_params)
+        matches = flann.knnMatch(d1, d2, k=2)
+        #normal match
+        #matches = bf.match(d1, d2)
 
+        #flann match
+        for m_n in matches:
+                if len(m_n) != 2:
+                    continue
+                (m,n) = m_n
+                if m.distance < 0.7*n.distance:
+                    similarity +=1.0
+        #bf knn match
         # for m, n in matches:
         #     if m.distance < SIFT_RATIO * n.distance:
         #         similarity += 1.0
-        matches = sorted(matches, key=lambda x: x.distance)
-        for i in range(0,len(matches)):
-            
-            p1 = matches[i].distance
-            # print p1
-            if p1 <= 250:
-                similarity += 1.0
-        #         good_match.append(p1)
-        
 
-        # if(sum(good_match) <= minimum_distance):
-        #     minimum_distance = sum(good_match)
-        #     original_image = good_match
-        #     matche_img_name = img_name
+        #normal match
+        # matches = sorted(matches, key=lambda x: x.distance)
+        # for i in range(0,len(matches)):
+            
+        #     p1 = matches[i].distance
+        #     # print p1
+        #     if p1 <= 250:
+        #         similarity += 1.0        
+
 
         # Custom normalization for better variance in the similarity matrix
         if similarity == len(matches):
@@ -225,19 +237,3 @@ def do_cluster(dir_name, algorithm='SIFT', print_metrics=True, labels_true=None)
     print("that was the center")
 
     return af.labels_, af.cluster_centers_indices_
-
-
-# img1 = '../images/train/arabic.jpg'
-# img2 = '../images/train/condame.jpg'
-# img1 ='../images/train/'
-
-# TRUE_LABELS = [0, 1, 2, 1, 0, 1, 3, 3, 3, 3, 1]
-
-# print img2
-# get_image_similarity(img1, img2, algorithm='SIFT')
-# # # build_similarity_matrix("../images/train/", algorithm='SIFT')
-# lables, cent = do_cluster(img1, algorithm='SIFT',print_metrics=True)
-# print("-----------------after clustering--------------")
-# print(lables)
-# print('centeres')
-# print(cent)

@@ -29,9 +29,11 @@ import cv2
 import imgcluster
 from matplotlib import pyplot as plt
 import save_cluster as clusters
+import time
+import pickle
+DIR_NAME = '../Work/original_images/'
 
-DIR_NAME = '../Work/test_images/'
-
+start_time = time.time()
 
 # Demo for clustering a set of 20 images using 'imgcluster' module. ../images/train/ ../images/train/
 # To be executed in the standalone mode by default. IP[y] Notebook requires some minor adjustments.
@@ -67,33 +69,76 @@ TRUE_LABELS = [0, 1, 2, 1, 0, 1, 3, 3, 3, 3, 3, 1, 0, 2, 2, 1, 2, 0, 2, 2]
 # #                 plt.show()
 
 
-def get_percent_similarity(img):
-    kp_2, desc_2 = sift.detectAndCompute(img, None)
+def get_percent_similarity(desc_2):
+    # kp_2, desc_2 = sift.detectAndCompute(img, None)
 
-    matches = bf.knnMatch(desc_1, desc_2, k=2)
-    good_points = []
+    # matches = bf.knnMatch(desc_1, desc_2, k=2)
+    # good_points = []
     
-    for m, p in matches:
-        if m.distance < 0.7*p.distance:
-            good_points.append(m)
-    number_keypoints = 0
-    if len(kp_1) <= len(kp_2):
-        number_keypoints = len(kp_1)
-    else:
-        number_keypoints = len(kp_1)
-    # total_time = time.time() - start_time
-    number_keypoints = max(len(desc_1),len(desc_2))
-    percentage_similarity = float(len(good_points)) / number_keypoints * 100
+    # for m, p in matches:
+    #     if m.distance < 0.7*p.distance:
+    #         good_points.append(m)
+    # number_keypoints = 0
+    # if len(kp_1) <= len(kp_2):
+    #     number_keypoints = len(kp_1)
+    # else:
+    #     number_keypoints = len(kp_1)
+    # # total_time = time.time() - start_time
+    # number_keypoints = max(len(desc_1),len(desc_2))
+    # percentage_similarity = float(len(good_points)) / number_keypoints * 100
+
+
+    print("the descriptorssss$$$$$$$$$$$$")
+
+    matches = bf.match(desc_1, desc_2)
+        # Sort them in the order of their distance.
+    matches = sorted(matches, key=lambda x: x.distance)
+
+    # print (type(matches[0]))
+    # exit()
+    # Draw first 10 matches.
+    good_match=[]
+    total_dis = 0
+    dist_array = []
+    # print "//////////-------///////////////----////////////////-----///////////"
+    # for i in range(0,len(matches)):
+    #     p1 = matches[i].distance
+    #     good_match.append(p1)
+    
+    # good_match=[]
+    percentage_similarity = 0
+    # print ("//////////-------///////////////----////////////////-----///////////")
+    for i in range(0,len(matches)):
+        p1 = matches[i].distance
+        # print p1
+        if p1 <= 250:
+                good_match.append(p1)
+                percentage_similarity += 1
+
+            # print('%.5f' % p1)
+    percentage_similarity = float(percentage_similarity / len(matches) * 100)
+
+    # percentage_similarity = (float(len(good_match)) / max(len(desc_1), len(desc_2))) * 100
+
+    print(percentage_similarity)
+    print("...............")
+
+
 
     return percentage_similarity
 
-img1 = cv2.imread('../Work/original_images/fanon_orig.jpeg')
+img1 = cv2.imread('../Work/origina_images/adam_orig.jpeg')
 # sift = cv2.xfeatures2d.SIFT_create()
 sift = cv2.ORB_create()
 bf = cv2.BFMatcher()
 kp_1, desc_1 = sift.detectAndCompute(img1, None)
-c = clusters.read_clusters('orb_cluster_obj.pkl')
-center_index = clusters.read_clusters('orb_centers.pkl')
+c = clusters.read_clusters('orb_cluster_match.pkl')
+center_index = clusters.read_clusters('orb_centers_match.pkl')
+image_descriptors = open('../database/orb_descriptors_dic.pkl', 'rb')
+# get zipped object
+print('reading descriptors from a file')
+desc_dict = pickle.load(image_descriptors)
+# print(desc_dict)
 # i, j = zip(*c)
 # clusters, center_index = [list(tup) for tup in zip(*c)]
 
@@ -139,9 +184,11 @@ for n in range(num_clusters):
             
             # print(j)
        
-        
-        img = cv2.imread('%s/%s' % (DIR_NAME, images[center_index[n]]))
-        percentage_similarity = get_percent_similarity(img)
+        image_desc = desc_dict[images[center_index[n]]]
+        print("for image::::::::",images[center_index[n]])
+        print("--------------d$$$$$$$$$$$$$$$$$$$---------------")
+        # img = cv2.imread('%s/%s' % (DIR_NAME, images[center_index[n]]))
+        percentage_similarity = get_percent_similarity(image_desc)
         print(percentage_similarity)
         if percentage_similarity == 100:
             print("Image is the one %s" % images[center_index[n]])
@@ -170,8 +217,11 @@ print("Image matching for cluster %d",cluster_num)
 for p in range(len(array_max)):
     # print(array_max[p])
     print("Image %s" % images[array_max[p]])
-    img = cv2.imread('%s/%s' % (DIR_NAME, images[array_max[p]]))
-    percentage_similarity = get_percent_similarity(img)
+    # img = cv2.imread('%s/%s' % (DIR_NAME, images[array_max[p]]))
+    image_desc = desc_dict[images[array_max[p]]]
+        # img = cv2.imread('%s/%s' % (DIR_NAME, images[center_index[n]]))
+    percentage_similarity = get_percent_similarity(image_desc)
+    # percentage_similarity = get_percent_similarity(img)
     if max_per < percentage_similarity:
         max_per = max(max_per, percentage_similarity)
         real_image = images[array_max[p]]
@@ -179,3 +229,4 @@ for p in range(len(array_max)):
 
 
 print("we think the match for ::: adam_orig is ::::" + real_image)
+print("le temps maximum est ", (time.time() - start_time))

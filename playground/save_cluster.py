@@ -15,7 +15,6 @@ def save_matrix(matrix,file1):
 
 def read_clusters(file1):
     pkl_file = open(file1,'rb')
-    print('reading descriptors from a file')
     cluster_obj = pickle.load(pkl_file)
     pkl_file.close()
     return cluster_obj
@@ -26,3 +25,10 @@ def get_matrix(file1):
     matrix = pickle.load(pkl_file)
     pkl_file.close()
     return matrix
+
+def get_image_name(img_url):
+    img_name = img_url.rsplit('/', 1)[1]
+    img_name = img_name.rsplit('.', 1)[0]
+    return img_name
+def get_test_image_url():
+    return "../Work/train_images/adam_orig.jpeg"

@@ -30,7 +30,7 @@ import imgcluster
 from matplotlib import pyplot as plt
 import save_cluster as clusters
 
-DIR_NAME = '../Work/original_images/'
+DIR_NAME = '../original_images/'
 
 # Demo for clustering a set of 20 images using 'imgcluster' module.
 # To be executed in the standalone mode by default. IP[y] Notebook requires some minor adjustments.
@@ -46,8 +46,8 @@ if __name__ == "__main__":
     # clusters.save_matrix(matrix,'ap_matrix.pkl')
     cluster_labels , center_indexs = imgcluster.do_cluster(DIR_NAME, algorithm='SIFT', print_metrics=True, labels_true=None)
     
-    clusters.save_clusters(cluster_labels,'akaze_cluster_match.pkl')
-    clusters.save_clusters(center_indexs,'akaze_centers_match.pkl')
+    clusters.save_clusters(cluster_labels,'surf_cluster_match.pkl')
+    clusters.save_clusters(center_indexs,'surf_centers_match.pkl')
 
     num_clusters = len(set(cluster_labels))
     images = os.listdir(DIR_NAME)
