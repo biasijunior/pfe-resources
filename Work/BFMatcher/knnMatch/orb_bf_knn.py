@@ -34,8 +34,8 @@ for test_image_url in glob.iglob(image_urls):
     title = 'orb_bf_knn_for_'
     fig = plt.figure()
     # Load all the images
-    for p in np.arange(0.40, 1.05, 0.05):
-        # p = 0.75
+    for p in np.arange(0.40, 0.45, 0.05):
+        p = 0.75
         p = round(p,2)
         percent = []
         image_names = []
@@ -75,7 +75,7 @@ for test_image_url in glob.iglob(image_urls):
             print("Similarity: " + str(int(percentage_similarity)) + " % \n")
 
             image_names.append(img_name)
-            percent.append(int(percentage_similarity))
+            percent.append((percentage_similarity))
             compute_time_arry.append(total_time)
             # print type(percent)
             plot_zip = sorted(zip(image_names, percent ,compute_time_arry,time_for_desc),key=lambda pair: pair[1], reverse=True)

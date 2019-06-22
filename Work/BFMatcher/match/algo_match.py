@@ -23,8 +23,8 @@ for test_image_url in glob.iglob(url.get_test_image_url()):
     print(test_image_name)
     # exit()
     # Initiate ORB detector
-    orb = cv2.xfeatures2d.SURF_create(1000)
-    # orb = cv2.AKAZE_create()
+    # orb = cv2.xfeatures2d.SURF_create(1000)
+    orb = cv2.ORB_create()
     algo_name = 'surf_'
     # find the keypoints and descriptors with ORB
     kp1, des1 = orb.detectAndCompute(test_image, None)
@@ -78,9 +78,24 @@ for test_image_url in glob.iglob(url.get_test_image_url()):
         total_dis = 0
         dist_array = []
         # print "//////////-------///////////////----////////////////-----///////////"
+        # for i in range(0,len(matches)):
+        #     p1 = matches[i].distance
+        #     good_match.append(p1)
+        
+        # good_match=[]
+        print ("//////////-------///////////////----////////////////-----///////////")
         for i in range(0,len(matches)):
             p1 = matches[i].distance
-            good_match.append(p1)
+            # print p1
+            if p1 <= 250:
+                good_match.append(p1)
+
+            # print('%.5f' % p1)
+
+
+        similarity = (float(len(good_match)) / max(len(des1), len(des2))) * 100
+
+        print (str(similarity) + "%"+"  similar  to image :::  " + img_name)
 
         if(sum(good_match) <= minimum_distance):
             minimum_distance = sum(good_match)
@@ -113,6 +128,12 @@ for test_image_url in glob.iglob(url.get_test_image_url()):
     #     percentage_sim.append(similarity)
         image_names.append(img_name)
 
+        percentage_sim.append(similarity)
+        plot_zip = sorted(zip(image_names, percentage_sim),key=lambda pair: pair[1], reverse=True)
+        image_names, percentage_sim = [list(tup) for tup in zip(*plot_zip)]
+
+    print (image_names[:5], percentage_sim[:5])
+    print ("---------------------------------------------------------------------------------")
     zipper = zip(image_names,matching_time,desc_comp_time)
 
     fn.save_descriptors_to_file('../../database/match/'+algo_name+'_match_'+test_image_name+'.csv',zipper)

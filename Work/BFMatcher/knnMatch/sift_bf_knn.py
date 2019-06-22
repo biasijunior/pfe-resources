@@ -27,8 +27,8 @@ for test_image_url in glob.iglob(image_urls):
     title = 'sift_bf_knn_for_ '
     fig = plt.figure()
     # Load all the images
-    for p in np.arange(0.40, 1.05, 0.05):
-        # p = 0.7
+    for p in np.arange(0.40, 0.45, 0.05):
+        p = 0.7
         p = round(p,2)
         percent = []
         image_names = []
